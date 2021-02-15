@@ -8,11 +8,10 @@ namespace Spotter_Azure.Controllers
 {
     public static class AuthFlow
     {
-        //https://accounts.spotify.com/authorize?client_id=1da271b7266f4723bd37afa0ff58fe83&response_type=code&redirect_uri=http://localhost/&scope=user-read-playback-state%20playlist-modify-public%20playlist-modify-private%20user-read-currently-playing%20user-library-modify%20user-read-playback-position%20playlist-read-private%20user-library-read
-
+        //
         #region Fields
 
-        private static string redirect = "http://localhost/";
+        private static string redirect = "https://spotter-azure20210215171759.azurewebsites.net/api/register";
 
         #endregion Fields
 

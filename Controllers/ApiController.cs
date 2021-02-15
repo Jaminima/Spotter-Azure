@@ -30,8 +30,12 @@ namespace Spotter_Azure.Controllers
                 {
                     Memory.Add(u);
                     Response.StatusCode = 200;
+                    Response.Redirect("/");
+                    return;
                 }
             }
+            Response.StatusCode = 405;
+            return;
         }
     }
 }
