@@ -4,45 +4,58 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Spotter_Azure</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
+
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Spotter_Azure</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
+
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <a class="navbar-brand" href="#">Spotter</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item @(ViewData["Title"].Equals("Home") ? "active" : "" )">
+                        <a class="nav-link" href="/">
+                            Home
+                        </a>
+                    </li>
+                    <li class="nav-item @(ViewData["Title"].Equals("Log") ? "active" : "" )">
+                        <a class="nav-link" href="/log">
+                            Log
+                        </a>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <button class="btn btn-success" type="button" onclick="location.href='https://accounts.spotify.com/authorize?client_id=d676eafe2b1b4561b67699b65c95b32d&response_type=code&redirect_uri=https://spotter-azure20210215171759.azurewebsites.net/api/register&scope=user-read-playback-state%20playlist-modify-public%20playlist-modify-private%20user-read-currently-playing%20user-library-modify%20user-read-playback-position%20playlist-read-private%20user-library-read';">Sign in</button>
+                </form>
             </div>
         </nav>
+
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+    <div class="jumbotron">
+        <h1 class="display-3">@ViewData["Title"]</h1>
+        <p class="lead">@ViewData["Desc"]</p>
+        <hr class="my-4">
+        @RenderBody()
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - Spotter_Azure - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="bg-primary text-center text-lg-start" style="position:fixed; bottom:0; min-width: 100vw;">
+        <div class="text-center p-3" style="display: inline-flex">
+            <a class="text-light footer-item" href="https://github.com/Jaminima/Spotter-Azure" target="_blank">Github</a>
+            <a class="text-light footer-item" href="https://www.linkedin.com/in/oscar-davies/" target="_blank">LinkedIn</a>
         </div>
     </footer>
+
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>
+
 </html>

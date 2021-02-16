@@ -21,7 +21,13 @@ namespace Spotter_Azure.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View("Index");
+        }
+
+        [HttpGet("Log")]
+        public IActionResult Log()
+        {
+            return View("Log");
         }
     }
 }
