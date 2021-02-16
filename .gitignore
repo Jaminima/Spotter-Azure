@@ -7,3 +7,4 @@ bin/
 packages/
 .idea/
 Models/SpotifyAuthKeys.cs
+SpotifyAuthKeys.cs
