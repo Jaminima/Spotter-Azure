@@ -28,10 +28,20 @@ namespace Spotter_Azure.Controllers
                 Spotify u = AuthFlow.FromCode(code);
                 if (u != null)
                 {
-                    if (spotterdbContext.dbContext.Spotifies.Count(x => x.SpotifyId == u.SpotifyId) == 0)
-                        spotterdbContext.dbContext.Spotifies.Add(u);
+                    while (u.SpotifyId == null) { }
+                    IQueryable<Spotify> spot = spotterdbContext.dbContext.Spotifies.Where(x => x.SpotifyId == u.SpotifyId).Select(x=>x);
+                    if (spot.Any())
+                    {
+                        Spotify f = spot.First();
+                        f.AuthExpires = u.AuthExpires;
+                        f.AuthToken = u.AuthToken;
+                        f.RefreshToken = u.RefreshToken;
+                        spotterdbContext.dbContext.Spotifies.Update(f);
+                    }
                     else
-                        spotterdbContext.dbContext.Spotifies.Update(u);
+                    {
+                        spotterdbContext.dbContext.Spotifies.Add(u);
+                    }
 
                     spotterdbContext.dbContext.SaveChanges();
 

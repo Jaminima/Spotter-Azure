@@ -80,7 +80,8 @@ namespace Spotter_Azure.DBModels
 
         private async void SetUser()
         {
-            this.SpotifyId = (await spotify.UserProfile.Current()).Id;
+            PrivateUser u = await spotify.UserProfile.Current();
+            this.SpotifyId = u.Id;
         }
 
         public int RecentSkips(string trackid)

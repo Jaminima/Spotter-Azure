@@ -10,6 +10,7 @@ namespace Spotter_Azure.Actions
     {
         #region Fields
 
+        private static spotterdbContext dbContext = new spotterdbContext();
         private const float IsntSkip = 0.9f;
 
         #endregion Fields
@@ -20,7 +21,7 @@ namespace Spotter_Azure.Actions
         {
             while (true)
             {
-                foreach (Spotify s in spotterdbContext.dbContext.Spotifies)
+                foreach (Spotify s in dbContext.Spotifies)
                 {
                     CheckUserEvent(s);
                 }
