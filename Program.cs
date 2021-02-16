@@ -13,8 +13,8 @@ namespace Spotter_Azure
     {
         public static void Main(string[] args)
         {
-            Spotify.Watcher.OnSkip = Spotify.AutoSkipRemover.Skipped;
-            Spotify.Watcher.Start();
+            Actions.Watcher.OnSkip = Actions.AutoSkipRemover.Skipped;
+            //Actions.Watcher.Start();
             CreateHostBuilder(args).Build().Run();
         }
 

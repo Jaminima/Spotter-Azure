@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Spotter_Azure.Models;
+using Spotter_Azure.DBModels;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -25,10 +25,16 @@ namespace Spotter_Azure.Controllers
         {
             if (code != null)
             {
-                User u = AuthFlow.FromCode(code);
+                Spotify u = AuthFlow.FromCode(code);
                 if (u != null)
                 {
-                    Memory.Add(u);
+                    if (spotterdbContext.dbContext.Spotifies.Count(x => x.SpotifyId == u.SpotifyId) == 0)
+                        spotterdbContext.dbContext.Spotifies.Add(u);
+                    else
+                        spotterdbContext.dbContext.Spotifies.Update(u);
+
+                    spotterdbContext.dbContext.SaveChanges();
+
                     Response.StatusCode = 200;
                     Response.Redirect("/");
                     return;

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Spotter_Azure.Models;
+using Spotter_Azure.DBModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

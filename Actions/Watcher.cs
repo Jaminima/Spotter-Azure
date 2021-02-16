@@ -1,9 +1,10 @@
 ﻿using SpotifyAPI.Web;
 using System;
+using System.Linq;
 using System.Threading;
-using Spotter_Azure.Models;
+using Spotter_Azure.DBModels;
 
-namespace Spotter_Azure.Spotify
+namespace Spotter_Azure.Actions
 {
     public static class Watcher
     {
@@ -19,15 +20,15 @@ namespace Spotter_Azure.Spotify
         {
             while (true)
             {
-                for (int i = 0; i < Memory.Users.Count; i++)
+                foreach (Spotify s in spotterdbContext.dbContext.Spotifies)
                 {
-                    CheckUserEvent(Memory.Users[i]);
+                    CheckUserEvent(s);
                 }
                 Thread.Sleep(1000);
             }
         }
 
-        private static async void CheckUserEvent(User user)
+        private static async void CheckUserEvent(Spotify user)
         {
             CurrentlyPlayingContext playing = await user.spotify.Player.GetCurrentPlayback();
 

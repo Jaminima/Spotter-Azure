@@ -2,15 +2,15 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using Spotter_Azure.Models;
+using Spotter_Azure.DBModels;
 
-namespace Spotter_Azure.Spotify
+namespace Spotter_Azure.Actions
 {
     public class AutoSkipRemover
     {
         public static async void Skipped(object sender, FullTrack track)
         {
-            User user = (User)sender;
+            Spotify user = (Spotify)sender;
 
             int recent = user.RecentSkips(track.Id);
 
@@ -34,7 +34,7 @@ namespace Spotter_Azure.Spotify
             }
             else
             {
-                user.SkipHistory.Add(new Skip(track.Id));
+                user.Skips.Add(new Skip(track.Id));
                 Console.WriteLine($"Skipped {track.Name} -- #{recent + 1}");
             }
         }
