@@ -14,8 +14,15 @@ namespace Spotter_Azure.DBModels
 
         public virtual Spotify Spot { get; set; }
 
-        public Skip(string trackId)
+        public Skip()
         {
+
+        }
+
+        public Skip(string trackId, Spotify sp)
+        {
+            this.SkipId = 0;
+            this.SpotId = sp.SpotId;
             this.TrackId = trackId;
             this.SkipAt = DateTime.Now;
         }

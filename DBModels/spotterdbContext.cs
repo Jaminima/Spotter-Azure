@@ -53,7 +53,8 @@ namespace Spotter_Azure.DBModels
                 entity.Property(e => e.SpotId).HasColumnName("spot_id");
 
                 entity.Property(e => e.TrackId)
-                    .HasColumnType("text")
+                    .HasMaxLength(32)
+                    .IsUnicode(false)
                     .HasColumnName("track_id");
 
                 entity.HasOne(d => d.Spot)
@@ -80,7 +81,8 @@ namespace Spotter_Azure.DBModels
                 entity.Property(e => e.SpotId).HasColumnName("spot_id");
 
                 entity.Property(e => e.TrackId)
-                    .HasColumnType("text")
+                    .HasMaxLength(32)
+                    .IsUnicode(false)
                     .HasColumnName("track_id");
 
                 entity.HasOne(d => d.Spot)

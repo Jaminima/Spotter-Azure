@@ -18,7 +18,7 @@ CREATE TABLE "Listen"(
     listen_id int IDENTITY(1,1) UNIQUE not null,
     PRIMARY key (listen_id),
 
-    track_id text,
+    track_id varchar(32),
     spot_id int not null,
     foreign key (spot_id) REFERENCES Spotify(spot_id),
 
@@ -29,7 +29,7 @@ CREATE TABLE "Skip"(
     skip_id int IDENTITY(1,1) UNIQUE not null,
     PRIMARY key (skip_id),
 
-    track_id text,
+    track_id varchar(32),
     spot_id int not null,
     foreign key (spot_id) REFERENCES Spotify(spot_id),
 

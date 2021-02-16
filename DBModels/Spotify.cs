@@ -36,7 +36,11 @@ namespace Spotter_Azure.DBModels
 
         public string GetAuthToken()
         {
-            if (DateTime.Now > AuthExpires || AuthToken == null) Controllers.AuthFlow.Refresh(this); return AuthToken; 
+            if (DateTime.Now > AuthExpires || AuthToken == null) 
+            {
+                Controllers.AuthFlow.Refresh(this);
+            } 
+            return AuthToken; 
         }
 
         public SimplePlaylist KickedPlaylist;
@@ -57,7 +61,7 @@ namespace Spotter_Azure.DBModels
             SetupKicked();
         }
 
-        private async void SetupKicked()
+        public async void SetupKicked()
         {
             string KickedName = $"Kicked Out {DateTime.Now.Year}";
 
@@ -87,7 +91,7 @@ namespace Spotter_Azure.DBModels
         public int RecentSkips(string trackid)
         {
             DateTime After = DateTime.Now.AddDays(-7);
-            return Skips.Count(x=>x.TrackId == trackid && x.SkipAt>After);
+            return spotterdbContext.dbContext.Skips.Count(x=>x.TrackId == trackid && x.SpotId == SpotId && x.SkipAt>After);
         }
     }
 }

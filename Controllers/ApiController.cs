@@ -28,7 +28,7 @@ namespace Spotter_Azure.Controllers
                 Spotify u = AuthFlow.FromCode(code);
                 if (u != null)
                 {
-                    while (u.SpotifyId == null) { }
+                    while (u.SpotifyId == "" || u.SpotifyId == null) { }
                     IQueryable<Spotify> spot = spotterdbContext.dbContext.Spotifies.Where(x => x.SpotifyId == u.SpotifyId).Select(x=>x);
                     if (spot.Any())
                     {

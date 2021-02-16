@@ -1,6 +1,6 @@
 ﻿using SpotifyAPI.Web;
 using System;
-using System.Linq;
+using System.Threading.Tasks;
 using System.Threading;
 using Spotter_Azure.DBModels;
 
@@ -9,8 +9,6 @@ namespace Spotter_Azure.Actions
     public static class Watcher
     {
         #region Fields
-
-        private static spotterdbContext dbContext = new spotterdbContext();
         private const float IsntSkip = 0.9f;
 
         #endregion Fields
@@ -19,10 +17,12 @@ namespace Spotter_Azure.Actions
 
         private static void CheckEvents()
         {
+            spotterdbContext dbContext = new spotterdbContext();
             while (true)
             {
                 foreach (Spotify s in dbContext.Spotifies)
                 {
+                    s.SetupKicked();
                     CheckUserEvent(s);
                 }
                 Thread.Sleep(1000);
@@ -31,6 +31,7 @@ namespace Spotter_Azure.Actions
 
         private static async void CheckUserEvent(Spotify user)
         {
+            spotterdbContext dbContext = new spotterdbContext();
             CurrentlyPlayingContext playing = await user.spotify.Player.GetCurrentPlayback();
 
             if (playing != null)
@@ -47,7 +48,12 @@ namespace Spotter_Azure.Actions
                     //Check if skipped
                     if (track.Id != user.lastTrack.Id && user.last.ProgressMs < user.lastTrack.DurationMs * IsntSkip)
                     {
-                        if (OnSkip!=null) OnSkip(user, user.lastTrack);
+                        
+                        if (OnSkip != null)
+                        {
+                            Skip s = await OnSkip(user, user.lastTrack);
+                            dbContext.Skips.Add(s);
+                        }
                     }
 
                     user.lastTrack = track;
@@ -62,12 +68,14 @@ namespace Spotter_Azure.Actions
 
                 user.last = playing;
             }
+
+            dbContext.SaveChanges();
         }
 
         #endregion Methods
 
         public static EventHandler<CurrentlyPlayingContext> OnResume, OnPause;
-        public static EventHandler<FullTrack> OnSkip;
+        public static Func<Spotify,FullTrack,Task<Skip>> OnSkip;
 
         public static void Start()
         {
