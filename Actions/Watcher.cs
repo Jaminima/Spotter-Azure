@@ -15,15 +15,18 @@ namespace Spotter_Azure.Actions
 
         #region Methods
 
-        private static void CheckEvents()
+        private static async void CheckEvents()
         {
             spotterdbContext dbContext = new spotterdbContext();
             while (true)
             {
                 foreach (Spotify s in dbContext.Spotifies)
                 {
-                    s.SetupKicked();
-                    CheckUserEvent(s);
+                    if (await s.IsAlive())
+                    {
+                        s.SetupKicked();
+                        CheckUserEvent(s);
+                    }
                 }
                 Thread.Sleep(1000);
             }

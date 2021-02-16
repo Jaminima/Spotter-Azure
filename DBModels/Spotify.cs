@@ -34,6 +34,20 @@ namespace Spotter_Azure.DBModels
             get { if (DateTime.Now > AuthExpires || _spotify == null) _spotify = new SpotifyClient(GetAuthToken()); return _spotify; }
         }
 
+        public async Task<bool> IsAlive()
+        {
+            try
+            {
+                SpotifyClient s = spotify;
+                FullTrack t = await s.Tracks.Get("3Hvu1pq89D4R0lyPBoujSv");
+                return t!=null;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public string GetAuthToken()
         {
             if (DateTime.Now > AuthExpires || AuthToken == null) 
@@ -58,7 +72,6 @@ namespace Spotter_Azure.DBModels
             this.AuthExpires = authExpires;
             _spotify = new SpotifyClient(this.AuthToken);
             SetUser();
-            SetupKicked();
         }
 
         public async void SetupKicked()
