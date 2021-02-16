@@ -46,14 +46,17 @@ namespace Spotter_Azure.Actions
                     FullTrack track = (FullTrack)playing.Item;
 
                     //Check if skipped
-                    if (track.Id != user.lastTrack.Id && user.last.ProgressMs < user.lastTrack.DurationMs * IsntSkip)
+                    if (track.Id != user.lastTrack.Id)
                     {
-                        
-                        if (OnSkip != null)
+                        if (user.last.ProgressMs < user.lastTrack.DurationMs * IsntSkip)
                         {
-                            Skip s = await OnSkip(user, user.lastTrack);
-                            dbContext.Skips.Add(s);
+                            if (OnSkip != null)
+                            {
+                                Skip s = await OnSkip(user, user.lastTrack);
+                                dbContext.Skips.Add(s);
+                            }
                         }
+                        dbContext.Listens.Add(new Listen(track.Id, user));
                     }
 
                     user.lastTrack = track;

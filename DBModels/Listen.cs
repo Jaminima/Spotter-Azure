@@ -13,5 +13,15 @@ namespace Spotter_Azure.DBModels
         public DateTime? ListenAt { get; set; }
 
         public virtual Spotify Spot { get; set; }
+
+        public Listen() { }
+
+        public Listen(string trackId, Spotify sp)
+        {
+            this.ListenId = 0;
+            this.SpotId = sp.SpotId;
+            this.TrackId = trackId;
+            this.ListenAt = DateTime.Now;
+        }
     }
 }
