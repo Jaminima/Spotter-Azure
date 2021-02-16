@@ -45,6 +45,7 @@ namespace Spotter_Azure.Controllers
 
                     spotterdbContext.dbContext.SaveChanges();
 
+                    Actions.Log.Add("User Signed Up", Actions.LogError.Info);
                     Response.StatusCode = 200;
                     Response.Redirect("/");
                     return;

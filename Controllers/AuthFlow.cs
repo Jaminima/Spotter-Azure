@@ -40,7 +40,7 @@ namespace Spotter_Azure.Controllers
             }
             catch (WebException e)
             {
-                Console.WriteLine(e.ToString());
+                Actions.Log.Add(e.ToString());
             }
 
             return null;
@@ -71,7 +71,7 @@ namespace Spotter_Azure.Controllers
             }
             catch (WebException e)
             {
-                Console.WriteLine(e.ToString());
+                Actions.Log.Add(e.ToString());
             }
         }
 

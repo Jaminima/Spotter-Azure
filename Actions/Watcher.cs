@@ -86,7 +86,7 @@ namespace Spotter_Azure.Actions
         public static void Start()
         {
             new Thread(() => CheckEvents()).Start();
-            Console.WriteLine("Running Spotify Watcher");
+            Actions.Log.Add("Running Spotify Watcher",LogError.Success);
         }
     }
 }

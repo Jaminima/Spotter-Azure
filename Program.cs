@@ -15,6 +15,7 @@ namespace Spotter_Azure
         {
             Actions.Watcher.OnSkip = Actions.AutoSkipRemover.Skipped;
             Actions.Watcher.Start();
+            Actions.Log.Add("App Started", Actions.LogError.Success);
             CreateHostBuilder(args).Build().Run();
         }
 

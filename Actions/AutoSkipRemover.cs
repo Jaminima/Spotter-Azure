@@ -17,7 +17,7 @@ namespace Spotter_Azure.Actions
 
             if (recent >= user.SkipThreshold - 1)
             {
-                Console.WriteLine($"Removed {track.Name}");
+                Actions.Log.Add($"Removed {track.Name}", LogError.Info);
 
                 if (user.KickedTracks.Count(x => ((FullTrack)x.Track).Id == track.Id) == 0)
                 {
@@ -35,7 +35,7 @@ namespace Spotter_Azure.Actions
             }
             else
             {
-                Console.WriteLine($"Skipped {track.Name} -- #{recent + 1}");
+                Actions.Log.Add($"Skipped {track.Name} -- #{recent + 1}",LogError.Info);
             }
             return new Skip(track.Id, user);
         }
