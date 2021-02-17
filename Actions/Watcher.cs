@@ -1,14 +1,15 @@
 ﻿using SpotifyAPI.Web;
-using System;
-using System.Threading.Tasks;
-using System.Threading;
 using Spotter_Azure.DBModels;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Spotter_Azure.Actions
 {
     public static class Watcher
     {
         #region Fields
+
         private const float IsntSkip = 0.9f;
 
         #endregion Fields
@@ -68,8 +69,8 @@ namespace Spotter_Azure.Actions
                 //Check if play state changed
                 if (playing.IsPlaying != user.last.IsPlaying)
                 {
-                    if (playing.IsPlaying) if (OnResume!=null) OnResume(user, playing);
-                    else if (OnPause!=null) OnPause(user, playing);
+                    if (playing.IsPlaying) if (OnResume != null) OnResume(user, playing);
+                        else if (OnPause != null) OnPause(user, playing);
                 }
 
                 user.last = playing;
@@ -81,12 +82,12 @@ namespace Spotter_Azure.Actions
         #endregion Methods
 
         public static EventHandler<CurrentlyPlayingContext> OnResume, OnPause;
-        public static Func<Spotify,FullTrack,Task<Skip>> OnSkip;
+        public static Func<Spotify, FullTrack, Task<Skip>> OnSkip;
 
         public static void Start()
         {
             new Thread(() => CheckEvents()).Start();
-            Actions.Log.Add("Running Spotify Watcher",LogError.Success);
+            Actions.Log.Add("Running Spotify Watcher", LogError.Success);
         }
     }
 }

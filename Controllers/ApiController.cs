@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Spotter_Azure.DBModels;
-using System.Threading.Tasks;
+using System;
+using System.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,6 +11,8 @@ namespace Spotter_Azure.Controllers
     [ApiController]
     public class ApiController : ControllerBase
     {
+        #region Methods
+
         [HttpGet]
         public String Default()
         {
@@ -29,7 +29,7 @@ namespace Spotter_Azure.Controllers
                 if (u != null)
                 {
                     while (u.SpotifyId == "" || u.SpotifyId == null) { }
-                    IQueryable<Spotify> spot = spotterdbContext.dbContext.Spotifies.Where(x => x.SpotifyId == u.SpotifyId).Select(x=>x);
+                    IQueryable<Spotify> spot = spotterdbContext.dbContext.Spotifies.Where(x => x.SpotifyId == u.SpotifyId).Select(x => x);
                     if (spot.Any())
                     {
                         Spotify f = spot.First();
@@ -54,5 +54,7 @@ namespace Spotter_Azure.Controllers
             Response.StatusCode = 405;
             return;
         }
+
+        #endregion Methods
     }
 }

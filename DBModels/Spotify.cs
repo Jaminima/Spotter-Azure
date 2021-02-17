@@ -1,8 +1,7 @@
-﻿using System;
+﻿using SpotifyAPI.Web;
+using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 using System.Linq;
-using SpotifyAPI.Web;
 using System.Threading.Tasks;
 
 #nullable disable
@@ -11,51 +10,21 @@ namespace Spotter_Azure.DBModels
 {
     public partial class Spotify
     {
-        public Spotify()
-        {
-            Listens = new HashSet<Listen>();
-            Skips = new HashSet<Skip>();
-        }
-
-        public int SpotId { get; set; }
-        public string SpotifyId { get; set; }
-        public string AuthToken { get; set; }
-        public string RefreshToken { get; set; }
-        public DateTime? AuthExpires { get; set; }
-        public int? SkipThreshold { get; set; }
-
-        public virtual ICollection<Listen> Listens { get; set; }
-        public virtual ICollection<Skip> Skips { get; set; }
+        #region Fields
 
         private SpotifyClient _spotify;
 
-        public SpotifyClient spotify
+        #endregion Fields
+
+        #region Methods
+
+        private async void SetUser()
         {
-            get { if (DateTime.Now > AuthExpires || _spotify == null) _spotify = new SpotifyClient(GetAuthToken()); return _spotify; }
+            PrivateUser u = await spotify.UserProfile.Current();
+            this.SpotifyId = u.Id;
         }
 
-        public async Task<bool> IsAlive()
-        {
-            try
-            {
-                SpotifyClient s = spotify;
-                FullTrack t = await s.Tracks.Get("3Hvu1pq89D4R0lyPBoujSv");
-                return t!=null;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        public string GetAuthToken()
-        {
-            if (DateTime.Now > AuthExpires || AuthToken == null) 
-            {
-                Controllers.AuthFlow.Refresh(this);
-            } 
-            return AuthToken; 
-        }
+        #endregion Methods
 
         public SimplePlaylist KickedPlaylist;
 
@@ -65,6 +34,12 @@ namespace Spotter_Azure.DBModels
 
         public FullTrack lastTrack = null;
 
+        public Spotify()
+        {
+            Listens = new HashSet<Listen>();
+            Skips = new HashSet<Skip>();
+        }
+
         public Spotify(string authtoken, string refreshtoken, DateTime authExpires)
         {
             this.AuthToken = authtoken;
@@ -72,6 +47,55 @@ namespace Spotter_Azure.DBModels
             this.AuthExpires = authExpires;
             _spotify = new SpotifyClient(this.AuthToken);
             SetUser();
+        }
+
+        public DateTime? AuthExpires { get; set; }
+        public string AuthToken { get; set; }
+        public virtual ICollection<Listen> Listens { get; set; }
+        public string RefreshToken { get; set; }
+        public virtual ICollection<Skip> Skips { get; set; }
+        public int? SkipThreshold { get; set; }
+        public int SpotId { get; set; }
+
+        public SpotifyClient spotify
+        {
+            get { if (DateTime.Now > AuthExpires || _spotify == null) _spotify = new SpotifyClient(GetAuthToken()); return _spotify; }
+        }
+
+        public string SpotifyId { get; set; }
+
+        public string GetAuthToken()
+        {
+            if (DateTime.Now > AuthExpires || AuthToken == null)
+            {
+                Controllers.AuthFlow.Refresh(this);
+            }
+            return AuthToken;
+        }
+
+        public async Task<PrivateUser> GetUser()
+        {
+            return await spotify.UserProfile.Current();
+        }
+
+        public async Task<bool> IsAlive()
+        {
+            try
+            {
+                SpotifyClient s = spotify;
+                FullTrack t = await s.Tracks.Get("3Hvu1pq89D4R0lyPBoujSv");
+                return t != null;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public int RecentSkips(string trackid)
+        {
+            DateTime After = DateTime.Now.AddDays(-7);
+            return spotterdbContext.dbContext.Skips.Count(x => x.TrackId == trackid && x.SpotId == SpotId && x.SkipAt > After);
         }
 
         public async void SetupKicked()
@@ -88,23 +112,6 @@ namespace Spotter_Azure.DBModels
                 SetupKicked();
             }
             else KickedTracks = (await spotify.Playlists.GetItems(KickedPlaylist.Id)).Items;
-        }
-
-        public async Task<PrivateUser> GetUser()
-        {
-            return await spotify.UserProfile.Current();
-        }
-
-        private async void SetUser()
-        {
-            PrivateUser u = await spotify.UserProfile.Current();
-            this.SpotifyId = u.Id;
-        }
-
-        public int RecentSkips(string trackid)
-        {
-            DateTime After = DateTime.Now.AddDays(-7);
-            return spotterdbContext.dbContext.Skips.Count(x=>x.TrackId == trackid && x.SpotId == SpotId && x.SkipAt>After);
         }
     }
 }

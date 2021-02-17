@@ -1,23 +1,27 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Spotter_Azure.DBModels;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Spotter_Azure.Controllers
 {
     [Route("")]
     public class HomeController : Controller
     {
+        #region Fields
+
         private readonly ILogger<HomeController> _logger;
+
+        #endregion Fields
+
+        #region Constructors
 
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public IActionResult Index()
         {
@@ -29,5 +33,7 @@ namespace Spotter_Azure.Controllers
         {
             return View("Log");
         }
+
+        #endregion Methods
     }
 }

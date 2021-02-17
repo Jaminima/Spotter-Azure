@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 #nullable disable
 
@@ -7,16 +6,10 @@ namespace Spotter_Azure.DBModels
 {
     public partial class Skip
     {
-        public int SkipId { get; set; }
-        public string TrackId { get; set; }
-        public int SpotId { get; set; }
-        public DateTime? SkipAt { get; set; }
-
-        public virtual Spotify Spot { get; set; }
+        #region Constructors
 
         public Skip()
         {
-
         }
 
         public Skip(string trackId, Spotify sp)
@@ -26,5 +19,17 @@ namespace Spotter_Azure.DBModels
             this.TrackId = trackId;
             this.SkipAt = DateTime.Now;
         }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public DateTime? SkipAt { get; set; }
+        public int SkipId { get; set; }
+        public virtual Spotify Spot { get; set; }
+        public int SpotId { get; set; }
+        public string TrackId { get; set; }
+
+        #endregion Properties
     }
 }

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Spotter_Azure.Actions
 {
@@ -13,23 +11,15 @@ namespace Spotter_Azure.Actions
         Info
     }
 
-    public class LogEntry
-    {
-        public LogError error;
-        public string message;
-        public DateTime when;
-
-        public LogEntry(string message, LogError err = LogError.Warning)
-        {
-            error = err;
-            this.message = message;
-            when = DateTime.Now;
-        }
-    }
-
     public static class Log
     {
+        #region Fields
+
         public static List<LogEntry> _history = new List<LogEntry>();
+
+        #endregion Fields
+
+        #region Methods
 
         public static void Add(string message, LogError err = LogError.Warning)
         {
@@ -42,15 +32,43 @@ namespace Spotter_Azure.Actions
             {
                 default:
                     return "table-primary";
+
                 case LogError.Success:
                     return "table-success";
+
                 case LogError.Failure:
                     return "table-danger";
+
                 case LogError.Warning:
                     return "table-warning";
+
                 case LogError.Info:
                     return "table-info";
             }
         }
+
+        #endregion Methods
+    }
+
+    public class LogEntry
+    {
+        #region Fields
+
+        public LogError error;
+        public string message;
+        public DateTime when;
+
+        #endregion Fields
+
+        #region Constructors
+
+        public LogEntry(string message, LogError err = LogError.Warning)
+        {
+            error = err;
+            this.message = message;
+            when = DateTime.Now;
+        }
+
+        #endregion Constructors
     }
 }

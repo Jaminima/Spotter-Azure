@@ -1,14 +1,15 @@
 ﻿using SpotifyAPI.Web;
-using System;
-using System.Linq;
-using System.Collections.Generic;
 using Spotter_Azure.DBModels;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Spotter_Azure.Actions
 {
     public class AutoSkipRemover
     {
+        #region Methods
+
         public static async Task<Skip> Skipped(Spotify sender, FullTrack track)
         {
             Spotify user = (Spotify)sender;
@@ -23,7 +24,7 @@ namespace Spotter_Azure.Actions
                 {
                     await user.spotify.Playlists.AddItems(user.KickedPlaylist.Id, new PlaylistAddItemsRequest(new List<string>() { track.Uri }));
 
-                    user.KickedTracks.Add(new PlaylistTrack<IPlayableItem>()); 
+                    user.KickedTracks.Add(new PlaylistTrack<IPlayableItem>());
                     user.KickedTracks.Last().Track = track;
                 }
 
@@ -35,9 +36,11 @@ namespace Spotter_Azure.Actions
             }
             else
             {
-                Actions.Log.Add($"Skipped {track.Name} -- #{recent + 1}",LogError.Info);
+                Actions.Log.Add($"Skipped {track.Name} -- #{recent + 1}", LogError.Info);
             }
             return new Skip(track.Id, user);
         }
+
+        #endregion Methods
     }
 }

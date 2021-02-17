@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
+using Spotter_Azure.DBModels;
 using System;
 using System.IO;
 using System.Net;
-using Spotter_Azure.DBModels;
 
 namespace Spotter_Azure.Controllers
 {
