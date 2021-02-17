@@ -1,8 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Http;
 
 namespace Spotter_Azure.Controllers
 {
+    public class authDetails
+    {
+        public string authToken, spotid;
+
+        public authDetails(HttpRequest request)
+        {
+            authToken = request.Cookies["authToken"];
+            spotid = request.Cookies["spotid"];
+        }
+    }
+
     [Route("")]
     public class HomeController : Controller
     {
@@ -25,19 +37,19 @@ namespace Spotter_Azure.Controllers
 
         public IActionResult Index()
         {
-            return View("Index", Request.Cookies["authToken"]);
+            return View("Index", new authDetails(Request));
         }
 
         [HttpGet("Log")]
         public IActionResult Log()
         {
-            return View("Log", Request.Cookies["authToken"]);
+            return View("Log", new authDetails(Request));
         }
 
         [HttpGet("Insights")]
         public IActionResult Insights()
         {
-            return View("Insights",Request.Cookies["authToken"]);
+            return View("Insights", new authDetails(Request));
         }
 
         #endregion Methods

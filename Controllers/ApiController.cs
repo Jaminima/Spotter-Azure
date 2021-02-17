@@ -66,6 +66,8 @@ namespace Spotter_Azure.Controllers
 
                     Actions.Log.Add("User Signed Up", Actions.LogError.Info);
 
+                    HttpContext.Response.Cookies.Append("spotid", u.SpotId.ToString());
+
                     HttpContext.Response.Cookies.Append("authToken", authToken);
                     return RedirectPermanent("/Insights");
                 }
