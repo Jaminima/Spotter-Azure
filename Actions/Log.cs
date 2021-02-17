@@ -17,11 +17,13 @@ namespace Spotter_Azure.Actions
     {
         public LogError error;
         public string message;
+        public DateTime when;
 
         public LogEntry(string message, LogError err = LogError.Warning)
         {
             error = err;
             this.message = message;
+            when = DateTime.Now;
         }
     }
 

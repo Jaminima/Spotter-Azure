@@ -11,6 +11,7 @@
     <thead>
         <tr>
             <th scope="col">State</th>
+            <th scope="col">When</th>
             <th scope="col">Message</th>
         </tr>
     </thead>
@@ -19,9 +20,10 @@
             foreach (LogEntry logEntry in Log._history)
             {
                 <tr class="@(Log.GetRowColor(logEntry)) ">
-                        <th scope="row">@logEntry.error</th>
-                        <td>@logEntry.message</td>
-                    </tr>
+                    <th scope="row">@logEntry.error</th>
+                    <td>@logEntry.when</td>
+                    <td>@logEntry.message</td>
+                </tr>
             }
         }
         </tbody>
