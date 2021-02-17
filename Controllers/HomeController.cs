@@ -34,6 +34,12 @@ namespace Spotter_Azure.Controllers
             return View("Log");
         }
 
+        [HttpGet("Insights")]
+        public IActionResult Insights()
+        {
+            return View("Insights");
+        }
+
         #endregion Methods
     }
 }
