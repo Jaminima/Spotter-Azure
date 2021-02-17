@@ -2,3 +2,12 @@
     padding-right: 10px;
     padding-left: 10px;
 }
+
+.grid {
+    display: grid;
+    grid-template-rows: 1fr min-content;
+}
+
+.row div{
+    margin-bottom: 5px;
+}

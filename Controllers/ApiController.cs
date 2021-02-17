@@ -21,7 +21,7 @@ namespace Spotter_Azure.Controllers
 
         // POST api/<ValuesController>
         [HttpGet("register")]
-        public void Post([FromQuery] string code)
+        public async void Post([FromQuery] string code)
         {
             if (code != null)
             {
@@ -40,10 +40,10 @@ namespace Spotter_Azure.Controllers
                     }
                     else
                     {
-                        spotterdbContext.dbContext.Spotifies.Add(u);
+                        await spotterdbContext.dbContext.Spotifies.AddAsync(u);
                     }
 
-                    spotterdbContext.dbContext.SaveChanges();
+                    await spotterdbContext.dbContext.SaveChangesAsync();
 
                     Actions.Log.Add("User Signed Up", Actions.LogError.Info);
                     Response.StatusCode = 200;
