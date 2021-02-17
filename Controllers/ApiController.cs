@@ -2,6 +2,7 @@
 using Spotter_Azure.DBModels;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -29,6 +30,9 @@ namespace Spotter_Azure.Controllers
                 if (u != null)
                 {
                     while (u.SpotifyId == "" || u.SpotifyId == null) { }
+
+                    string authToken = Session.GetAuthToken();
+
                     IQueryable<Spotify> spot = spotterdbContext.dbContext.Spotifies.Where(x => x.SpotifyId == u.SpotifyId).Select(x => x);
                     if (spot.Any())
                     {
@@ -37,17 +41,26 @@ namespace Spotter_Azure.Controllers
                         f.AuthToken = u.AuthToken;
                         f.RefreshToken = u.RefreshToken;
                         spotterdbContext.dbContext.Spotifies.Update(f);
+
+                        Session s = f.Sessions.First();
+                        s.AuthToken = authToken;
+                        spotterdbContext.dbContext.Sessions.Update(s);
                     }
                     else
                     {
                         await spotterdbContext.dbContext.Spotifies.AddAsync(u);
+                        Session s = new Session(authToken, u);
+                        spotterdbContext.dbContext.Sessions.Add(s);
                     }
 
                     await spotterdbContext.dbContext.SaveChangesAsync();
 
                     Actions.Log.Add("User Signed Up", Actions.LogError.Info);
+
+                    Response.Cookies.Append("authToken", authToken);
+
                     Response.StatusCode = 200;
-                    Response.Redirect("/");
+                    Response.Redirect("/Insights",true);
                     return;
                 }
             }

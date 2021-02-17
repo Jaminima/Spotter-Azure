@@ -35,3 +35,11 @@ CREATE TABLE "Skip"(
 
     skip_at datetime DEFAULT GETDATE()
 );
+
+CREATE TABLE "Sessions"(
+    spot_id int IDENTITY(1,1) unique not null,
+    PRIMARY key (spot_id),
+    foreign key (spot_id) REFERENCES Spotify(spot_id),
+
+    auth_token VARCHAR(128) not null
+);
