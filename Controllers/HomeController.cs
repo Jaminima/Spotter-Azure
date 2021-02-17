@@ -25,19 +25,19 @@ namespace Spotter_Azure.Controllers
 
         public IActionResult Index()
         {
-            return View("Index");
+            return View("Index", Request.Cookies["authToken"]);
         }
 
         [HttpGet("Log")]
         public IActionResult Log()
         {
-            return View("Log");
+            return View("Log", Request.Cookies["authToken"]);
         }
 
         [HttpGet("Insights")]
         public IActionResult Insights()
         {
-            return View("Insights");
+            return View("Insights",Request.Cookies["authToken"]);
         }
 
         #endregion Methods
