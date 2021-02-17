@@ -1,5 +1,6 @@
 DROP TABLE "Skip";
 DROP TABLE "Listen";
+DROP TABLE "Sessions";
 DROP TABLE "Spotify";
 
 CREATE TABLE "Spotify" (
@@ -37,9 +38,11 @@ CREATE TABLE "Skip"(
 );
 
 CREATE TABLE "Sessions"(
-    spot_id int IDENTITY(1,1) unique not null,
-    PRIMARY key (spot_id),
+    sess_id int IDENTITY(1,1) unique not null,
+    PRIMARY key (sess_id),
+
+    spot_id int not null,
     foreign key (spot_id) REFERENCES Spotify(spot_id),
 
-    auth_token VARCHAR(128) not null
+    auth_token VARCHAR(128)
 );

@@ -3,6 +3,7 @@ using Spotter_Azure.DBModels;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -22,7 +23,7 @@ namespace Spotter_Azure.Controllers
 
         // POST api/<ValuesController>
         [HttpGet("register")]
-        public async void Post([FromQuery] string code)
+        public async Task<IActionResult> Post([FromQuery] string code)
         {
             if (code != null)
             {
@@ -41,31 +42,35 @@ namespace Spotter_Azure.Controllers
                         f.AuthToken = u.AuthToken;
                         f.RefreshToken = u.RefreshToken;
                         spotterdbContext.dbContext.Spotifies.Update(f);
-
-                        Session s = f.Sessions.First();
-                        s.AuthToken = authToken;
-                        spotterdbContext.dbContext.Sessions.Update(s);
                     }
                     else
                     {
                         await spotterdbContext.dbContext.Spotifies.AddAsync(u);
-                        Session s = new Session(authToken, u);
-                        spotterdbContext.dbContext.Sessions.Add(s);
+                    }
+
+                    await spotterdbContext.dbContext.SaveChangesAsync();
+
+                    if (spot.Any() || spot.First().Session == null)
+                    {
+                        Session s = new Session(authToken, spot.First());
+                        await spotterdbContext.dbContext.Sessions.AddAsync(s);
+                    }
+                    else
+                    {
+                        Session s = spot.First().Session;
+                        s.AuthToken = authToken;
+                        spotterdbContext.dbContext.Sessions.Update(s);
                     }
 
                     await spotterdbContext.dbContext.SaveChangesAsync();
 
                     Actions.Log.Add("User Signed Up", Actions.LogError.Info);
 
-                    Response.Cookies.Append("authToken", authToken);
-
-                    Response.StatusCode = 200;
-                    Response.Redirect("/Insights",true);
-                    return;
+                    HttpContext.Response.Cookies.Append("authToken", authToken);
+                    return RedirectPermanent("/Insights");
                 }
             }
-            Response.StatusCode = 405;
-            return;
+            return BadRequest();
         }
 
         #endregion Methods

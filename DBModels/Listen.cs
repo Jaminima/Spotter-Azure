@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 #nullable disable
 
@@ -6,8 +7,6 @@ namespace Spotter_Azure.DBModels
 {
     public partial class Listen
     {
-        #region Constructors
-
         public Listen()
         {
         }
@@ -19,17 +18,11 @@ namespace Spotter_Azure.DBModels
             this.TrackId = trackId;
             this.ListenAt = DateTime.Now;
         }
-
-        #endregion Constructors
-
-        #region Properties
-
-        public DateTime? ListenAt { get; set; }
         public int ListenId { get; set; }
-        public virtual Spotify Spot { get; set; }
-        public int SpotId { get; set; }
         public string TrackId { get; set; }
+        public int SpotId { get; set; }
+        public DateTime? ListenAt { get; set; }
 
-        #endregion Properties
+        public virtual Spotify Spot { get; set; }
     }
 }

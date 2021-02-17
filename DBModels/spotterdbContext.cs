@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
@@ -6,9 +8,19 @@ namespace Spotter_Azure.DBModels
 {
     public partial class spotterdbContext : DbContext
     {
-        #region Methods
+        public spotterdbContext()
+        {
+        }
 
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+        public spotterdbContext(DbContextOptions<spotterdbContext> options)
+            : base(options)
+        {
+        }
+
+        public virtual DbSet<Listen> Listens { get; set; }
+        public virtual DbSet<Session> Sessions { get; set; }
+        public virtual DbSet<Skip> Skips { get; set; }
+        public virtual DbSet<Spotify> Spotifies { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -27,7 +39,7 @@ namespace Spotter_Azure.DBModels
             {
                 entity.ToTable("Listen");
 
-                entity.HasIndex(e => e.ListenId, "UQ__Listen__DF7610CC7E901388")
+                entity.HasIndex(e => e.ListenId, "UQ__Listen__DF7610CCCCA1B402")
                     .IsUnique();
 
                 entity.Property(e => e.ListenId).HasColumnName("listen_id");
@@ -48,14 +60,42 @@ namespace Spotter_Azure.DBModels
                     .WithMany(p => p.Listens)
                     .HasForeignKey(d => d.SpotId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Listen__spot_id__0E6E26BF");
+                    .HasConstraintName("FK__Listen__spot_id__2BC97F7C");
+            });
+
+            modelBuilder.Entity<Session>(entity =>
+            {
+                entity.HasKey(e => e.SessId)
+                    .HasName("PK__Sessions__330AF0F64285117C");
+
+                entity.HasIndex(e => e.SessId, "UQ__Sessions__330AF0F70FC61445")
+                    .IsUnique();
+
+                entity.Property(e => e.SessId).HasColumnName("sess_id");
+
+                entity.Property(e => e.SpotId).HasColumnName("spot_id");
+
+                entity.Property(e => e.SpotId)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("spot_id");
+
+                entity.Property(e => e.AuthToken)
+                    .HasMaxLength(128)
+                    .IsUnicode(false)
+                    .HasColumnName("auth_token");
+
+                entity.HasOne(d => d.Spot)
+                    .WithOne(p => p.Session)
+                    .HasForeignKey<Session>(d => d.SpotId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Sessions__spot_i__42ACE4D4");
             });
 
             modelBuilder.Entity<Skip>(entity =>
             {
                 entity.ToTable("Skip");
 
-                entity.HasIndex(e => e.SkipId, "UQ__Skip__931FA3A91057D4B5")
+                entity.HasIndex(e => e.SkipId, "UQ__Skip__931FA3A993A8C6A2")
                     .IsUnique();
 
                 entity.Property(e => e.SkipId).HasColumnName("skip_id");
@@ -76,25 +116,25 @@ namespace Spotter_Azure.DBModels
                     .WithMany(p => p.Skips)
                     .HasForeignKey(d => d.SpotId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Skip__spot_id__1332DBDC");
+                    .HasConstraintName("FK__Skip__spot_id__308E3499");
             });
 
             modelBuilder.Entity<Spotify>(entity =>
             {
-                entity.Ignore(x => x.spotify);
-                entity.Ignore(x => x.KickedPlaylist);
-                entity.Ignore(x => x.KickedTracks);
-                entity.Ignore(x => x.lastTrack);
+                entity.Ignore("KickedPlaylist");
+                entity.Ignore("KickedTracks");
+                entity.Ignore("last");
+                entity.Ignore("_spotify");
 
                 entity.HasKey(e => e.SpotId)
-                    .HasName("PK__Spotify__330AF0F648B94BFD");
+                    .HasName("PK__Spotify__330AF0F6CA517DD1");
 
                 entity.ToTable("Spotify");
 
-                entity.HasIndex(e => e.SpotId, "UQ__Spotify__330AF0F752956956")
+                entity.HasIndex(e => e.SpotId, "UQ__Spotify__330AF0F75C428C02")
                     .IsUnique();
 
-                entity.HasIndex(e => e.SpotifyId, "UQ__Spotify__C253CFF1D86A19AD")
+                entity.HasIndex(e => e.SpotifyId, "UQ__Spotify__C253CFF155A347EB")
                     .IsUnique();
 
                 entity.Property(e => e.SpotId).HasColumnName("spot_id");
@@ -122,33 +162,7 @@ namespace Spotter_Azure.DBModels
             OnModelCreatingPartial(modelBuilder);
         }
 
-        #endregion Methods
-
-        #region Fields
-
         public static spotterdbContext dbContext = new spotterdbContext();
-
-        #endregion Fields
-
-        #region Constructors
-
-        public spotterdbContext()
-        {
-        }
-
-        public spotterdbContext(DbContextOptions<spotterdbContext> options)
-            : base(options)
-        {
-        }
-
-        #endregion Constructors
-
-        #region Properties
-
-        public virtual DbSet<Listen> Listens { get; set; }
-        public virtual DbSet<Skip> Skips { get; set; }
-        public virtual DbSet<Spotify> Spotifies { get; set; }
-
-        #endregion Properties
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

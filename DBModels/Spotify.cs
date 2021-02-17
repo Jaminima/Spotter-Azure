@@ -10,11 +10,8 @@ namespace Spotter_Azure.DBModels
 {
     public partial class Spotify
     {
-        #region Fields
-
         private SpotifyClient _spotify;
 
-        #endregion Fields
 
         #region Methods
 
@@ -33,7 +30,6 @@ namespace Spotter_Azure.DBModels
         public CurrentlyPlayingContext last = null;
 
         public FullTrack lastTrack = null;
-
         public Spotify()
         {
             Listens = new HashSet<Listen>();
@@ -48,21 +44,16 @@ namespace Spotter_Azure.DBModels
             _spotify = new SpotifyClient(this.AuthToken);
             SetUser();
         }
-
-        public DateTime? AuthExpires { get; set; }
-        public string AuthToken { get; set; }
-        public virtual ICollection<Listen> Listens { get; set; }
-        public string RefreshToken { get; set; }
-        public virtual ICollection<Skip> Skips { get; set; }
-        public int? SkipThreshold { get; set; }
         public int SpotId { get; set; }
-
+        public string SpotifyId { get; set; }
+        public string AuthToken { get; set; }
+        public string RefreshToken { get; set; }
+        public DateTime? AuthExpires { get; set; }
+        public int? SkipThreshold { get; set; }
         public SpotifyClient spotify
         {
             get { if (DateTime.Now > AuthExpires || _spotify == null) _spotify = new SpotifyClient(GetAuthToken()); return _spotify; }
         }
-
-        public string SpotifyId { get; set; }
 
         public string GetAuthToken()
         {
@@ -113,5 +104,8 @@ namespace Spotter_Azure.DBModels
             }
             else KickedTracks = (await spotify.Playlists.GetItems(KickedPlaylist.Id)).Items;
         }
+        public virtual Session Session { get; set; }
+        public virtual ICollection<Listen> Listens { get; set; }
+        public virtual ICollection<Skip> Skips { get; set; }
     }
 }

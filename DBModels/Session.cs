@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Scrypt;
+using System.Collections.Generic;
 
 #nullable disable
 
@@ -12,18 +12,18 @@ namespace Spotter_Azure.DBModels
         private static Random rnd = new Random();
 
         public int SpotId { get; set; }
-        public virtual Spotify Spot { get; set; }
         public string AuthToken { get; set; }
+        public int SessId { get; set; }
+        public virtual Spotify Spot { get; set; }
 
         public Session()
         {
 
         }
-
         public Session(string AuthToken, Spotify user)
         {
             SpotId = user.SpotId;
-            AuthToken = encoder.Encode(AuthToken);
+            this.AuthToken = encoder.Encode(AuthToken);
         }
 
         public static string GetAuthToken(uint length = 32)
