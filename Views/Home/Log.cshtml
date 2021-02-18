@@ -21,19 +21,17 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th scope="col">State</th>
-                <th scope="col">When</th>
                 <th scope="col">Message</th>
+                <th scope="col">When</th>
             </tr>
         </thead>
         <tbody>
             @{
                 foreach (LogEntry logEntry in Log._history)
                 {
-                    <tr class="@(Log.GetRowColor(logEntry)) ">
-                        <th scope="row">@logEntry.error</th>
-                        <td>@logEntry.when</td>
+                    <tr class="@(Log.GetRowColor(logEntry))" title="A Row">
                         <td>@logEntry.message</td>
+                        <td>@logEntry.when</td>
                     </tr>
                 }
             }
