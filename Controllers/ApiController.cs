@@ -50,7 +50,7 @@ namespace Spotter_Azure.Controllers
 
                     await spotterdbContext.dbContext.SaveChangesAsync();
 
-                    if (spot.Any() || spot.First().Session == null)
+                    if (!spot.Any() || spot.First().Session == null)
                     {
                         Session s = new Session(authToken, spot.First());
                         await spotterdbContext.dbContext.Sessions.AddAsync(s);
@@ -66,7 +66,7 @@ namespace Spotter_Azure.Controllers
 
                     Actions.Log.Add("User Signed Up", Actions.LogError.Info);
 
-                    HttpContext.Response.Cookies.Append("spotid", u.SpotId.ToString());
+                    HttpContext.Response.Cookies.Append("spotid", spot.First().SpotId.ToString());
 
                     HttpContext.Response.Cookies.Append("authToken", authToken);
                     return RedirectPermanent("/Insights");
