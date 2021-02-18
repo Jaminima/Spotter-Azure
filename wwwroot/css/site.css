@@ -11,3 +11,11 @@
 .row div{
     margin-bottom: 5px;
 }
+
+th{
+    overflow-wrap: anywhere;
+}
+
+td {
+    overflow-wrap: anywhere
+}
