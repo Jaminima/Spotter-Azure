@@ -3,12 +3,14 @@
     ViewData["Title"] = "Insights";
     ViewData["Desc"] = "View details around your spotify listen history.";
 
-    if (((authDetails)Model).authToken == null)
+    authDetails auth = (authDetails)Model;
+    if (auth.authToken == null || auth.spotid == null)
     {
 
     }
     else
     {
+    <div class="card border-primary">
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -18,25 +20,25 @@
             </thead>
             <tbody>
                 @{
-                    Spotter_Azure.Controllers.authDetails auth = Model;
                     int p = int.Parse(auth.spotid);
                     Spotify sp = spotterdbContext.dbContext.Spotifies.First(x => x.SpotId == p);
 
 
                     if (sp != null)
                     {
-                        foreach (Listen listen in sp.Listens)
+                        foreach (Listen listen in spotterdbContext.dbContext.Listens.Where(x => x.SpotId == p))
                         {
-                        <tr class="table-primary">
-                            <th scope="row">@listen.TrackId</th>
-                            <td>@listen.ListenAt</td>
-                        </tr>
-                            }
+                            <tr class="table-secondary">
+                                <th scope="row">@listen.TrackId</th>
+                                <td>@listen.ListenAt</td>
+                            </tr>
                         }
                     }
+                }
             </tbody>
         </table>
+    </div>
     }
-}
+    }
 
 
