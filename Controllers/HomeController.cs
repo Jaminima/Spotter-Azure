@@ -52,6 +52,16 @@ namespace Spotter_Azure.Controllers
             return View("Insights", new authDetails(Request));
         }
 
+        [HttpGet("ClearCookie")]
+        public IActionResult ClearCookie()
+        {
+            foreach (string k in HttpContext.Request.Cookies.Keys)
+            {
+                HttpContext.Response.Cookies.Delete(k);
+            }
+            return RedirectPermanent("/");
+        }
+
         #endregion Methods
     }
 }
