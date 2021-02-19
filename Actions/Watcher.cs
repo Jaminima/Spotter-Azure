@@ -61,6 +61,7 @@ namespace Spotter_Azure.Actions
                             }
                         }
                         dbContext.Listens.Add(new Listen(track.Id, user));
+                        if (OnNextSong != null) OnNextSong(user,playing);
                     }
 
                     user.lastTrack = track;
@@ -83,6 +84,7 @@ namespace Spotter_Azure.Actions
 
         public static EventHandler<CurrentlyPlayingContext> OnResume, OnPause;
         public static Func<Spotify, FullTrack, Task<Skip>> OnSkip;
+        public static Action<Spotify, CurrentlyPlayingContext> OnNextSong;
 
         public static void Start()
         {

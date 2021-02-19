@@ -10,10 +10,8 @@ namespace Spotter_Azure.Actions
     {
         #region Methods
 
-        public static async Task<Skip> Skipped(Spotify sender, FullTrack track)
+        public static async Task<Skip> Skipped(Spotify user, FullTrack track)
         {
-            Spotify user = (Spotify)sender;
-
             int recent = user.RecentSkips(track.Id);
 
             if (recent >= user.SkipThreshold - 1)

@@ -17,6 +17,7 @@ namespace Spotter_Azure
         public static void Main(string[] args)
         {
             Actions.Watcher.OnSkip = Actions.AutoSkipRemover.Skipped;
+            Actions.Watcher.OnNextSong = Actions.BetterShuffle.OnNextSong;
             Actions.Watcher.Start();
             Actions.Log.Add("App Started", Actions.LogError.Success);
             CreateHostBuilder(args).Build().Run();
