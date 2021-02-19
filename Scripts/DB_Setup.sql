@@ -15,15 +15,26 @@ CREATE TABLE "Spotify" (
     SkipThreshold int DEFAULT 3
 );
 
+CREATE TABLE "Tracks"(
+    trk_id int IDENTITY(1,1) UNIQUE not null,
+    track_id varchar(32) unique,
+    PRIMARY key (trk_id, track_id),
+
+    title text,
+    features text,
+    
+    true_at datetime DEFAULT GETDATE()
+);
+
 CREATE TABLE "Listen"(
     listen_id int IDENTITY(1,1) UNIQUE not null,
     PRIMARY key (listen_id),
 
     track_id varchar(32),
+    foreign key (track_id) REFERENCES Tracks(track_id),
+
     spot_id int not null,
     foreign key (spot_id) REFERENCES Spotify(spot_id),
-
-    features text,
 
     listen_at datetime DEFAULT GETDATE()
 );
@@ -33,6 +44,8 @@ CREATE TABLE "Skip"(
     PRIMARY key (skip_id),
 
     track_id varchar(32),
+    foreign key (track_id) REFERENCES Tracks(track_id),
+    
     spot_id int not null,
     foreign key (spot_id) REFERENCES Spotify(spot_id),
 

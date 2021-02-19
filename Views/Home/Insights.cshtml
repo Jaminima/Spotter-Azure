@@ -33,10 +33,10 @@
                                         <td>@listen.ListenAt</td>
                                     </tr>
 
-                                                if (listen.Features != null)
+                                                if (listen.Track.Features != null)
                                                 {
-                                                    listen.SetFeatures(sp);
-                                                    Features features = listen._features;
+                                                    listen.Track.SetFeatures(sp);
+                                                    Features features = listen.Track._features;
 
                                                     float total = Math.Abs(features.getTotal()/100);
 

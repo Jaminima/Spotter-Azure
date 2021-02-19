@@ -13,7 +13,20 @@ namespace Spotter_Azure.Actions
 
         public static async void OnNextSong(Spotify user, CurrentlyPlayingContext playing)
         {
-            if (playing.Context.Type == "playlist")
+            if (playing.Context == null)
+            {
+                Paging<SavedTrack> tracks = await user.spotify.Library.GetTracks();
+
+                int i = rnd.Next(0, tracks.Total.Value);
+                LibraryTracksRequest trackReq = new LibraryTracksRequest();
+                trackReq.Offset = i;
+
+                Paging<SavedTrack> targetTrack = await user.spotify.Library.GetTracks(trackReq);
+
+                SavedTrack t = targetTrack.Items[0];
+                await user.spotify.Player.AddToQueue(new PlayerAddToQueueRequest(t.Track.Uri));
+            }
+            else if (playing.Context.Type == "playlist")
             {
                 FullPlaylist playlist = await user.spotify.Playlists.Get(playing.Context.Href.Split('/').Last());
                 int i = rnd.Next(0, playlist.Tracks.Total.Value);

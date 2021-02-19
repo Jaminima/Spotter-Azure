@@ -10,7 +10,6 @@ namespace Spotter_Azure.Models.DBModels
         public Spotify()
         {
             Listens = new HashSet<Models.Listen>();
-            Sessions = new HashSet<Models.Session>();
             Skips = new HashSet<Models.Skip>();
         }
 
@@ -21,8 +20,8 @@ namespace Spotter_Azure.Models.DBModels
         public DateTime? AuthExpires { get; set; }
         public int? SkipThreshold { get; set; }
 
+        public virtual Models.Session Session { get; set; }
         public virtual ICollection<Models.Listen> Listens { get; set; }
-        public virtual ICollection<Models.Session> Sessions { get; set; }
         public virtual ICollection<Models.Skip> Skips { get; set; }
     }
 }

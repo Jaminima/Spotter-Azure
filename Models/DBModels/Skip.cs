@@ -13,5 +13,6 @@ namespace Spotter_Azure.Models.DBModels
         public DateTime? SkipAt { get; set; }
 
         public virtual Models.Spotify Spot { get; set; }
+        public virtual Models.Track Track { get; set; }
     }
 }

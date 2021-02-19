@@ -22,6 +22,7 @@ namespace Spotter_Azure.Actions
                 {
                     await user.spotify.Playlists.AddItems(user.KickedPlaylist.Id, new PlaylistAddItemsRequest(new List<string>() { track.Uri }));
 
+                    Track t = new Track(track, user);
                     user.KickedTracks.Add(new PlaylistTrack<IPlayableItem>());
                     user.KickedTracks.Last().Track = track;
                 }

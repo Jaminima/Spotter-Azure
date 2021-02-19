@@ -52,12 +52,17 @@ namespace Spotter_Azure.Actions
                     //Check if skipped
                     if (track.Id != user.lastTrack.Id)
                     {
+                        Track t = new Track(track, user);
+                        await dbContext.Tracks.AddAsync(t,CancellationToken.None);
+                        await dbContext.SaveChangesAsync();
+
                         if (user.last.ProgressMs < user.lastTrack.DurationMs * IsntSkip)
                         {
                             if (OnSkip != null)
                             {
                                 Skip s = await OnSkip(user, user.lastTrack);
-                                dbContext.Skips.Add(s);
+                                s.Track = t;
+                                await dbContext.Skips.AddAsync(s);
                             }
                         }
                         dbContext.Listens.Add(new Listen(track, user));
