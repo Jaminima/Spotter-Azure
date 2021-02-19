@@ -21,6 +21,11 @@ namespace Spotter_Azure.Models
             this.AuthToken = encoder.Encode(AuthToken);
         }
 
+        public bool AuthTokenMatches(string authToken)
+        {
+            return encoder.Compare(authToken, this.AuthToken);
+        }
+
         public static string GetAuthToken(uint length = 32)
         {
             string s = "";

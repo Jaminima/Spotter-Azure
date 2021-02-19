@@ -1,19 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
+using Spotter_Azure.Models;
 
 namespace Spotter_Azure.Controllers
 {
-    public class authDetails
-    {
-        public string authToken, spotid;
-
-        public authDetails(HttpRequest request)
-        {
-            authToken = request.Cookies["authToken"];
-            spotid = request.Cookies["spotid"];
-        }
-    }
+    
 
     [Route("")]
     public class HomeController : Controller

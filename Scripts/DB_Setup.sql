@@ -43,7 +43,7 @@ CREATE TABLE "Sessions"(
     sess_id int IDENTITY(1,1) unique not null,
     PRIMARY key (sess_id),
 
-    spot_id int not null,
+    spot_id int not null unique,
     foreign key (spot_id) REFERENCES Spotify(spot_id),
 
     auth_token VARCHAR(128)
