@@ -58,7 +58,7 @@ namespace Spotter_Azure.Controllers
                     else
                     {
                         Session s = spot.First().Sessions.First();
-                        s.AuthToken = authToken;
+                        s.SetAuthToken(authToken);
                         spotterdbContext.dbContext.Sessions.Update(s);
                     }
 

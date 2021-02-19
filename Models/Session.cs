@@ -15,10 +15,16 @@ namespace Spotter_Azure.Models
         {
 
         }
+
         public Session(string AuthToken, Spotify user)
         {
             SpotId = user.SpotId;
             this.AuthToken = encoder.Encode(AuthToken);
+        }
+
+        public void SetAuthToken(string authToken)
+        {
+            this.AuthToken = encoder.Encode(authToken);
         }
 
         public bool AuthTokenMatches(string authToken)
