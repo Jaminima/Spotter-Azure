@@ -41,7 +41,8 @@ namespace Spotter_Azure.Models
 
         public async void SetFeatures(Spotify sp)
         {
-            this.Features = JObject.FromObject(await sp.spotify.Tracks.GetAudioFeatures(TrackId)).ToString();
+            if (DateTime.Now.AddDays(7) > this.TrueAt) 
+                this.Features = JObject.FromObject(await sp.spotify.Tracks.GetAudioFeatures(TrackId)).ToString();
         }
     }
 }

@@ -1,5 +1,6 @@
 DROP TABLE "Skip";
 DROP TABLE "Listen";
+DROP TABLE "Tracks";
 DROP TABLE "Sessions";
 DROP TABLE "Spotify";
 
