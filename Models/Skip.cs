@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace Spotter_Azure.DBModels
+namespace Spotter_Azure.Models
 {
-    public partial class Skip
+    public partial class Skip : DBModels.Skip
     {
         public Skip()
         {
@@ -18,11 +18,5 @@ namespace Spotter_Azure.DBModels
             this.TrackId = trackId;
             this.SkipAt = DateTime.Now;
         }
-        public int SkipId { get; set; }
-        public string TrackId { get; set; }
-        public DateTime? SkipAt { get; set; }
-
-        public int SpotId { get; set; }
-        public virtual Spotify Spot { get; set; }
     }
 }

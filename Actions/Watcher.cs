@@ -1,5 +1,5 @@
 ﻿using SpotifyAPI.Web;
-using Spotter_Azure.DBModels;
+using Spotter_Azure.Models;
 using System;
 using System.Threading;
 using System.Threading.Tasks;

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace Spotter_Azure.DBModels
+namespace Spotter_Azure.Models
 {
-    public partial class Listen
+    public partial class Listen : DBModels.Listen
     {
         public Listen()
         {
@@ -18,11 +18,5 @@ namespace Spotter_Azure.DBModels
             this.TrackId = trackId;
             this.ListenAt = DateTime.Now;
         }
-        public int ListenId { get; set; }
-        public string TrackId { get; set; }
-        public int SpotId { get; set; }
-        public DateTime? ListenAt { get; set; }
-
-        public virtual Spotify Spot { get; set; }
     }
 }

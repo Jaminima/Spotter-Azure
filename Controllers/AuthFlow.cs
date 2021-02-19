@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
-using Spotter_Azure.DBModels;
+using Spotter_Azure.Models;
 using System;
 using System.IO;
 using System.Net;

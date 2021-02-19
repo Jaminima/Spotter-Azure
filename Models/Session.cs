@@ -4,17 +4,12 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace Spotter_Azure.DBModels
+namespace Spotter_Azure.Models
 {
-    public partial class Session
+    public partial class Session:DBModels.Session
     {
         private static Scrypt.ScryptEncoder encoder = new ScryptEncoder();
         private static Random rnd = new Random();
-
-        public int SpotId { get; set; }
-        public string AuthToken { get; set; }
-        public int SessId { get; set; }
-        public virtual Spotify Spot { get; set; }
 
         public Session()
         {

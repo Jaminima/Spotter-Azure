@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 #nullable disable
 
-namespace Spotter_Azure.DBModels
+namespace Spotter_Azure.Models
 {
-    public partial class Spotify
+    public partial class Spotify : DBModels.Spotify
     {
         private SpotifyClient _spotify;
-
 
         #region Methods
 
@@ -30,10 +29,7 @@ namespace Spotter_Azure.DBModels
         public CurrentlyPlayingContext last = null;
 
         public FullTrack lastTrack = null;
-        public Spotify()
-        {
-            Listens = new HashSet<Listen>();
-            Skips = new HashSet<Skip>();
+        public Spotify() { 
         }
 
         public Spotify(string authtoken, string refreshtoken, DateTime authExpires)
@@ -44,12 +40,7 @@ namespace Spotter_Azure.DBModels
             _spotify = new SpotifyClient(this.AuthToken);
             SetUser();
         }
-        public int SpotId { get; set; }
-        public string SpotifyId { get; set; }
-        public string AuthToken { get; set; }
-        public string RefreshToken { get; set; }
-        public DateTime? AuthExpires { get; set; }
-        public int? SkipThreshold { get; set; }
+
         public SpotifyClient spotify
         {
             get { if (DateTime.Now > AuthExpires || _spotify == null) _spotify = new SpotifyClient(GetAuthToken()); return _spotify; }
@@ -104,8 +95,5 @@ namespace Spotter_Azure.DBModels
             }
             else KickedTracks = (await spotify.Playlists.GetItems(KickedPlaylist.Id)).Items;
         }
-        public virtual Session Session { get; set; }
-        public virtual ICollection<Listen> Listens { get; set; }
-        public virtual ICollection<Skip> Skips { get; set; }
     }
 }

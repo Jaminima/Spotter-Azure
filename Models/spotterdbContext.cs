@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
-namespace Spotter_Azure.DBModels
+namespace Spotter_Azure.Models
 {
     public partial class spotterdbContext : DbContext
     {
