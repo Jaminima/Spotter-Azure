@@ -50,14 +50,14 @@ namespace Spotter_Azure.Controllers
 
                     await spotterdbContext.dbContext.SaveChangesAsync();
 
-                    if (!spot.Any() || spot.First().Session == null)
+                    if (!spot.Any() || !spot.First().Sessions.Any())
                     {
                         Session s = new Session(authToken, spot.First());
                         await spotterdbContext.dbContext.Sessions.AddAsync(s);
                     }
                     else
                     {
-                        Session s = spot.First().Session;
+                        Session s = spot.First().Sessions.First();
                         s.AuthToken = authToken;
                         spotterdbContext.dbContext.Sessions.Update(s);
                     }

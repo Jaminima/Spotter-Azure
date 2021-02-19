@@ -23,6 +23,8 @@ CREATE TABLE "Listen"(
     spot_id int not null,
     foreign key (spot_id) REFERENCES Spotify(spot_id),
 
+    features text,
+
     listen_at datetime DEFAULT GETDATE()
 );
 

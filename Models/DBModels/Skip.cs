@@ -9,9 +9,9 @@ namespace Spotter_Azure.Models.DBModels
     {
         public int SkipId { get; set; }
         public string TrackId { get; set; }
+        public int SpotId { get; set; }
         public DateTime? SkipAt { get; set; }
 
-        public int SpotId { get; set; }
         public virtual Models.Spotify Spot { get; set; }
     }
 }

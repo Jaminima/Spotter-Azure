@@ -60,7 +60,7 @@ namespace Spotter_Azure.Actions
                                 dbContext.Skips.Add(s);
                             }
                         }
-                        dbContext.Listens.Add(new Listen(track.Id, user));
+                        dbContext.Listens.Add(new Listen(track, user));
                         if (OnNextSong != null) OnNextSong(user,playing);
                     }
 

@@ -10,6 +10,7 @@ namespace Spotter_Azure.Models.DBModels
         public int ListenId { get; set; }
         public string TrackId { get; set; }
         public int SpotId { get; set; }
+        public string Features { get; set; }
         public DateTime? ListenAt { get; set; }
 
         public virtual Models.Spotify Spot { get; set; }

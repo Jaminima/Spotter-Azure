@@ -20,21 +20,24 @@
             </thead>
             <tbody>
                 @{
-                    int p = int.Parse(auth.spotid);
-                    Spotify sp = spotterdbContext.dbContext.Spotifies.First(x => x.SpotId == p);
-
-
-                    if (sp != null)
+                    if (spotterdbContext.dbContext.Spotifies.Any())
                     {
-                        foreach (Listen listen in spotterdbContext.dbContext.Listens.Where(x => x.SpotId == p))
+                        int p = int.Parse(auth.spotid);
+                        Spotify sp = spotterdbContext.dbContext.Spotifies.First(x => x.SpotId == p);
+
+
+                        if (sp != null)
                         {
+                            foreach (Listen listen in spotterdbContext.dbContext.Listens.Where(x => x.SpotId == p))
+                            {
                             <tr class="table-secondary">
                                 <th scope="row">@listen.TrackId</th>
                                 <td>@listen.ListenAt</td>
                             </tr>
+                                }
+                            }
                         }
                     }
-                }
             </tbody>
         </table>
     </div>
