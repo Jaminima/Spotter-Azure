@@ -27,8 +27,9 @@
         </thead>
         <tbody>
             @{
-                foreach (LogEntry logEntry in Log._history)
+                for (int i= Log._history.Count-1; i >= 0;i--)
                 {
+                    LogEntry logEntry = Log._history[i];
                     <tr class="@(Log.GetRowColor(logEntry))" title="A Row">
                         <td>@logEntry.message</td>
                         <td>@logEntry.when</td>
