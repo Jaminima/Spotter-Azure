@@ -10,7 +10,7 @@ namespace Spotter_Azure.Controllers
     {
         #region Fields
 
-        private static string redirect = "https://spotter-azure20210215171759.azurewebsites.net/api/register";
+        private static string redirect = "https://spotter-azure20210220175723.azurewebsites.net/api/register";
 
         #endregion Fields
 
