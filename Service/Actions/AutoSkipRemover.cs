@@ -1,10 +1,10 @@
 ﻿using SpotifyAPI.Web;
-using Spotter_Azure.Models;
+using Service.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Spotter_Azure.Actions
+namespace Service.Actions
 {
     public class AutoSkipRemover
     {
@@ -16,8 +16,6 @@ namespace Spotter_Azure.Actions
 
             if (recent >= user.SkipThreshold - 1)
             {
-                Actions.Log.Add($"Removed {track.Name}", LogError.Info);
-
                 if (user.KickedTracks.Count(x => ((FullTrack)x.Track).Id == track.Id) == 0)
                 {
                     await user.spotify.Playlists.AddItems(user.KickedPlaylist.Id, new PlaylistAddItemsRequest(new List<string>() { track.Uri }));
@@ -35,7 +33,6 @@ namespace Spotter_Azure.Actions
             }
             else
             {
-                Actions.Log.Add($"Skipped {track.Name} -- #{recent + 1}", LogError.Info);
             }
             return new Skip(track.Id, user);
         }

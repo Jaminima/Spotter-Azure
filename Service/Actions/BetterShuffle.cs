@@ -1,11 +1,11 @@
 ﻿using SpotifyAPI.Web;
-using Spotter_Azure.Models;
+using Service.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System;
 
-namespace Spotter_Azure.Actions
+namespace Service.Actions
 {
     public static class BetterShuffle
     {
@@ -30,7 +30,9 @@ namespace Spotter_Azure.Actions
             {
                 FullPlaylist playlist = await user.spotify.Playlists.Get(playing.Context.Href.Split('/').Last());
                 int i = rnd.Next(0, playlist.Tracks.Total.Value);
-                PlaylistTrack<IPlayableItem> t = playlist.Tracks.Items[i];
+
+#warning not proper paging
+                PlaylistTrack<IPlayableItem> t = playlist.Tracks.Items[i%playlist.Tracks.Limit.Value];
                 await user.spotify.Player.AddToQueue(new PlayerAddToQueueRequest(((FullTrack)t.Track).Uri));
             }
         }

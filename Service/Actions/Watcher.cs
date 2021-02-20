@@ -1,10 +1,11 @@
 ﻿using SpotifyAPI.Web;
-using Spotter_Azure.Models;
+using Service.Models;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Spotter_Azure.Actions
+namespace Service.Actions
 {
     public static class Watcher
     {
@@ -53,8 +54,15 @@ namespace Spotter_Azure.Actions
                     if (track.Id != user.lastTrack.Id)
                     {
                         Track t = new Track(track, user);
-                        await dbContext.Tracks.AddAsync(t,CancellationToken.None);
-                        await dbContext.SaveChangesAsync();
+                        if (dbContext.Tracks.Count(x => x.TrackId == track.Id) == 0)
+                        {
+                            await dbContext.Tracks.AddAsync(t, CancellationToken.None);
+                            await dbContext.SaveChangesAsync();
+                        }
+                        else
+                        {
+                            t = dbContext.Tracks.Where(x => x.TrackId == track.Id).First();
+                        }
 
                         if (user.last.ProgressMs < user.lastTrack.DurationMs * IsntSkip)
                         {
@@ -94,7 +102,6 @@ namespace Spotter_Azure.Actions
         public static void Start()
         {
             new Thread(() => CheckEvents()).Start();
-            Actions.Log.Add("Running Spotify Watcher", LogError.Success);
         }
     }
 }
