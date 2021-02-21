@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spotter-Azure", "Web\Spotter-Azure.csproj", "{630A8D8E-A2CD-4503-BED4-F4D94D7A1221}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{741F3875-C6B1-42E9-9A32-8A46C284293E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Service\Service.csproj", "{741F3875-C6B1-42E9-9A32-8A46C284293E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{B1C83BA3-1CF2-4CD7-A820-63E6519A31C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{741F3875-C6B1-42E9-9A32-8A46C284293E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{741F3875-C6B1-42E9-9A32-8A46C284293E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{741F3875-C6B1-42E9-9A32-8A46C284293E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1C83BA3-1CF2-4CD7-A820-63E6519A31C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1C83BA3-1CF2-4CD7-A820-63E6519A31C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1C83BA3-1CF2-4CD7-A820-63E6519A31C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1C83BA3-1CF2-4CD7-A820-63E6519A31C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

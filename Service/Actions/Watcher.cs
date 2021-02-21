@@ -1,5 +1,5 @@
 ﻿using SpotifyAPI.Web;
-using Service.Models;
+using Model.Models;
 using System;
 using System.Linq;
 using System.Threading;

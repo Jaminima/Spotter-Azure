@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace Spotter_Azure.Models.DBModels
+namespace Model.Models.DBModels
 {
     public partial class Spotify
     {

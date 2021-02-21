@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 
 #nullable disable
 
-namespace Spotter_Azure.Models
+namespace Model.Models
 {
     
 

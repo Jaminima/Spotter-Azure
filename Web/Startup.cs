@@ -55,7 +55,7 @@ namespace Spotter_Azure
         {
             services.AddControllers();
             services.AddControllersWithViews();
-            services.AddDbContext<Models.spotterdbContext>();
+            services.AddDbContext<Model.Models.spotterdbContext>();
         }
 
         #endregion Methods

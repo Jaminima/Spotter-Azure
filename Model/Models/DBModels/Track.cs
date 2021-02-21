@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace Service.Models.DBModels
+namespace Model.Models.DBModels
 {
     public partial class Track
     {

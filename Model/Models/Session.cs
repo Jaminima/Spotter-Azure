@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace Service.Models
+namespace Model.Models
 {
     public partial class Session:DBModels.Session
     {

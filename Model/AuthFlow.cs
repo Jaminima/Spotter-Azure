@@ -4,7 +4,7 @@ using System;
 using System.IO;
 using System.Net;
 
-namespace Spotter_Azure.Controllers
+namespace Model.Controllers
 {
     public static class AuthFlow
     {
@@ -40,7 +40,6 @@ namespace Spotter_Azure.Controllers
             }
             catch (WebException e)
             {
-                Actions.Log.Add(e.ToString());
             }
 
             return null;
@@ -71,7 +70,6 @@ namespace Spotter_Azure.Controllers
             }
             catch (WebException e)
             {
-                Actions.Log.Add(e.ToString());
             }
         }
 

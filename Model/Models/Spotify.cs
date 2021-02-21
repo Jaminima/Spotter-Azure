@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 #nullable disable
 
-namespace Spotter_Azure.Models
+namespace Model.Models
 {
     public partial class Spotify : DBModels.Spotify
     {

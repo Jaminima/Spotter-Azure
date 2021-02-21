@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using SpotifyAPI.Web;
 
-namespace Spotter_Azure.Models
+namespace Model.Models
 {
     public struct Features
     {
