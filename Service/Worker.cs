@@ -19,13 +19,14 @@ namespace Service
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            if (!stoppingToken.IsCancellationRequested)
+            Actions.Watcher.OnSkip = Actions.AutoSkipRemover.Skipped;
+            Actions.Watcher.OnNextSong = Actions.BetterShuffle.OnNextSong;
+
+            while (!stoppingToken.IsCancellationRequested)
             {
-                Actions.Watcher.OnSkip = Actions.AutoSkipRemover.Skipped;
-                Actions.Watcher.OnNextSong = Actions.BetterShuffle.OnNextSong;
-                Actions.Watcher.Start();
-                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-                //await Task.Delay(1000, stoppingToken);
+                Actions.Watcher.CheckEvents();
+                _logger.LogInformation("Worker ran at: {time}", DateTimeOffset.Now);
+                await Task.Delay(1000, stoppingToken);
             }
         }
     }

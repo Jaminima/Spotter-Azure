@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace Service.Actions
 {
@@ -12,26 +13,23 @@ namespace Service.Actions
         #region Fields
 
         private const float IsntSkip = 0.9f;
+        private static spotterdbContext dbContext = new spotterdbContext();
 
         #endregion Fields
 
         #region Methods
 
-        private static async void CheckEvents()
+        public static async void CheckEvents()
         {
-            spotterdbContext dbContext = new spotterdbContext();
-            while (true)
+            foreach (Spotify s in dbContext.Spotifies)
             {
-                foreach (Spotify s in dbContext.Spotifies)
+                if (await s.IsAlive())
                 {
-                    if (await s.IsAlive())
-                    {
-                        s.SetupKicked();
-                        CheckUserEvent(s);
-                    }
+                    s.SetupKicked();
+                    CheckUserEvent(s);
                 }
-                Thread.Sleep(1000);
             }
+            
         }
 
         private static async void CheckUserEvent(Spotify user)
@@ -90,7 +88,7 @@ namespace Service.Actions
                 user.last = playing;
             }
 
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
         }
 
         #endregion Methods
@@ -98,10 +96,5 @@ namespace Service.Actions
         public static EventHandler<CurrentlyPlayingContext> OnResume, OnPause;
         public static Func<Spotify, FullTrack, Task<Skip>> OnSkip;
         public static Action<Spotify, CurrentlyPlayingContext> OnNextSong;
-
-        public static void Start()
-        {
-            new Thread(() => CheckEvents()).Start();
-        }
     }
 }
