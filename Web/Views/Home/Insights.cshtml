@@ -24,9 +24,16 @@
 
                         if (sp != null)
                         {
-                            foreach (Listen listen in spotterdbContext.dbContext.Listens.Where(x => x.SpotId == p))
+                            int i = 0;
+
+                            IQueryable<Listen> listens = spotterdbContext.dbContext.Listens.Where(x => x.SpotId == p);
+                            Listen[] _listens = listens.ToArray();
+                            Track[] _tracks = listens.Select(x => x.Track).ToArray();
+
+                            foreach (Listen listen in _listens)
                             {
-                                Track t = (new spotterdbContext()).Tracks.First(x => x.TrackId == listen.TrackId);
+                                Track t = _tracks[i]; /*(new spotterdbContext()).Tracks.First(x => x.TrackId == listen.TrackId)*/;
+                                i++;
 
                                 <tr class="table-secondary">
                                     <th scope="row">@t.Title</th>

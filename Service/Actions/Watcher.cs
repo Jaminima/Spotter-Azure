@@ -21,7 +21,7 @@ namespace Service.Actions
 
         public static async void CheckEvents()
         {
-            foreach (Spotify s in dbContext.Spotifies)
+            foreach (Spotify s in dbContext.Spotifies.ToArray())
             {
                 if (await s.IsAlive())
                 {
