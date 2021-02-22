@@ -24,7 +24,7 @@ namespace Service.Controllers
             req.Method = "POST";
 
             StreamWriter stream = new StreamWriter(req.GetRequestStream());
-            stream.Write($"grant_type=authorization_code&code={scode}&redirect_uri={redirect}&client_id={Spotter_Azure.SpotifyAuthKeys.client_id}&client_secret={Spotter_Azure.SpotifyAuthKeys.client_secret}");
+            stream.Write($"grant_type=authorization_code&code={scode}&redirect_uri={redirect}&client_id={SpotifyAuthKeys.client_id}&client_secret={SpotifyAuthKeys.client_secret}");
             stream.Flush();
             stream.Close();
 
@@ -53,7 +53,7 @@ namespace Service.Controllers
             req.Method = "POST";
 
             StreamWriter stream = new StreamWriter(req.GetRequestStream());
-            stream.Write($"grant_type=refresh_token&refresh_token={user.RefreshToken}&client_id={Spotter_Azure.SpotifyAuthKeys.client_id}&client_secret={Spotter_Azure.SpotifyAuthKeys.client_secret}");
+            stream.Write($"grant_type=refresh_token&refresh_token={user.RefreshToken}&client_id={SpotifyAuthKeys.client_id}&client_secret={SpotifyAuthKeys.client_secret}");
             stream.Flush();
             stream.Close();
 
