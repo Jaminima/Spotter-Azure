@@ -30,34 +30,61 @@
                 @{
                     float tot = Math.Abs(totalFeatures.getTotal() / 100);
                     await spotterdbContext.dbContext.SaveChangesAsync();
+                    Features average = totalFeatures / _data.Count() * 100;
 
+                    Features totalDiv = totalFeatures / tot;
                                 <div class="card-body">
                                     <h4 class="card-title">Average Song Vibe</h4>
 
                                     <div class="progress">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalFeatures.acousticness / tot))%;   background-color: deepskyblue;">Acousticness</div>
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.acousticness))%;   background-color: deepskyblue;">Acousticness</div>
 
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalFeatures.danceability / tot))%; background-color: firebrick;">Danceability</div>
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.danceability))%; background-color: firebrick;">Danceability</div>
 
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalFeatures.energy / tot))%; background-color: cadetblue;">Energy</div>
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.energy))%; background-color: cadetblue;">Energy</div>
 
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalFeatures.speechiness / tot))%; background-color: forestgreen;">Speechiness</div>
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.speechiness))%; background-color: forestgreen;">Speechiness</div>
 
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalFeatures.instrumentalness / tot))%; background-color: hotpink;">Instrumentalness</div>
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.instrumentalness))%; background-color: hotpink;">Instrumentalness</div>
 
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalFeatures.liveness / tot))%; background-color: mediumpurple;">Liveness</div>
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.liveness))%; background-color: mediumpurple;">Liveness</div>
 
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalFeatures.valence / tot))%; background-color: goldenrod;">Valence</div>
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.valence))%; background-color: goldenrod;">Valence</div>
                                     </div>
                                     <br />
 
-                                    <p class="card-text">Accousticness - How sure we are the song is Acoustic</p>
-                                    <p class="card-text">Danceability - How good of a groove you can get on to this song</p>
-                                    <p class="card-text">Energy - The intensity and loudness</p>
-                                    <p class="card-text">Speechiness - The existence of spoken words (rap)</p>
-                                    <p class="card-text">Instrumentalness - Measures the abscence of vocals</p>
-                                    <p class="card-text">Liveness - If we think the song was recorded infront of an audience</p>
-                                    <p class="card-text">Valence - The vibe of the track, Low values are sad, High are positive</p>
+                                    <ul class="list-group">
+                                        <a href="#" class="list-group-item list-group-item-action active">What do these mean?</a>
+
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Accousticness - How sure we are the song is Acoustic
+                                            <span class="badge badge-primary badge-pill">@average.acousticness %</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Danceability - How good of a groove you can get on to this song
+                                            <span class="badge badge-primary badge-pill">@average.danceability %</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Energy - The intensity and loudness
+                                            <span class="badge badge-primary badge-pill">@average.energy %</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Speechiness - The existence of spoken words (rap)
+                                            <span class="badge badge-primary badge-pill">@average.speechiness %</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Instrumentalness - Measures the abscence of vocals
+                                            <span class="badge badge-primary badge-pill">@average.instrumentalness %</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Liveness - If we think the song was recorded infront of an audience
+                                            <span class="badge badge-primary badge-pill">@average.liveness %</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Valence - The vibe of the track, Low values are sad, High are positive
+                                            <span class="badge badge-primary badge-pill">@average.valence %</span>
+                                        </li>
+                                    </ul>
                                 </div>
                 }
             </div>

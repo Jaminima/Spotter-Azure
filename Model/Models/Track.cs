@@ -38,6 +38,40 @@ namespace Model.Models
 
             return c;
         }
+        
+        public static Features operator *(Features a, float b)
+        {
+            Features c = new Features();
+
+            c.danceability = a.danceability * b;
+            c.energy = a.energy * b;
+            c.loudness = a.loudness * b;
+            c.speechiness = a.speechiness * b;
+            c.acousticness = a.acousticness * b;
+            c.instrumentalness = a.instrumentalness * b;
+            c.liveness = a.liveness * b;
+            c.valence = a.valence * b;
+            c.tempo = a.tempo * b;
+
+            return c;
+        }
+
+        public static Features operator /(Features a, float b)
+        {
+            Features c = new Features();
+
+            c.danceability = a.danceability / b;
+            c.energy = a.energy / b;
+            c.loudness = a.loudness / b;
+            c.speechiness = a.speechiness / b;
+            c.acousticness = a.acousticness / b;
+            c.instrumentalness = a.instrumentalness / b;
+            c.liveness = a.liveness / b;
+            c.valence = a.valence / b;
+            c.tempo = a.tempo / b;
+
+            return c;
+        }
 
         public float getTotal()
         {
