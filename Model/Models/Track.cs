@@ -59,6 +59,25 @@ namespace Model.Models
             get { return JObject.Parse(this.Features).ToObject<Features>(); }
         }
 
+        public static async Task<Dictionary<Track, Features>> GetFeatures(Spotify sp, Track[] tracks)
+        {
+            Dictionary<Track, Features> featureSet = new Dictionary<Track, Features>();
+
+            foreach (Track t in tracks)
+            {
+                if (featureSet.ContainsKey(t))
+                {
+
+                }
+                else
+                {
+                    featureSet.Add(t, await t.GetFeatures(sp));
+                }
+            }
+
+            return featureSet;
+        }
+
         public async Task<Features> GetFeatures(Spotify sp)
         {
             if (DateTime.Now.AddDays(-7) > this.TrueAt.Value || this.Features == null)
