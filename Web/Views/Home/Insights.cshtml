@@ -40,30 +40,31 @@
                                     <td>@listen.ListenAt</td>
                                 </tr>
 
-                                if (t.Features != null)
+                                Features features = await t.GetFeatures(sp);
+
+                                if (features!=null)
                                 {
-                                    t.SetFeatures(sp);
-                                    Features features = t._features;
 
                                     float total = Math.Abs(features.getTotal() / 100);
 
-                                    <tr>
-                                        <th scope="row" colspan="2">
-                                            <div class="progress">
-                                                <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.acousticness/total))%; background-color: deepskyblue;"></div>
-                                                <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.danceability/total))%; background-color: firebrick;"></div>
-                                                <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.energy/total))%; background-color: cadetblue;"></div>
-                                                <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.speechiness/total))%; background-color: forestgreen;"></div>
-                                                <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.instrumentalness/total))%; background-color: hotpink;"></div>
-                                                <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.liveness/total))%; background-color: mediumpurple;"></div>
-                                                <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.valence/total))%; background-color: goldenrod;"></div>
-                                            </div>
-                                        </th>
-                                    </tr>
+                                <tr>
+                                    <th scope="row" colspan="2">
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.acousticness / total))%; background-color: deepskyblue;"></div>
+                                            <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.danceability / total))%; background-color: firebrick;"></div>
+                                            <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.energy / total))%; background-color: cadetblue;"></div>
+                                            <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.speechiness / total))%; background-color: forestgreen;"></div>
+                                            <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.instrumentalness / total))%; background-color: hotpink;"></div>
+                                            <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.liveness / total))%; background-color: mediumpurple;"></div>
+                                            <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.valence / total))%; background-color: goldenrod;"></div>
+                                        </div>
+                                    </th>
+                                </tr>
+                                    }
                                 }
+                                spotterdbContext.dbContext.SaveChanges();
                             }
                         }
-                    }
                 </tbody>
             </table>
         </div>

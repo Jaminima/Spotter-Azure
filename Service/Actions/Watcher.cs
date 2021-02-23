@@ -54,6 +54,7 @@ namespace Service.Actions
                         Track t = new Track(track, user);
                         if (dbContext.Tracks.Count(x => x.TrackId == track.Id) == 0)
                         {
+                            await t.GetFeatures(user);
                             await dbContext.Tracks.AddAsync(t, CancellationToken.None);
                             await dbContext.SaveChangesAsync();
                         }

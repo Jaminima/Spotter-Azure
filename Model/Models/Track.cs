@@ -7,7 +7,7 @@ using SpotifyAPI.Web;
 
 namespace Model.Models
 {
-    public struct Features
+    public class Features
     {
         public float danceability, energy, loudness, speechiness, acousticness, instrumentalness, liveness, valence, tempo;
 
@@ -31,6 +31,7 @@ namespace Model.Models
             this.TrackId = track.Id;
             this.TrueAt = DateTime.Now;
             this.Title = track.Name;
+
             SetFeatures(sp);
         }
 
@@ -39,9 +40,31 @@ namespace Model.Models
             get { return JObject.Parse(this.Features).ToObject<Features>(); }
         }
 
+        public async Task<Features> GetFeatures(Spotify sp)
+        {
+            if (DateTime.Now.AddDays(-7) > this.TrueAt.Value || this.Features == null)
+            {
+                try
+                {
+                    TrackAudioFeatures features = await sp.spotify.Tracks.GetAudioFeatures(TrackId);
+                    this.Features = JObject.FromObject(features).ToString();
+                }
+                catch
+                {
+                    return null;
+                }
+                finally
+                {
+                    spotterdbContext.dbContext.Tracks.Update(this);
+                }
+            }
+
+            return JObject.Parse(this.Features).ToObject<Features>();
+        }
+
         public async void SetFeatures(Spotify sp)
         {
-            if (DateTime.Now.AddDays(7) > this.TrueAt) 
+            if (DateTime.Now.AddDays(7) > this.TrueAt || this.Features == null) 
                 this.Features = JObject.FromObject(await sp.spotify.Tracks.GetAudioFeatures(TrackId)).ToString();
         }
     }
