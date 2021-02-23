@@ -29,42 +29,62 @@
                             IQueryable<Listen> listens = spotterdbContext.dbContext.Listens.Where(x => x.SpotId == p);
                             Listen[] _listens = listens.ToArray();
                             Track[] _tracks = listens.Select(x => x.Track).ToArray();
+                            Features totalFeatures = new Features();
 
                             foreach (Listen listen in _listens)
                             {
                                 Track t = _tracks[i]; /*(new spotterdbContext()).Tracks.First(x => x.TrackId == listen.TrackId)*/;
                                 i++;
 
-                                <tr class="table-secondary">
-                                    <th scope="row">@t.Title</th>
-                                    <td>@listen.ListenAt</td>
-                                </tr>
+                        <tr class="table-secondary">
+                            <th scope="row">@t.Title</th>
+                            <td>@listen.ListenAt</td>
+                        </tr>
 
                                 Features features = await t.GetFeatures(sp);
 
                                 if (features!=null)
                                 {
+                                    totalFeatures += features;
 
                                     float total = Math.Abs(features.getTotal() / 100);
 
-                                <tr>
-                                    <th scope="row" colspan="2">
-                                        <div class="progress">
-                                            <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.acousticness / total))%; background-color: deepskyblue;">Acousticness</div>
-                                            <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.danceability / total))%; background-color: firebrick;">Danceability</div>
-                                            <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.energy / total))%; background-color: cadetblue;">Energy</div>
-                                            <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.speechiness / total))%; background-color: forestgreen;">Speechiness</div>
-                                            <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.instrumentalness / total))%; background-color: hotpink;">Instrumentalness</div>
-                                            <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.liveness / total))%; background-color: mediumpurple;">Liveness</div>
-                                            <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.valence / total))%; background-color: goldenrod;">Valence</div>
-                                        </div>
-                                    </th>
-                                </tr>
+                        <tr>
+                            <th scope="row" colspan="2">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.acousticness / total))%; background-color: deepskyblue;">Acousticness</div>
+                                    <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.danceability / total))%; background-color: firebrick;">Danceability</div>
+                                    <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.energy / total))%; background-color: cadetblue;">Energy</div>
+                                    <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.speechiness / total))%; background-color: forestgreen;">Speechiness</div>
+                                    <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.instrumentalness / total))%; background-color: hotpink;">Instrumentalness</div>
+                                    <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.liveness / total))%; background-color: mediumpurple;">Liveness</div>
+                                    <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.valence / total))%; background-color: goldenrod;">Valence</div>
+                                </div>
+                            </th>
+                        </tr>
                                     }
                                 }
+                                
+                                float tot = Math.Abs(totalFeatures.getTotal() / 100);
                                 await spotterdbContext.dbContext.SaveChangesAsync();
+
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(totalFeatures.acousticness / tot))%;   background-color: deepskyblue;">Acousticness</div>
+
+                            <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(totalFeatures.danceability / tot))%; background-color: firebrick;">Danceability</div>
+
+                            <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(totalFeatures.energy / tot))%; background-color: cadetblue;">Energy</div>
+
+                            <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(totalFeatures.speechiness / tot))%; background-color: forestgreen;">Speechiness</div>
+
+                            <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(totalFeatures.instrumentalness / tot))%; background-color: hotpink;">Instrumentalness</div>
+
+                            <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(totalFeatures.liveness / tot))%; background-color: mediumpurple;">Liveness</div>
+
+                            <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(totalFeatures.valence / tot))%; background-color: goldenrod;">Valence</div>
+                        </div>
                             }
-                        }
+                    }
                 </tbody>
             </table>
         </div>
