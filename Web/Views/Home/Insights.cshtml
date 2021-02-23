@@ -1,4 +1,7 @@
-﻿@{
+﻿@using Spotter_Azure.Views.Home
+@{
+    
+
     ViewData["Title"] = "Insights";
     ViewData["Desc"] = "View details around your spotify listen history.";
 
@@ -19,45 +22,41 @@
             </thead>
             <tbody>
                 @{
-                        int p = int.Parse(auth.spotid);
-                        Spotify sp = spotterdbContext.dbContext.Spotifies.First(x => x.SpotId == p);
+                    int p = int.Parse(auth.spotid);
+                    Spotify sp = spotterdbContext.dbContext.Spotifies.First(x => x.SpotId == p);
 
-                        if (sp != null)
+                    if (sp != null)
+                    {
+                        Features totalFeatures = new Features();
+                        Features feature;
+
+                        Insights.InsightData[] data = await Insights.GetInsightDataAsync(sp);
+
+                        foreach (Insights.InsightData insight in data.Where(x=>x.track.Features!=null).OrderByDescending(x=>x.listen.ListenAt))
                         {
-                            IQueryable<Listen> listens = spotterdbContext.dbContext.Listens.Where(x => x.SpotId == p);
-                            Listen[] _listens = listens.ToArray();
-                            Track[] _tracks = listens.Select(x => x.Track).ToArray();
-
-                            Dictionary<Track, Features> _features = await Track.GetFeatures(sp,_tracks);
-
-                            Features totalFeatures = new Features();
-
-                            foreach (KeyValuePair<Track,Features> insight in _features)
-                            {
-                                Track t = insight.Key;
-                                Features features = insight.Value;
+                            feature = insight.track._features;
 
                     <tr class="table-secondary">
-                        <th scope="row">@t.Title</th>
-                        <td></td>
+                        <th scope="row">@insight.track.Title</th>
+                        <td>@insight.listen.ListenAt</td>
                     </tr>
 
-                                if (features!=null)
-                                {
-                                    totalFeatures += features;
+                            if (feature != null)
+                            {
+                                totalFeatures += feature;
 
-                                    float total = Math.Abs(features.getTotal() / 100);
+                                float total = Math.Abs(feature.getTotal() / 100);
 
                     <tr>
                         <th scope="row" colspan="2">
                             <div class="progress">
-                                <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.acousticness / total))%; background-color: deepskyblue;">Acousticness</div>
-                                <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.danceability / total))%; background-color: firebrick;">Danceability</div>
-                                <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.energy / total))%; background-color: cadetblue;">Energy</div>
-                                <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.speechiness / total))%; background-color: forestgreen;">Speechiness</div>
-                                <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.instrumentalness / total))%; background-color: hotpink;">Instrumentalness</div>
-                                <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.liveness / total))%; background-color: mediumpurple;">Liveness</div>
-                                <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(features.valence / total))%; background-color: goldenrod;">Valence</div>
+                                <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(feature.acousticness / total))%; background-color: deepskyblue;">Acousticness</div>
+                                <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(feature.danceability / total))%; background-color: firebrick;">Danceability</div>
+                                <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(feature.energy / total))%; background-color: cadetblue;">Energy</div>
+                                <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(feature.speechiness / total))%; background-color: forestgreen;">Speechiness</div>
+                                <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(feature.instrumentalness / total))%; background-color: hotpink;">Instrumentalness</div>
+                                <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(feature.liveness / total))%; background-color: mediumpurple;">Liveness</div>
+                                <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(feature.valence / total))%; background-color: goldenrod;">Valence</div>
                             </div>
                         </th>
                     </tr>
