@@ -1,20 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Http;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 
 namespace Spotter_Azure.Models
 {
     public class authDetails
     {
+        #region Fields
+
         public string authToken, spotid;
+
+        #endregion Fields
+
+        #region Constructors
 
         public authDetails(HttpRequest request)
         {
             authToken = request.Cookies["authToken"];
             spotid = request.Cookies["spotid"];
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public async Task<bool> IsValid(Model.Models.spotterdbContext dbContext)
         {
@@ -30,5 +38,7 @@ namespace Spotter_Azure.Models
             }
             return false;
         }
+
+        #endregion Methods
     }
 }

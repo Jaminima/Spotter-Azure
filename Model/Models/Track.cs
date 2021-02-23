@@ -1,23 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using SpotifyAPI.Web;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Model.Models
 {
     public class Features
     {
+        #region Fields
+
         public float danceability, energy, loudness, speechiness, acousticness, instrumentalness, liveness, valence, tempo;
 
-        public float getTotal()
-        {
-            return danceability + energy + speechiness + acousticness + instrumentalness + liveness + valence;
-        }
-
         public int key, mode, duration_ms, time_signature;
+
         public string type, id, uri, track_href, analysis_url;
+
+        #endregion Fields
+
+        #region Methods
 
         public static Features operator +(Features a, Features b)
         {
@@ -37,10 +38,19 @@ namespace Model.Models
 
             return c;
         }
+
+        public float getTotal()
+        {
+            return danceability + energy + speechiness + acousticness + instrumentalness + liveness + valence;
+        }
+
+        #endregion Methods
     }
 
     public class Track : DBModels.Track
     {
+        #region Constructors
+
         public Track()
         {
         }
@@ -54,10 +64,18 @@ namespace Model.Models
             SetFeatures(sp);
         }
 
+        #endregion Constructors
+
+        #region Properties
+
         public Features _features
         {
             get { return JObject.Parse(this.Features).ToObject<Features>(); }
         }
+
+        #endregion Properties
+
+        #region Methods
 
         public static async Task<Dictionary<Track, Features>> GetFeatures(Spotify sp, Track[] tracks)
         {
@@ -67,7 +85,6 @@ namespace Model.Models
             {
                 if (featureSet.ContainsKey(t))
                 {
-
                 }
                 else
                 {
@@ -102,8 +119,10 @@ namespace Model.Models
 
         public async void SetFeatures(Spotify sp)
         {
-            if (DateTime.Now.AddDays(7) > this.TrueAt || this.Features == null) 
+            if (DateTime.Now.AddDays(7) > this.TrueAt || this.Features == null)
                 this.Features = JObject.FromObject(await sp.spotify.Tracks.GetAudioFeatures(TrackId)).ToString();
         }
+
+        #endregion Methods
     }
 }

@@ -1,10 +1,9 @@
-﻿using SpotifyAPI.Web;
-using Model.Models;
+﻿using Model.Models;
+using SpotifyAPI.Web;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 
 namespace Service.Actions
 {
@@ -18,19 +17,6 @@ namespace Service.Actions
         #endregion Fields
 
         #region Methods
-
-        public static async void CheckEvents()
-        {
-            foreach (Spotify s in dbContext.Spotifies.ToArray())
-            {
-                if (await s.IsAlive())
-                {
-                    s.SetupKicked();
-                    CheckUserEvent(s);
-                }
-            }
-            
-        }
 
         private static async void CheckUserEvent(Spotify user)
         {
@@ -73,7 +59,7 @@ namespace Service.Actions
                             }
                         }
                         dbContext.Listens.Add(new Listen(track, user));
-                        if (OnNextSong != null) OnNextSong(user,playing);
+                        if (OnNextSong != null) OnNextSong(user, playing);
                     }
 
                     user.lastTrack = track;
@@ -94,8 +80,22 @@ namespace Service.Actions
 
         #endregion Methods
 
-        public static EventHandler<CurrentlyPlayingContext> OnResume, OnPause;
-        public static Func<Spotify, FullTrack, Task<Skip>> OnSkip;
         public static Action<Spotify, CurrentlyPlayingContext> OnNextSong;
+
+        public static EventHandler<CurrentlyPlayingContext> OnResume, OnPause;
+
+        public static Func<Spotify, FullTrack, Task<Skip>> OnSkip;
+
+        public static async void CheckEvents()
+        {
+            foreach (Spotify s in dbContext.Spotifies.ToArray())
+            {
+                if (await s.IsAlive())
+                {
+                    s.SetupKicked();
+                    CheckUserEvent(s);
+                }
+            }
+        }
     }
 }

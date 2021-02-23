@@ -10,7 +10,11 @@ namespace Model.Models
 {
     public partial class Spotify : DBModels.Spotify
     {
+        #region Fields
+
         private SpotifyClient _spotify;
+
+        #endregion Fields
 
         #region Methods
 
@@ -29,7 +33,9 @@ namespace Model.Models
         public CurrentlyPlayingContext last = null;
 
         public FullTrack lastTrack = null;
-        public Spotify() { 
+
+        public Spotify()
+        {
         }
 
         public Spotify(string authtoken, string refreshtoken, DateTime authExpires)

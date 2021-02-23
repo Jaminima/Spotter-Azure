@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Http;
 using Spotter_Azure.Models;
 
 namespace Spotter_Azure.Controllers
 {
-    
-
     [Route("")]
     public class HomeController : Controller
     {
@@ -32,16 +29,16 @@ namespace Spotter_Azure.Controllers
             return View("Index", new authDetails(Request));
         }
 
-        [HttpGet("Log")]
-        public IActionResult Log()
-        {
-            return View("Log", new authDetails(Request));
-        }
-
         [HttpGet("Insights")]
         public IActionResult Insights()
         {
             return View("Insights", new authDetails(Request));
+        }
+
+        [HttpGet("Log")]
+        public IActionResult Log()
+        {
+            return View("Log", new authDetails(Request));
         }
 
         #endregion Methods

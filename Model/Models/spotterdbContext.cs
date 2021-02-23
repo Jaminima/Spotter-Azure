@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
 #nullable disable
 
@@ -8,22 +6,9 @@ namespace Model.Models
 {
     public partial class spotterdbContext : DbContext
     {
-        public static spotterdbContext dbContext = new spotterdbContext();
+        #region Methods
 
-        public spotterdbContext()
-        {
-        }
-
-        public spotterdbContext(DbContextOptions<spotterdbContext> options)
-            : base(options)
-        {
-        }
-
-        public virtual DbSet<Listen> Listens { get; set; }
-        public virtual DbSet<Session> Sessions { get; set; }
-        public virtual DbSet<Skip> Skips { get; set; }
-        public virtual DbSet<Spotify> Spotifies { get; set; }
-        public virtual DbSet<Track> Tracks { get; set; }
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -205,6 +190,35 @@ namespace Model.Models
             OnModelCreatingPartial(modelBuilder);
         }
 
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+        #endregion Methods
+
+        #region Fields
+
+        public static spotterdbContext dbContext = new spotterdbContext();
+
+        #endregion Fields
+
+        #region Constructors
+
+        public spotterdbContext()
+        {
+        }
+
+        public spotterdbContext(DbContextOptions<spotterdbContext> options)
+            : base(options)
+        {
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public virtual DbSet<Listen> Listens { get; set; }
+        public virtual DbSet<Session> Sessions { get; set; }
+        public virtual DbSet<Skip> Skips { get; set; }
+        public virtual DbSet<Spotify> Spotifies { get; set; }
+        public virtual DbSet<Track> Tracks { get; set; }
+
+        #endregion Properties
     }
 }

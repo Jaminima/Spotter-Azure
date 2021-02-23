@@ -1,15 +1,19 @@
-﻿using SpotifyAPI.Web;
-using Model.Models;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Model.Models;
+using SpotifyAPI.Web;
 using System;
+using System.Linq;
 
 namespace Service.Actions
 {
     public static class BetterShuffle
     {
-        static Random rnd = new Random();
+        #region Fields
+
+        private static Random rnd = new Random();
+
+        #endregion Fields
+
+        #region Methods
 
         public static async void OnNextSong(Spotify user, CurrentlyPlayingContext playing)
         {
@@ -32,9 +36,11 @@ namespace Service.Actions
                 int i = rnd.Next(0, playlist.Tracks.Total.Value);
 
 #warning not proper paging
-                PlaylistTrack<IPlayableItem> t = playlist.Tracks.Items[i%playlist.Tracks.Limit.Value];
+                PlaylistTrack<IPlayableItem> t = playlist.Tracks.Items[i % playlist.Tracks.Limit.Value];
                 await user.spotify.Player.AddToQueue(new PlayerAddToQueueRequest(((FullTrack)t.Track).Uri));
             }
         }
+
+        #endregion Methods
     }
 }

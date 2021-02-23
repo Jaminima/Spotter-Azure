@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using SpotifyAPI.Web;
-using Newtonsoft.Json.Linq;
+﻿using SpotifyAPI.Web;
+using System;
 
 #nullable disable
 
 namespace Model.Models
 {
-    
-
     public partial class Listen : DBModels.Listen
     {
+        #region Constructors
+
         public Listen()
         {
         }
@@ -23,5 +21,6 @@ namespace Model.Models
             this.ListenAt = DateTime.Now;
         }
 
+        #endregion Constructors
     }
 }

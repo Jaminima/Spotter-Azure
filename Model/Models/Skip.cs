@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 #nullable disable
 
@@ -7,6 +6,8 @@ namespace Model.Models
 {
     public partial class Skip : DBModels.Skip
     {
+        #region Constructors
+
         public Skip()
         {
         }
@@ -18,5 +19,7 @@ namespace Model.Models
             this.TrackId = trackId;
             this.SkipAt = DateTime.Now;
         }
+
+        #endregion Constructors
     }
 }

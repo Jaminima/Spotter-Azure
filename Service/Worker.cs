@@ -1,8 +1,6 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,12 +8,13 @@ namespace Service
 {
     public class Worker : BackgroundService
     {
+        #region Fields
+
         private readonly ILogger<Worker> _logger;
 
-        public Worker(ILogger<Worker> logger)
-        {
-            _logger = logger;
-        }
+        #endregion Fields
+
+        #region Methods
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -29,5 +28,16 @@ namespace Service
                 await Task.Delay(1000, stoppingToken);
             }
         }
+
+        #endregion Methods
+
+        #region Constructors
+
+        public Worker(ILogger<Worker> logger)
+        {
+            _logger = logger;
+        }
+
+        #endregion Constructors
     }
 }
