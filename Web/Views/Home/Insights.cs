@@ -18,6 +18,7 @@ namespace Spotter_Azure.Views.Home
         {
             public Listen listen;
             public Track track;
+            public int count = 1;
 
             public InsightData(Listen listen, Track track,Spotify sp) {
                 this.listen = listen;
@@ -32,14 +33,17 @@ namespace Spotter_Azure.Views.Home
             Listen[] _listens = listens.ToArray();
             Track[] _tracks = listens.Select(x => x.Track).ToArray();
 
-            List<InsightData> data = new List<InsightData>();
+            Dictionary<int,InsightData> data = new Dictionary<int, InsightData>();
 
-            for (int i=0;i<_listens.Length;i++)
+            for (int i=0;i< _tracks.Length;i++)
             {
-                data.Add(new InsightData(_listens[i], _tracks[i], sp));
+                if (data.Keys.Contains(_tracks[i].TrkId))
+                    data[_tracks[i].TrkId].count++;
+                else
+                    data.Add(_tracks[i].TrkId, new InsightData(_listens[i], _tracks[i], sp));
             }
 
-            return data.ToArray();
+            return data.Values.ToArray();
         }
     }
 }

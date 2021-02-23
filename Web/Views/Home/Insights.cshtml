@@ -99,7 +99,8 @@
                     <thead>
                         <tr>
                             <th scope="col">Title</th>
-                            <th scope="col">When</th>
+                            <th scope="col">Listens</th>
+                            <th scope="col">Listened At</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -108,15 +109,16 @@
                             {
                                 feature = insight.track._features;
 
-                                <tr class="table-secondary">
-                                    <th scope="row">@insight.track.Title</th>
-                                    <td>@insight.listen.ListenAt</td>
-                                </tr>
+                                                <tr class="table-secondary">
+                                                    <th scope="row">@insight.track.Title</th>
+                                                    <td>@insight.count</td>
+                                                    <td>@insight.listen.ListenAt</td>
+                                                </tr>
 
                                 float total = Math.Abs(feature.getTotal() / 100);
 
                                 <tr>
-                                    <th scope="row" colspan="2">
+                                    <th scope="row" colspan="3">
                                         <div class="progress">
                                             <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(feature.acousticness / total))%; background-color: deepskyblue;">Acousticness</div>
                                             <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(feature.danceability / total))%; background-color: firebrick;">Danceability</div>
