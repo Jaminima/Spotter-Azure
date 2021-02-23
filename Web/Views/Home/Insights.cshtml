@@ -33,63 +33,63 @@
                     Features average = totalFeatures / _data.Count() * 100;
 
                     Features totalDiv = totalFeatures / tot;
-                                <div class="card-body">
-                                    <h4 class="card-title">Average Song Vibe</h4>
+                    <div class="card-body">
+                        <h4 class="card-title">Average Song Vibe</h4>
 
-                                    <div class="progress">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.acousticness))%;   background-color: deepskyblue;">Acousticness</div>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.acousticness))%;   background-color: deepskyblue;">Acousticness</div>
 
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.danceability))%; background-color: firebrick;">Danceability</div>
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.danceability))%; background-color: firebrick;">Danceability</div>
 
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.energy))%; background-color: cadetblue;">Energy</div>
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.energy))%; background-color: cadetblue;">Energy</div>
 
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.speechiness))%; background-color: forestgreen;">Speechiness</div>
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.speechiness))%; background-color: forestgreen;">Speechiness</div>
 
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.instrumentalness))%; background-color: hotpink;">Instrumentalness</div>
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.instrumentalness))%; background-color: hotpink;">Instrumentalness</div>
 
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.liveness))%; background-color: mediumpurple;">Liveness</div>
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.liveness))%; background-color: mediumpurple;">Liveness</div>
 
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.valence))%; background-color: goldenrod;">Valence</div>
-                                    </div>
-                                    <br />
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.valence))%; background-color: goldenrod;">Valence</div>
+                        </div>
+                        <br />
 
-                                    <ul class="list-group">
-                                        <a href="#" class="list-group-item list-group-item-action active">What do these mean?</a>
+                        <ul class="list-group">
+                            <a href="#" class="list-group-item list-group-item-action active">What do these mean?</a>
 
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            Accousticness - How sure we are the song is Acoustic
-                                            <span class="badge badge-primary badge-pill">@average.acousticness %</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            Danceability - How good of a groove you can get on to this song
-                                            <span class="badge badge-primary badge-pill">@average.danceability %</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            Energy - The intensity and loudness
-                                            <span class="badge badge-primary badge-pill">@average.energy %</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            Speechiness - The existence of spoken words (rap)
-                                            <span class="badge badge-primary badge-pill">@average.speechiness %</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            Instrumentalness - Measures the abscence of vocals
-                                            <span class="badge badge-primary badge-pill">@average.instrumentalness %</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            Liveness - If we think the song was recorded infront of an audience
-                                            <span class="badge badge-primary badge-pill">@average.liveness %</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            Valence - The vibe of the track, Low values are sad, High are positive
-                                            <span class="badge badge-primary badge-pill">@average.valence %</span>
-                                        </li>
-                                    </ul>
-                                </div>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Accousticness - How sure we are the song is Acoustic
+                                <span class="badge badge-primary badge-pill">@average.acousticness %</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Danceability - How good of a groove you can get on to this song
+                                <span class="badge badge-primary badge-pill">@average.danceability %</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Energy - The intensity and loudness
+                                <span class="badge badge-primary badge-pill">@average.energy %</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Speechiness - The existence of spoken words (rap)
+                                <span class="badge badge-primary badge-pill">@average.speechiness %</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Instrumentalness - Measures the abscence of vocals
+                                <span class="badge badge-primary badge-pill">@average.instrumentalness %</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Liveness - If we think the song was recorded infront of an audience
+                                <span class="badge badge-primary badge-pill">@average.liveness %</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Valence - The vibe of the track, Low values are sad, High are positive
+                                <span class="badge badge-primary badge-pill">@average.valence %</span>
+                            </li>
+                        </ul>
+                    </div>
                 }
             </div>
 
-            <br/>
+            <br />
 
             <div class="card border-primary">
                 <div class="card-body">
@@ -98,6 +98,7 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
+                            <th scope="col">Tags</th>
                             <th scope="col">Title</th>
                             <th scope="col">Listens</th>
                             <th scope="col">Listened At</th>
@@ -105,31 +106,48 @@
                     </thead>
                     <tbody>
                         @{
-                            foreach (Insights.InsightData insight in _data.OrderByDescending(x => x.listen.ListenAt))
+                            foreach (Insights.InsightData insight in _data.OrderByDescending(x => x.listen.ListenAt).Take(100))
                             {
                                 feature = insight.track._features;
 
-                                                <tr class="table-secondary">
-                                                    <th scope="row">@insight.track.Title</th>
-                                                    <td>@insight.count</td>
-                                                    <td>@insight.listen.ListenAt</td>
-                                                </tr>
+                                <tr class="table-secondary">
+                                    <td>
+                                        @{
+                                            if (@insight.track._features.danceability > 0.8)
+                                            { <span class="badge badge-pill badge-dark" style="background-color: firebrick;">Dance</span> }
+
+                                            if (@insight.track._features.energy > 0.8)
+                                            { <span class="badge badge-pill badge-dark" style="background-color: cadetblue;">Intense</span> }
+                                            else if (@insight.track._features.energy < 0.2)
+                                            { <span class="badge badge-pill badge-dark">Calm</span> }
+
+                                            if (@insight.track._features.speechiness > 0.9)
+                                            { <span class="badge badge-pill badge-dark" style="background-color: forestgreen;">Talk Show</span> }
+                                            else if (@insight.track._features.speechiness > 0.66)
+                                            { <span class="badge badge-pill badge-dark" style="background-color: forestgreen;">Spoken</span> }
+
+                                            if (@insight.track._features.acousticness > 0.8)
+                                            { <span class="badge badge-pill badge-dark" style="background-color: deepskyblue;">Acoustic</span> }
+
+                                            if (@insight.track._features.instrumentalness > 0.5)
+                                            { <span class="badge badge-pill badge-dark" style="background-color: hotpink;">Instrumental</span> }
+
+                                            if (@insight.track._features.liveness > 0.8)
+                                            { <span class="badge badge-pill badge-dark" style="background-color: mediumpurple;">Recorded Live</span> }
+
+                                            if (@insight.track._features.valence > 0.8)
+                                            { <span class="badge badge-pill badge-dark" style="background-color: goldenrod;">Excited</span> }
+                                            else if (@insight.track._features.valence < 0.2)
+                                            { <span class="badge badge-pill badge-dark">Glum</span> }
+                                        }
+                                    </td>
+
+                                    <th scope="row">@insight.track.Title</th>
+                                    <td>@insight.count</td>
+                                    <td>@insight.listen.ListenAt</td>
+                                </tr>
 
                                 float total = Math.Abs(feature.getTotal() / 100);
-
-                                <tr>
-                                    <th scope="row" colspan="3">
-                                        <div class="progress">
-                                            <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(feature.acousticness / total))%; background-color: deepskyblue;">Acousticness</div>
-                                            <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(feature.danceability / total))%; background-color: firebrick;">Danceability</div>
-                                            <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(feature.energy / total))%; background-color: cadetblue;">Energy</div>
-                                            <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(feature.speechiness / total))%; background-color: forestgreen;">Speechiness</div>
-                                            <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(feature.instrumentalness / total))%; background-color: hotpink;">Instrumentalness</div>
-                                            <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(feature.liveness / total))%; background-color: mediumpurple;">Liveness</div>
-                                            <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(feature.valence / total))%; background-color: goldenrod;">Valence</div>
-                                        </div>
-                                    </th>
-                                </tr>
                             }
                         }
                     </tbody>
