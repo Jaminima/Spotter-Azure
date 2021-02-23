@@ -1,6 +1,5 @@
 ﻿@using Spotter_Azure.Views.Home
 @{
-    
 
     ViewData["Title"] = "Insights";
     ViewData["Desc"] = "View details around your spotify listen history.";
@@ -12,79 +11,92 @@
     }
     else
     {
+        int p = int.Parse(auth.spotid);
+        Spotify sp = spotterdbContext.dbContext.Spotifies.First(x => x.SpotId == p);
+
+        if (sp != null)
+        {
+            Features totalFeatures = new Features();
+            Features feature;
+
+            Insights.InsightData[] data = await Insights.GetInsightDataAsync(sp);
+
+            IEnumerable<Insights.InsightData> _data = data.Where(x => x.track.Features != null);
+
+            foreach (Insights.InsightData insight in _data) totalFeatures += insight.track._features;
+
     <div class="card border-primary">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">Title</th>
-                    <th scope="col">When</th>
-                </tr>
-            </thead>
-            <tbody>
-                @{
-                    int p = int.Parse(auth.spotid);
-                    Spotify sp = spotterdbContext.dbContext.Spotifies.First(x => x.SpotId == p);
 
-                    if (sp != null)
-                    {
-                        Features totalFeatures = new Features();
-                        Features feature;
+        @{
+            float tot = Math.Abs(totalFeatures.getTotal() / 100);
+            await spotterdbContext.dbContext.SaveChangesAsync();
 
-                        Insights.InsightData[] data = await Insights.GetInsightDataAsync(sp);
+            <div class="card-body">
+                <h4 class="card-title">Average Song Vibe</h4>
 
-                        foreach (Insights.InsightData insight in data.Where(x=>x.track.Features!=null).OrderByDescending(x=>x.listen.ListenAt))
-                        {
-                            feature = insight.track._features;
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalFeatures.acousticness / tot))%;   background-color: deepskyblue;">Acousticness</div>
 
-                    <tr class="table-secondary">
-                        <th scope="row">@insight.track.Title</th>
-                        <td>@insight.listen.ListenAt</td>
-                    </tr>
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalFeatures.danceability / tot))%; background-color: firebrick;">Danceability</div>
 
-                            if (feature != null)
-                            {
-                                totalFeatures += feature;
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalFeatures.energy / tot))%; background-color: cadetblue;">Energy</div>
 
-                                float total = Math.Abs(feature.getTotal() / 100);
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalFeatures.speechiness / tot))%; background-color: forestgreen;">Speechiness</div>
 
-                    <tr>
-                        <th scope="row" colspan="2">
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(feature.acousticness / total))%; background-color: deepskyblue;">Acousticness</div>
-                                <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(feature.danceability / total))%; background-color: firebrick;">Danceability</div>
-                                <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(feature.energy / total))%; background-color: cadetblue;">Energy</div>
-                                <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(feature.speechiness / total))%; background-color: forestgreen;">Speechiness</div>
-                                <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(feature.instrumentalness / total))%; background-color: hotpink;">Instrumentalness</div>
-                                <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(feature.liveness / total))%; background-color: mediumpurple;">Liveness</div>
-                                <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(feature.valence / total))%; background-color: goldenrod;">Valence</div>
-                            </div>
-                        </th>
-                    </tr>
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalFeatures.instrumentalness / tot))%; background-color: hotpink;">Instrumentalness</div>
+
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalFeatures.liveness / tot))%; background-color: mediumpurple;">Liveness</div>
+
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalFeatures.valence / tot))%; background-color: goldenrod;">Valence</div>
+                </div>
+            </div>
+        }
+    </div>
+
+                <br>
+
+                <div class="card border-primary">
+                    <div class="card-body">
+                        <h4 class="card-title">Song Vibe History</h4>
+                    </div>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">When</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    foreach (Insights.InsightData insight in _data.OrderByDescending(x => x.listen.ListenAt))
+                                    {
+                                        feature = insight.track._features;
+
+                                        <tr class="table-secondary">
+                                            <th scope="row">@insight.track.Title</th>
+                                            <td>@insight.listen.ListenAt</td>
+                                        </tr>
+
+                                        float total = Math.Abs(feature.getTotal() / 100);
+
+                                        <tr>
+                                            <th scope="row" colspan="2">
+                                                <div class="progress">
+                                                    <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(feature.acousticness / total))%; background-color: deepskyblue;">Acousticness</div>
+                                                    <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(feature.danceability / total))%; background-color: firebrick;">Danceability</div>
+                                                    <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(feature.energy / total))%; background-color: cadetblue;">Energy</div>
+                                                    <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(feature.speechiness / total))%; background-color: forestgreen;">Speechiness</div>
+                                                    <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(feature.instrumentalness / total))%; background-color: hotpink;">Instrumentalness</div>
+                                                    <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(feature.liveness / total))%; background-color: mediumpurple;">Liveness</div>
+                                                    <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(feature.valence / total))%; background-color: goldenrod;">Valence</div>
+                                                </div>
+                                            </th>
+                                        </tr>
                                     }
                                 }
-
-                                float tot = Math.Abs(totalFeatures.getTotal() / 100);
-                                await spotterdbContext.dbContext.SaveChangesAsync();
-
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(totalFeatures.acousticness / tot))%;   background-color: deepskyblue;">Acousticness</div>
-
-                        <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(totalFeatures.danceability / tot))%; background-color: firebrick;">Danceability</div>
-
-                        <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(totalFeatures.energy / tot))%; background-color: cadetblue;">Energy</div>
-
-                        <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(totalFeatures.speechiness / tot))%; background-color: forestgreen;">Speechiness</div>
-
-                        <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(totalFeatures.instrumentalness / tot))%; background-color: hotpink;">Instrumentalness</div>
-
-                        <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(totalFeatures.liveness / tot))%; background-color: mediumpurple;">Liveness</div>
-
-                        <div class="progress-bar" role="progressbar" style="width: @(Math.Abs(totalFeatures.valence / tot))%; background-color: goldenrod;">Valence</div>
+                            </tbody>
+                        </table>
                     </div>
-                            }
-                }
-            </tbody>
-        </table>
-    </div>
-    }
-}
+                    }
+                    }
+                    }
