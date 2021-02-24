@@ -38,16 +38,27 @@ namespace Service.Actions
                     if (track.Id != user.lastTrack.Id)
                     {
                         Track t = new Track(track, user);
-                        if (dbContext.Tracks.Count(x => x.TrackId == track.Id) == 0)
+                        Artist a = await t.GetArtist(user, dbContext);
+                        t.ArtistId = a.ArtistId;
+
+                        t.Artist = a;
+                        await t.GetFeatures(user);
+
+                        if (!dbContext.Artists.Any(x => x.ArtistId == t.ArtistId))
                         {
-                            await t.GetFeatures(user);
-                            await dbContext.Tracks.AddAsync(t, CancellationToken.None);
-                            await dbContext.SaveChangesAsync();
+                            (await dbContext.Artists.AddAsync(a)).State = Microsoft.EntityFrameworkCore.EntityState.Added;
                         }
-                        else
+                        else if (!dbContext.Tracks.Any(x=>x.TrackId == t.TrackId))
                         {
-                            t = dbContext.Tracks.Where(x => x.TrackId == track.Id).First();
+                            (await dbContext.Tracks.AddAsync(t)).State = Microsoft.EntityFrameworkCore.EntityState.Added;
                         }
+
+                        t = dbContext.Tracks.Where(x => x.TrackId == track.Id).First();
+
+                        if (t.Features == null) await t.GetFeatures(user);
+                        if (t.Artist == null) { t.ArtistId = a.ArtistId; await t.GetArtist(user, dbContext); }
+
+                        dbContext.Tracks.Update(t);
 
                         if (user.last.ProgressMs < user.lastTrack.DurationMs * IsntSkip)
                         {
