@@ -8,24 +8,32 @@ using System.Threading.Tasks;
 
 namespace Model.Models
 {
+    public class ArtistDetails
+    {
+        public string[] genres;
+        public int popularity;
+        public string name;
+    }
+
     public class Artist : DBModels.Artist
     {
         public Artist()
         {
         }
 
-        public Artist(FullTrack track, Spotify sp)
+        public Artist(Track track, Spotify sp)
         {
-            SimpleArtist artist = track.Artists.First();
-
-            this.ArtistId = artist.Id;
-            this.ArtistName = artist.Name;
+            this.ArtistId = track.ArtistId;
             SetArtist(sp);
-
             this.TrueAt = DateTime.Now;
         }
 
-        public async Task<Features> GetArtist(Spotify sp)
+        public ArtistDetails _artistDetails
+        {
+            get { return JObject.Parse(this.Details).ToObject<ArtistDetails>(); }
+        }
+
+        public async Task<ArtistDetails> GetArtist(Spotify sp)
         {
             if (DateTime.Now.AddDays(-7) > this.TrueAt.Value || this.Details == null)
             {
@@ -44,7 +52,7 @@ namespace Model.Models
                 }
             }
 
-            return JObject.Parse(this.Details).ToObject<Features>();
+            return JObject.Parse(this.Details).ToObject<ArtistDetails>();
         }
 
         private async void SetArtist(Spotify sp)

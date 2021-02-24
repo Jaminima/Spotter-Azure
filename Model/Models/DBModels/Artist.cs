@@ -14,7 +14,6 @@ namespace Model.Models.DBModels
 
         public int ArtId { get; set; }
         public string ArtistId { get; set; }
-        public string ArtistName { get; set; }
         public string Details { get; set; }
         public DateTime? TrueAt { get; set; }
 

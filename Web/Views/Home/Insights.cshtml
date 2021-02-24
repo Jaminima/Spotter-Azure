@@ -113,6 +113,10 @@
                                 <tr class="table-secondary">
                                     <td>
                                         @{
+
+                                            if (@insight.track.Artist._artistDetails.genres.Length>0)
+                                            { <span class="badge badge-pill badge-dark" style="background-color: firebrick;">@insight.track.Artist._artistDetails.genres.First();</span>}
+
                                             if (@insight.track._features.danceability > 0.8)
                                             { <span class="badge badge-pill badge-dark" style="background-color: firebrick;">Dance</span> }
 

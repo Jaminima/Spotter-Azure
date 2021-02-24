@@ -59,10 +59,6 @@ namespace Model.Models
                     .IsUnicode(false)
                     .HasColumnName("artist_id");
 
-                entity.Property(e => e.ArtistName)
-                    .HasColumnType("text")
-                    .HasColumnName("artist_name");
-
                 entity.Property(e => e.Details)
                     .HasColumnType("text")
                     .HasColumnName("details");

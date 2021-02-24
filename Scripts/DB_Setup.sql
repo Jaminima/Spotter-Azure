@@ -22,7 +22,6 @@ CREATE TABLE "Artists"(
     artist_id varchar(32) unique,
     PRIMARY key (art_id, artist_id),
 
-    artist_name text,
     details text,
     
     true_at datetime DEFAULT GETDATE()

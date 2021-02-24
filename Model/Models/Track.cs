@@ -97,18 +97,7 @@ namespace Model.Models
             this.ArtistId = track.Artists.First().Id;
 
             SetFeatures(sp);
-
-            IQueryable<Artist> artists = SpotterAzure_dbContext.dbContext.Artists.Where(x => x.ArtistId == this.ArtistId);
-            if (artists.Any())
-            {
-
-            }
-            else
-            {
-                Artist art = new Artist(track, sp);
-                SpotterAzure_dbContext.dbContext.Artists.AddAsync(art);
-                SpotterAzure_dbContext.dbContext.SaveChanges();
-            }
+            GetArtist(sp);
         }
 
         #endregion Constructors
@@ -123,6 +112,22 @@ namespace Model.Models
         #endregion Properties
 
         #region Methods
+
+        public async Task<Artist> GetArtist(Spotify sp)
+        {
+            IQueryable<Artist> artists = SpotterAzure_dbContext.dbContext.Artists.Where(x => x.ArtistId == this.ArtistId);
+            if (artists.Any())
+            {
+                return artists.First();
+            }
+            else
+            {
+                Artist art = new Artist(this, sp);
+                await SpotterAzure_dbContext.dbContext.Artists.AddAsync(art);
+                SpotterAzure_dbContext.dbContext.SaveChanges();
+                return art;
+            }
+        }
 
         public async Task<Features> GetFeatures(Spotify sp)
         {
