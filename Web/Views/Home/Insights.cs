@@ -24,7 +24,7 @@ namespace Spotter_Azure.Views.Home
                 this.listen = listen;
                 this.track = track;
                 this.track.GetFeatures(sp);
-                this.track.GetArtist(sp);
+                this.track.GetArtist(sp, SpotterAzure_dbContext.dbContext);
             }
         }
 

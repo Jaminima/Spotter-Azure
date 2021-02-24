@@ -53,12 +53,15 @@ namespace Service.Actions
                             (await dbContext.Tracks.AddAsync(t)).State = Microsoft.EntityFrameworkCore.EntityState.Added;
                         }
 
-                        t = dbContext.Tracks.Where(x => x.TrackId == track.Id).First();
+                        if (dbContext.Tracks.Any(x => x.TrackId == track.Id))
+                        {
+                            t = dbContext.Tracks.Where(x => x.TrackId == track.Id).First();
 
-                        if (t.Features == null) await t.GetFeatures(user);
-                        if (t.Artist == null) { t.ArtistId = a.ArtistId; await t.GetArtist(user, dbContext); }
+                            if (t.Features == null) await t.GetFeatures(user);
+                            if (t.Artist == null) { t.ArtistId = a.ArtistId; await t.GetArtist(user, dbContext); }
 
-                        dbContext.Tracks.Update(t);
+                            dbContext.Tracks.Update(t);
+                        }
 
                         if (user.last.ProgressMs < user.lastTrack.DurationMs * IsntSkip)
                         {

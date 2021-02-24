@@ -100,6 +100,7 @@
                         <tr>
                             <th scope="col">Tags</th>
                             <th scope="col">Title</th>
+                            <th scope="col">Artist</th>
                             <th scope="col">Listens</th>
                             <th scope="col">Listened At</th>
                         </tr>
@@ -110,46 +111,47 @@
                             {
                                 feature = insight.track._features;
 
-                                <tr class="table-secondary">
-                                    <td>
-                                        @{
+                                                <tr class="table-secondary">
+                                                    <td>
+                                                        @{
 
-                                            if (@insight.track.Artist._artistDetails.genres.Length>0)
-                                            { <span class="badge badge-pill badge-dark" style="background-color: firebrick;">@insight.track.Artist._artistDetails.genres.First();</span>}
+                                                            if (@insight.track.Artist._artistDetails.genres.Length > 0)
+                                                            { <span class="badge badge-pill badge-dark" style="background-color: firebrick;">@insight.track.Artist._artistDetails.genres.First();</span>}
 
-                                            if (@insight.track._features.danceability > 0.8)
-                                            { <span class="badge badge-pill badge-dark" style="background-color: firebrick;">Dance</span> }
+                                                        if (@insight.track._features.danceability > 0.8)
+                                                        { <span class="badge badge-pill badge-dark" style="background-color: firebrick;">Dance</span> }
 
-                                            if (@insight.track._features.energy > 0.8)
-                                            { <span class="badge badge-pill badge-dark" style="background-color: cadetblue;">Intense</span> }
-                                            else if (@insight.track._features.energy < 0.2)
-                                            { <span class="badge badge-pill badge-dark">Calm</span> }
+                                                        if (@insight.track._features.energy > 0.8)
+                                                        { <span class="badge badge-pill badge-dark" style="background-color: cadetblue;">Intense</span> }
+                                                        else if (@insight.track._features.energy < 0.2)
+                                                        { <span class="badge badge-pill badge-dark">Calm</span> }
 
-                                            if (@insight.track._features.speechiness > 0.9)
-                                            { <span class="badge badge-pill badge-dark" style="background-color: forestgreen;">Talk Show</span> }
-                                            else if (@insight.track._features.speechiness > 0.66)
-                                            { <span class="badge badge-pill badge-dark" style="background-color: forestgreen;">Spoken</span> }
+                                                        if (@insight.track._features.speechiness > 0.9)
+                                                        { <span class="badge badge-pill badge-dark" style="background-color: forestgreen;">Talk Show</span> }
+                                                        else if (@insight.track._features.speechiness > 0.66)
+                                                        { <span class="badge badge-pill badge-dark" style="background-color: forestgreen;">Spoken</span> }
 
-                                            if (@insight.track._features.acousticness > 0.8)
-                                            { <span class="badge badge-pill badge-dark" style="background-color: deepskyblue;">Acoustic</span> }
+                                                        if (@insight.track._features.acousticness > 0.8)
+                                                        { <span class="badge badge-pill badge-dark" style="background-color: deepskyblue;">Acoustic</span> }
 
-                                            if (@insight.track._features.instrumentalness > 0.5)
-                                            { <span class="badge badge-pill badge-dark" style="background-color: hotpink;">Instrumental</span> }
+                                                        if (@insight.track._features.instrumentalness > 0.5)
+                                                        { <span class="badge badge-pill badge-dark" style="background-color: hotpink;">Instrumental</span> }
 
-                                            if (@insight.track._features.liveness > 0.8)
-                                            { <span class="badge badge-pill badge-dark" style="background-color: mediumpurple;">Recorded Live</span> }
+                                                        if (@insight.track._features.liveness > 0.8)
+                                                        { <span class="badge badge-pill badge-dark" style="background-color: mediumpurple;">Recorded Live</span> }
 
-                                            if (@insight.track._features.valence > 0.8)
-                                            { <span class="badge badge-pill badge-dark" style="background-color: goldenrod;">Excited</span> }
-                                            else if (@insight.track._features.valence < 0.2)
-                                            { <span class="badge badge-pill badge-dark">Glum</span> }
-                                        }
-                                    </td>
+                                                        if (@insight.track._features.valence > 0.8)
+                                                        { <span class="badge badge-pill badge-dark" style="background-color: goldenrod;">Excited</span> }
+                                                        else if (@insight.track._features.valence < 0.2)
+                                                        { <span class="badge badge-pill badge-dark">Glum</span> }
+                                                        }
+                                                    </td>
 
-                                    <th scope="row">@insight.track.Title</th>
-                                    <td>@insight.count</td>
-                                    <td>@insight.listen.ListenAt</td>
-                                </tr>
+                                                    <th scope="row">@insight.track.Title</th>
+                                                    <td>@insight.track.Artist._artistDetails.name</td>
+                                                    <td>@insight.count</td>
+                                                    <td>@insight.listen.ListenAt</td>
+                                                </tr>
 
                                 float total = Math.Abs(feature.getTotal() / 100);
                             }
