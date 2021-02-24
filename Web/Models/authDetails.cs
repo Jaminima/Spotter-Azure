@@ -24,7 +24,7 @@ namespace Spotter_Azure.Models
 
         #region Methods
 
-        public async Task<bool> IsValid(Model.Models.spotterdbContext dbContext)
+        public async Task<bool> IsValid(Model.Models.SpotterAzure_dbContext dbContext)
         {
             if (authToken == null || spotid == null) return false;
 

@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using SpotifyAPI.Web;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Model.Models
@@ -94,8 +94,21 @@ namespace Model.Models
             this.TrackId = track.Id;
             this.TrueAt = DateTime.Now;
             this.Title = track.Name;
+            this.ArtistId = track.Artists.First().Id;
 
             SetFeatures(sp);
+
+            IQueryable<Artist> artists = SpotterAzure_dbContext.dbContext.Artists.Where(x => x.ArtistId == this.ArtistId);
+            if (artists.Any())
+            {
+
+            }
+            else
+            {
+                Artist art = new Artist(track, sp);
+                SpotterAzure_dbContext.dbContext.Artists.AddAsync(art);
+                SpotterAzure_dbContext.dbContext.SaveChanges();
+            }
         }
 
         #endregion Constructors
@@ -126,7 +139,7 @@ namespace Model.Models
                 }
                 finally
                 {
-                    spotterdbContext.dbContext.Tracks.Update(this);
+                    SpotterAzure_dbContext.dbContext.Tracks.Update(this);
                 }
             }
 

@@ -1,6 +1,7 @@
 DROP TABLE "Skip";
 DROP TABLE "Listen";
 DROP TABLE "Tracks";
+DROP TABLE "Artists";
 DROP TABLE "Sessions";
 DROP TABLE "Spotify";
 
@@ -16,10 +17,24 @@ CREATE TABLE "Spotify" (
     SkipThreshold int DEFAULT 3
 );
 
+CREATE TABLE "Artists"(
+    art_id int IDENTITY(1,1) UNIQUE not null,
+    artist_id varchar(32) unique,
+    PRIMARY key (art_id, artist_id),
+
+    artist_name text,
+    details text,
+    
+    true_at datetime DEFAULT GETDATE()
+)
+
 CREATE TABLE "Tracks"(
     trk_id int IDENTITY(1,1) UNIQUE not null,
     track_id varchar(32) unique,
     PRIMARY key (trk_id, track_id),
+
+    artist_id varchar(32),
+    foreign key (artist_id) REFERENCES Artists(artist_id),
 
     title text,
     features text,

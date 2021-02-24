@@ -34,37 +34,37 @@ namespace Spotter_Azure.Controllers
 
                     string authToken = Session.GetAuthToken();
 
-                    IQueryable<Spotify> spot = spotterdbContext.dbContext.Spotifies.Where(x => x.SpotifyId == u.SpotifyId).Select(x => x);
+                    IQueryable<Spotify> spot = SpotterAzure_dbContext.dbContext.Spotifies.Where(x => x.SpotifyId == u.SpotifyId).Select(x => x);
                     if (spot.Any())
                     {
                         Spotify f = spot.First();
                         f.AuthExpires = u.AuthExpires;
                         f.AuthToken = u.AuthToken;
                         f.RefreshToken = u.RefreshToken;
-                        spotterdbContext.dbContext.Spotifies.Update(f);
+                        SpotterAzure_dbContext.dbContext.Spotifies.Update(f);
                     }
                     else
                     {
-                        await spotterdbContext.dbContext.Spotifies.AddAsync(u);
+                        await SpotterAzure_dbContext.dbContext.Spotifies.AddAsync(u);
                     }
 
-                    await spotterdbContext.dbContext.SaveChangesAsync();
+                    await SpotterAzure_dbContext.dbContext.SaveChangesAsync();
 
-                    IQueryable<Session> sess = spotterdbContext.dbContext.Sessions.Where(x => x.SpotId == spot.First().SpotId);
+                    IQueryable<Session> sess = SpotterAzure_dbContext.dbContext.Sessions.Where(x => x.SpotId == spot.First().SpotId);
 
                     if (!sess.Any())
                     {
                         Session s = new Session(authToken, spot.First());
-                        await spotterdbContext.dbContext.Sessions.AddAsync(s);
+                        await SpotterAzure_dbContext.dbContext.Sessions.AddAsync(s);
                     }
                     else
                     {
                         Session s = sess.First();
                         s.SetAuthToken(authToken);
-                        spotterdbContext.dbContext.Sessions.Update(s);
+                        SpotterAzure_dbContext.dbContext.Sessions.Update(s);
                     }
 
-                    await spotterdbContext.dbContext.SaveChangesAsync();
+                    await SpotterAzure_dbContext.dbContext.SaveChangesAsync();
 
                     Actions.Log.Add("User Signed Up", Actions.LogError.Info);
 

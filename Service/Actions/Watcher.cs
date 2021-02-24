@@ -12,7 +12,7 @@ namespace Service.Actions
         #region Fields
 
         private const float IsntSkip = 0.9f;
-        private static spotterdbContext dbContext = new spotterdbContext();
+        private static SpotterAzure_dbContext dbContext = new SpotterAzure_dbContext();
 
         #endregion Fields
 
@@ -20,7 +20,7 @@ namespace Service.Actions
 
         private static async void CheckUserEvent(Spotify user)
         {
-            spotterdbContext dbContext = new spotterdbContext();
+            SpotterAzure_dbContext dbContext = new SpotterAzure_dbContext();
             CurrentlyPlayingContext playing = await user.spotify.Player.GetCurrentPlayback();
 
             if (playing != null)

@@ -5,14 +5,14 @@
     ViewData["Desc"] = "View details around your spotify listen history.";
 
     authDetails auth = (authDetails)Model;
-    if (!await auth.IsValid(spotterdbContext.dbContext))
+    if (!await auth.IsValid(SpotterAzure_dbContext.dbContext))
     {
 
     }
     else
     {
         int p = int.Parse(auth.spotid);
-        Spotify sp = spotterdbContext.dbContext.Spotifies.First(x => x.SpotId == p);
+        Spotify sp = SpotterAzure_dbContext.dbContext.Spotifies.First(x => x.SpotId == p);
 
         if (sp != null)
         {
@@ -29,7 +29,7 @@
 
                 @{
                     float tot = Math.Abs(totalFeatures.getTotal() / 100);
-                    await spotterdbContext.dbContext.SaveChangesAsync();
+                    await SpotterAzure_dbContext.dbContext.SaveChangesAsync();
                     Features average = totalFeatures / _data.Count() * 100;
 
                     Features totalDiv = totalFeatures / tot;

@@ -29,7 +29,7 @@ namespace Spotter_Azure.Views.Home
 
         public static async Task<InsightData[]> GetInsightDataAsync(Spotify sp)
         {
-            IQueryable<Listen> listens = spotterdbContext.dbContext.Listens.Where(x => x.SpotId == sp.SpotId);
+            IQueryable<Listen> listens = SpotterAzure_dbContext.dbContext.Listens.Where(x => x.SpotId == sp.SpotId);
             Listen[] _listens = listens.ToArray();
             Track[] _tracks = listens.Select(x => x.Track).ToArray();
 

@@ -83,7 +83,7 @@ namespace Model.Models
         public int RecentSkips(string trackid)
         {
             DateTime After = DateTime.Now.AddDays(-7);
-            return spotterdbContext.dbContext.Skips.Count(x => x.TrackId == trackid && x.SpotId == SpotId && x.SkipAt > After);
+            return SpotterAzure_dbContext.dbContext.Skips.Count(x => x.TrackId == trackid && x.SpotId == SpotId && x.SkipAt > After);
         }
 
         public async void SetupKicked()
