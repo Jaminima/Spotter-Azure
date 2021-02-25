@@ -18,13 +18,22 @@ namespace Spotter_Azure.Views.Home
         {
             public Listen listen;
             public Track track;
+            public Features features;
+            public Artist artist;
             public int count = 1;
 
             public InsightData(Listen listen, Track track,Spotify sp) {
                 this.listen = listen;
                 this.track = track;
-                this.track.GetFeatures(sp);
-                this.track.GetArtist(sp, SpotterAzure_dbContext.dbContext);
+                
+                Task<Features> f = this.track.GetFeatures(sp);
+                Task<Artist> a = this.track.GetArtist(sp, SpotterAzure_dbContext.dbContext);
+
+                if (!f.IsCompleted) { f.Start(); f.Wait(); }
+                if (!a.IsCompleted) { a.Start(); a.Wait(); }
+
+                this.features = f.Result;
+                this.artist = a.Result;
             }
         }
 

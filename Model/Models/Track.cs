@@ -117,6 +117,8 @@ namespace Model.Models
             IQueryable<Artist> artists = dbContext.Artists.Where(x => x.ArtistId == this.ArtistId);
             if (artists.Any())
             {
+                artists.First().GetArtist(sp);
+
                 return artists.First();
             }
             else

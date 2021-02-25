@@ -41,14 +41,11 @@ namespace Model.Models
                 {
                     FullArtist features = await sp.spotify.Artists.Get(this.ArtistId);
                     this.Details = JObject.FromObject(features).ToString();
+                    SpotterAzure_dbContext.dbContext.Update(this);
                 }
                 catch
                 {
                     return null;
-                }
-                finally
-                {
-                    SpotterAzure_dbContext.dbContext.Artists.Update(this);
                 }
             }
 
