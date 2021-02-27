@@ -95,7 +95,7 @@
                 </thead>
                 <tbody>
                     @{
-                        foreach (Insights.InsightData insight in _data.OrderByDescending(x => x.listen.ListenAt).Take(100))
+                        foreach (Insights.InsightData insight in _data)
                         {
 
                             <tr class="table-secondary">
