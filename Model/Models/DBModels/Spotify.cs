@@ -21,6 +21,7 @@ namespace Model.Models.DBModels
         public int? SkipThreshold { get; set; }
 
         public virtual Models.Session Session { get; set; }
+        public virtual Models.Setting Setting { get; set; }
         public virtual ICollection<Models.Listen> Listens { get; set; }
         public virtual ICollection<Models.Skip> Skips { get; set; }
     }

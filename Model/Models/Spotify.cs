@@ -40,6 +40,7 @@ namespace Model.Models
 
         public Spotify(string authtoken, string refreshtoken, DateTime authExpires)
         {
+            this.Setting = new Setting();
             this.AuthToken = authtoken;
             this.RefreshToken = refreshtoken;
             this.AuthExpires = authExpires;

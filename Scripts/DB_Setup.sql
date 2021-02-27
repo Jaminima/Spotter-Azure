@@ -67,6 +67,23 @@ CREATE TABLE "Skip"(
     skip_at datetime DEFAULT GETDATE()
 );
 
+CREATE TABLE "Settings"(
+    sett_id int IDENTITY(1,1) unique not null,
+    PRIMARY key (sett_id),
+
+    spot_id int not null unique,
+    foreign key (spot_id) REFERENCES Spotify(spot_id),
+
+    skip_on BIT DEFAULT false,
+    skip_trigger int DEFAULT 3,
+    skip_expiry_hours int DEFAULT 168,
+    skip_ignore_playlist BIT DEFAULT TRUE,
+
+    shuffle_on BIT DEFAULT false,
+    shuffle_albums BIT DEFAULT false,
+    shuffle_playlists BIT DEFAULT false
+);
+
 CREATE TABLE "Sessions"(
     sess_id int IDENTITY(1,1) unique not null,
     PRIMARY key (sess_id),
