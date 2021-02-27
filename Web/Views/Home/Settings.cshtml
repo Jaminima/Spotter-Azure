@@ -4,4 +4,24 @@
 @{
     ViewData["Title"] = "Settings";
     ViewData["Desc"] = "Change your Spotter settings";
+
+    Setting _setting = SpotterAzure_dbContext.dbContext.Settings.First(x => x.SpotId == Model.SpotId);
 }
+
+<div class="card border-primary">
+    <div class="card-body">
+        <h4 class="card-title">Settings</h4>
+        <form>
+            <fieldset>
+                <legend>Skip</legend>
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="customSwitch1" checked="@(_setting.SkipOn)">
+                    <label class="custom-control-label" for="customSwitch1">Enable Skipping</label>
+                </div>
+
+                <legend>Shuffle</legend>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
