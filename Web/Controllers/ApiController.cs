@@ -66,11 +66,14 @@ namespace Spotter_Azure.Controllers
 
                     await SpotterAzure_dbContext.dbContext.SaveChangesAsync();
 
+                    CookieOptions options = new CookieOptions();
+                    options.Expires = DateTimeOffset.Now.AddDays(1);
+
                     Actions.Log.Add("User Signed Up", Actions.LogError.Info);
 
-                    HttpContext.Response.Cookies.Append("spotid", spot.First().SpotId.ToString());
+                    HttpContext.Response.Cookies.Append("spotid", spot.First().SpotId.ToString(), options);
 
-                    HttpContext.Response.Cookies.Append("authToken", authToken);
+                    HttpContext.Response.Cookies.Append("authToken", authToken, options);
                     return RedirectPermanent("/Insights");
                 }
             }

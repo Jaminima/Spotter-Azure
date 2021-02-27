@@ -24,7 +24,7 @@ namespace Spotter_Azure.Models
 
             if (sess.Any() && sess.First().AuthTokenMatches(details.authToken))
             {
-                return sess.First().Spot;
+                return dbContext.Spotifies.First(x=>x.SpotId == sess.First().SpotId);
             }
             return null;
         }
