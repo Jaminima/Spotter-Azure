@@ -14,6 +14,21 @@ namespace Spotter_Azure.Models
 
         #region Constructors
 
+        public static Model.Models.Spotify CheckAuth(HttpRequest request, Model.Models.SpotterAzure_dbContext dbContext)
+        {
+            authDetails details = new authDetails(request);
+
+            if (details.authToken == null || details.spotid == null) return null;
+
+            IQueryable<Model.Models.Session> sess = dbContext.Sessions.Where(x => x.SpotId.ToString() == details.spotid);
+
+            if (sess.Any() && sess.First().AuthTokenMatches(details.authToken))
+            {
+                return sess.First().Spot;
+            }
+            return null;
+        }
+
         public authDetails(HttpRequest request)
         {
             authToken = request.Cookies["authToken"];
