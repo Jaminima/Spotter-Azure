@@ -21,6 +21,12 @@ namespace Spotter_Azure.Controllers
             return "Hgmmm";
         }
 
+        [HttpPost("update")]
+        public IActionResult UpdateUser([FromForm]IFormCollection formDetails)
+        {
+            return RedirectPermanent("/settings");
+        }
+
         // POST api/<ValuesController>
         [HttpGet("register")]
         public async Task<IActionResult> Post([FromQuery] string code)
