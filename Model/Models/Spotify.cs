@@ -81,9 +81,9 @@ namespace Model.Models
             }
         }
 
-        public int RecentSkips(string trackid)
+        public int RecentSkips(string trackid, int hours)
         {
-            DateTime After = DateTime.Now.AddDays(-7);
+            DateTime After = DateTime.Now.AddHours(-hours);
             return SpotterAzure_dbContext.dbContext.Skips.Count(x => x.TrackId == trackid && x.SpotId == SpotId && x.SkipAt > After);
         }
 

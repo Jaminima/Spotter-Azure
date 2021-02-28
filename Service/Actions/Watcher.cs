@@ -106,6 +106,11 @@ namespace Service.Actions
                 if (await s.IsAlive())
                 {
                     s.SetupKicked();
+
+                    Setting _sett = dbContext.Settings.First(x => x.SpotId == s.SpotId);
+                    SpotterAzure_dbContext.dbContext.Entry(_sett).Reload();
+                    s.Setting = _sett;
+
                     CheckUserEvent(s);
                 }
             }
