@@ -20,25 +20,6 @@ namespace Model.Models
 
         #region Methods
 
-        public static Features operator +(Features a, Features b)
-        {
-            Features c = new Features();
-
-            c.danceability = a.danceability + b.danceability;
-            c.energy = a.energy + b.energy;
-            c.loudness = a.loudness + b.loudness;
-            c.speechiness = a.speechiness + b.speechiness;
-            c.acousticness = a.acousticness + b.acousticness;
-            c.instrumentalness = a.instrumentalness + b.instrumentalness;
-            c.liveness = a.liveness + b.liveness;
-            c.valence = a.valence + b.valence;
-            c.tempo = a.tempo + b.tempo;
-
-            c.duration_ms = a.duration_ms + b.duration_ms;
-
-            return c;
-        }
-        
         public static Features operator *(Features a, float b)
         {
             Features c = new Features();
@@ -69,6 +50,25 @@ namespace Model.Models
             c.liveness = a.liveness / b;
             c.valence = a.valence / b;
             c.tempo = a.tempo / b;
+
+            return c;
+        }
+
+        public static Features operator +(Features a, Features b)
+        {
+            Features c = new Features();
+
+            c.danceability = a.danceability + b.danceability;
+            c.energy = a.energy + b.energy;
+            c.loudness = a.loudness + b.loudness;
+            c.speechiness = a.speechiness + b.speechiness;
+            c.acousticness = a.acousticness + b.acousticness;
+            c.instrumentalness = a.instrumentalness + b.instrumentalness;
+            c.liveness = a.liveness + b.liveness;
+            c.valence = a.valence + b.valence;
+            c.tempo = a.tempo + b.tempo;
+
+            c.duration_ms = a.duration_ms + b.duration_ms;
 
             return c;
         }

@@ -14,6 +14,16 @@ namespace Spotter_Azure.Models
 
         #region Constructors
 
+        public authDetails(HttpRequest request)
+        {
+            authToken = request.Cookies["authToken"];
+            spotid = request.Cookies["spotid"];
+        }
+
+        #endregion Constructors
+
+        #region Methods
+
         public static Model.Models.Spotify CheckAuth(HttpRequest request, Model.Models.SpotterAzure_dbContext dbContext)
         {
             authDetails details = new authDetails(request);
@@ -24,20 +34,10 @@ namespace Spotter_Azure.Models
 
             if (sess.Any() && sess.First().AuthTokenMatches(details.authToken))
             {
-                return dbContext.Spotifies.First(x=>x.SpotId == sess.First().SpotId);
+                return dbContext.Spotifies.First(x => x.SpotId == sess.First().SpotId);
             }
             return null;
         }
-
-        public authDetails(HttpRequest request)
-        {
-            authToken = request.Cookies["authToken"];
-            spotid = request.Cookies["spotid"];
-        }
-
-        #endregion Constructors
-
-        #region Methods
 
         public async Task<bool> IsValid(Model.Models.SpotterAzure_dbContext dbContext)
         {

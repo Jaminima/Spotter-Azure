@@ -1,41 +1,14 @@
-﻿using System;
+﻿using Model.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Spotter_Azure;
-using Model.Models;
-using Spotter_Azure.Models;
-using Spotter_Azure.Actions;
-using System.Linq;
-using Spotter_Azure.Controllers;
-using System;
 
 namespace Spotter_Azure.Views.Home
 {
     public static class Insights
     {
-        public class InsightData
-        {
-            public Listen listen;
-            public Track track;
-            public Features features;
-            public Artist artist;
-            public int count = 1;
-
-            public InsightData(Listen listen, Track track,Spotify sp) {
-                this.listen = listen;
-                this.track = track;
-                
-                Task<Features> f = this.track.GetFeatures(sp);
-                Task<Artist> a = this.track.GetArtist(sp, SpotterAzure_dbContext.dbContext);
-
-                if (!f.IsCompleted) { f.Start(); f.Wait(); }
-                if (!a.IsCompleted) { a.Start(); a.Wait(); }
-
-                this.features = f.Result;
-                this.artist = a.Result;
-            }
-        }
+        #region Methods
 
         public static async Task<InsightData[]> GetInsightDataAsync(Spotify sp)
         {
@@ -43,9 +16,9 @@ namespace Spotter_Azure.Views.Home
             Listen[] _listens = listens.ToArray();
             Track[] _tracks = listens.Select(x => x.Track).ToArray();
 
-            Dictionary<int,InsightData> data = new Dictionary<int, InsightData>();
+            Dictionary<int, InsightData> data = new Dictionary<int, InsightData>();
 
-            for (int i=0;i< _tracks.Length;i++)
+            for (int i = 0; i < _tracks.Length; i++)
             {
                 if (data.Keys.Contains(_tracks[i].TrkId))
                     data[_tracks[i].TrkId].count++;
@@ -55,5 +28,43 @@ namespace Spotter_Azure.Views.Home
 
             return data.Values.ToArray();
         }
+
+        #endregion Methods
+
+        #region Classes
+
+        public class InsightData
+        {
+            #region Fields
+
+            public Artist artist;
+            public int count = 1;
+            public Features features;
+            public Listen listen;
+            public Track track;
+
+            #endregion Fields
+
+            #region Constructors
+
+            public InsightData(Listen listen, Track track, Spotify sp)
+            {
+                this.listen = listen;
+                this.track = track;
+
+                Task<Features> f = this.track.GetFeatures(sp);
+                Task<Artist> a = this.track.GetArtist(sp, SpotterAzure_dbContext.dbContext);
+
+                if (!f.IsCompleted) { f.Start(); f.Wait(); }
+                if (!a.IsCompleted) { a.Start(); a.Wait(); }
+
+                this.features = f.Result;
+                this.artist = a.Result;
+            }
+
+            #endregion Constructors
+        }
+
+        #endregion Classes
     }
 }

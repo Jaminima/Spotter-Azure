@@ -1,22 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using SpotifyAPI.Web;
-using System.Linq;
+using System;
 using System.Threading.Tasks;
 
 namespace Model.Models
 {
-    public class ArtistDetails
-    {
-        public string[] genres;
-        public int popularity;
-        public string name;
-    }
-
     public class Artist : DBModels.Artist
     {
+        #region Methods
+
+        private async void SetArtist(Spotify sp)
+        {
+            if (DateTime.Now.AddDays(7) > this.TrueAt || this.Details == null)
+                this.Details = JObject.FromObject(await sp.spotify.Artists.Get(this.ArtistId)).ToString();
+        }
+
+        #endregion Methods
+
+        #region Constructors
+
         public Artist()
         {
         }
@@ -28,10 +30,16 @@ namespace Model.Models
             this.TrueAt = DateTime.Now;
         }
 
+        #endregion Constructors
+
+        #region Properties
+
         public ArtistDetails _artistDetails
         {
             get { return JObject.Parse(this.Details).ToObject<ArtistDetails>(); }
         }
+
+        #endregion Properties
 
         public async Task<ArtistDetails> GetArtist(Spotify sp)
         {
@@ -51,11 +59,16 @@ namespace Model.Models
 
             return JObject.Parse(this.Details).ToObject<ArtistDetails>();
         }
+    }
 
-        private async void SetArtist(Spotify sp)
-        {
-            if (DateTime.Now.AddDays(7) > this.TrueAt || this.Details == null)
-                this.Details = JObject.FromObject(await sp.spotify.Artists.Get(this.ArtistId)).ToString();
-        }
+    public class ArtistDetails
+    {
+        #region Fields
+
+        public string[] genres;
+        public string name;
+        public int popularity;
+
+        #endregion Fields
     }
 }

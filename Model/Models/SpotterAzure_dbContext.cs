@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
 #nullable disable
 
@@ -8,24 +6,9 @@ namespace Model.Models
 {
     public partial class SpotterAzure_dbContext : DbContext
     {
-        public static SpotterAzure_dbContext dbContext = new SpotterAzure_dbContext();
+        #region Methods
 
-        public SpotterAzure_dbContext()
-        {
-        }
-
-        public SpotterAzure_dbContext(DbContextOptions<SpotterAzure_dbContext> options)
-            : base(options)
-        {
-        }
-
-        public virtual DbSet<Artist> Artists { get; set; }
-        public virtual DbSet<Listen> Listens { get; set; }
-        public virtual DbSet<Session> Sessions { get; set; }
-        public virtual DbSet<Setting> Settings { get; set; }
-        public virtual DbSet<Skip> Skips { get; set; }
-        public virtual DbSet<Spotify> Spotifies { get; set; }
-        public virtual DbSet<Track> Tracks { get; set; }
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -302,6 +285,37 @@ namespace Model.Models
             OnModelCreatingPartial(modelBuilder);
         }
 
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+        #endregion Methods
+
+        #region Fields
+
+        public static SpotterAzure_dbContext dbContext = new SpotterAzure_dbContext();
+
+        #endregion Fields
+
+        #region Constructors
+
+        public SpotterAzure_dbContext()
+        {
+        }
+
+        public SpotterAzure_dbContext(DbContextOptions<SpotterAzure_dbContext> options)
+            : base(options)
+        {
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public virtual DbSet<Artist> Artists { get; set; }
+        public virtual DbSet<Listen> Listens { get; set; }
+        public virtual DbSet<Session> Sessions { get; set; }
+        public virtual DbSet<Setting> Settings { get; set; }
+        public virtual DbSet<Skip> Skips { get; set; }
+        public virtual DbSet<Spotify> Spotifies { get; set; }
+        public virtual DbSet<Track> Tracks { get; set; }
+
+        #endregion Properties
     }
 }

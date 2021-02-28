@@ -2,7 +2,6 @@
 using SpotifyAPI.Web;
 using System;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Service.Actions
@@ -48,7 +47,7 @@ namespace Service.Actions
                         {
                             (await dbContext.Artists.AddAsync(a)).State = Microsoft.EntityFrameworkCore.EntityState.Added;
                         }
-                        else if (!dbContext.Tracks.Any(x=>x.TrackId == t.TrackId))
+                        else if (!dbContext.Tracks.Any(x => x.TrackId == t.TrackId))
                         {
                             (await dbContext.Tracks.AddAsync(t)).State = Microsoft.EntityFrameworkCore.EntityState.Added;
                         }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Spotter_Azure.Models;
 using Model.Models;
+using Spotter_Azure.Models;
 
 namespace Spotter_Azure.Controllers
 {
@@ -31,12 +31,6 @@ namespace Spotter_Azure.Controllers
             return View("Index", sp);
         }
 
-        [HttpGet("LoginError")]
-        public IActionResult LoginError()
-        {
-            return View("LoginError");
-        }
-
         [HttpGet("Insights")]
         public IActionResult Insights()
         {
@@ -52,6 +46,12 @@ namespace Spotter_Azure.Controllers
             Spotify sp = authDetails.CheckAuth(Request, Model.Models.SpotterAzure_dbContext.dbContext);
 
             return View("Log", sp);
+        }
+
+        [HttpGet("LoginError")]
+        public IActionResult LoginError()
+        {
+            return View("LoginError");
         }
 
         [HttpGet("Settings")]
