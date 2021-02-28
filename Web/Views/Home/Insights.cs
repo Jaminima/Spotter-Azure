@@ -21,7 +21,13 @@ namespace Spotter_Azure.Views.Home
             for (int i = 0; i < _tracks.Length; i++)
             {
                 if (data.Keys.Contains(_tracks[i].TrkId))
+                {
+                    if (_listens[i].ListenAt > data[_tracks[i].TrkId].listen.ListenAt)
+                    {
+                        data[_tracks[i].TrkId].listen.ListenAt = _listens[i].ListenAt;
+                    }
                     data[_tracks[i].TrkId].count++;
+                }
                 else
                     data.Add(_tracks[i].TrkId, new InsightData(_listens[i], _tracks[i], sp));
             }
@@ -42,6 +48,7 @@ namespace Spotter_Azure.Views.Home
             public Features features;
             public Listen listen;
             public Track track;
+            public string[] genres;
 
             #endregion Fields
 
@@ -60,6 +67,8 @@ namespace Spotter_Azure.Views.Home
 
                 this.features = f.Result;
                 this.artist = a.Result;
+
+                this.genres = this.artist._artistDetails.genres.SelectMany(x=>x.Split(' ')).Distinct().ToArray();
             }
 
             #endregion Constructors

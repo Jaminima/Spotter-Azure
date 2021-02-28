@@ -13,139 +13,137 @@
 
         foreach (Insights.InsightData insight in _data) totalFeatures += insight.track._features;
 
-        <div class="card border-primary">
+    <div class="card border-primary">
 
-            @{
+        @{
                 float tot = Math.Abs(totalFeatures.getTotal() / 100);
                 await SpotterAzure_dbContext.dbContext.SaveChangesAsync();
                 Features average = totalFeatures / _data.Count() * 100;
 
                 Features totalDiv = totalFeatures / tot;
-                <div class="card-body">
-                    <h4 class="card-title">Average Song Vibe</h4>
-
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.acousticness))%;   background-color: deepskyblue;">Acousticness</div>
-
-                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.danceability))%; background-color: firebrick;">Danceability</div>
-
-                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.energy))%; background-color: cadetblue;">Energy</div>
-
-                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.speechiness))%; background-color: forestgreen;">Speechiness</div>
-
-                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.instrumentalness))%; background-color: hotpink;">Instrumentalness</div>
-
-                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.liveness))%; background-color: mediumpurple;">Liveness</div>
-
-                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.valence))%; background-color: goldenrod;">Valence</div>
-                    </div>
-                    <br />
-
-                    <ul class="list-group">
-                        <a href="#" class="list-group-item list-group-item-action active">What do these mean?</a>
-
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Accousticness - How sure we are the song is Acoustic
-                            <span class="badge badge-primary badge-pill">@average.acousticness %</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Danceability - How good of a groove you can get on to this song
-                            <span class="badge badge-primary badge-pill">@average.danceability %</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Energy - The intensity and loudness
-                            <span class="badge badge-primary badge-pill">@average.energy %</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Speechiness - The existence of spoken words (rap)
-                            <span class="badge badge-primary badge-pill">@average.speechiness %</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Instrumentalness - Measures the abscence of vocals
-                            <span class="badge badge-primary badge-pill">@average.instrumentalness %</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Liveness - If we think the song was recorded infront of an audience
-                            <span class="badge badge-primary badge-pill">@average.liveness %</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Valence - The vibe of the track, Low values are sad, High are positive
-                            <span class="badge badge-primary badge-pill">@average.valence %</span>
-                        </li>
-                    </ul>
-                </div>
-            }
-        </div>
-
-        <br />
-
-        <div class="card border-primary">
             <div class="card-body">
-                <h4 class="card-title">Song Vibe History</h4>
+                <h4 class="card-title">Average Song Vibe</h4>
+
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.acousticness))%;   background-color: deepskyblue;">Acousticness</div>
+
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.danceability))%; background-color: firebrick;">Danceability</div>
+
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.energy))%; background-color: cadetblue;">Energy</div>
+
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.speechiness))%; background-color: forestgreen;">Speechiness</div>
+
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.instrumentalness))%; background-color: hotpink;">Instrumentalness</div>
+
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.liveness))%; background-color: mediumpurple;">Liveness</div>
+
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(Math.Abs(totalDiv.valence))%; background-color: goldenrod;">Valence</div>
+                </div>
+                <br />
+
+                <ul class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action active">What do these mean?</a>
+
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Accousticness - How sure we are the song is Acoustic
+                        <span class="badge badge-primary badge-pill">@average.acousticness %</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Danceability - How good of a groove you can get on to this song
+                        <span class="badge badge-primary badge-pill">@average.danceability %</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Energy - The intensity and loudness
+                        <span class="badge badge-primary badge-pill">@average.energy %</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Speechiness - The existence of spoken words (rap)
+                        <span class="badge badge-primary badge-pill">@average.speechiness %</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Instrumentalness - Measures the abscence of vocals
+                        <span class="badge badge-primary badge-pill">@average.instrumentalness %</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Liveness - If we think the song was recorded infront of an audience
+                        <span class="badge badge-primary badge-pill">@average.liveness %</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Valence - The vibe of the track, Low values are sad, High are positive
+                        <span class="badge badge-primary badge-pill">@average.valence %</span>
+                    </li>
+                </ul>
             </div>
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">Tags</th>
-                        <th scope="col">Title</th>
-                        <th scope="col">Artist</th>
-                        <th scope="col">Listens</th>
-                        <th scope="col">Listened At</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @{
+        }
+    </div>
+
+    <br />
+
+    <div class="card border-primary">
+        <div class="card-body">
+            <h4 class="card-title">Song Vibe History</h4>
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Artist</th>
+                    <th scope="col">Listens</th>
+                    <th scope="col">Listened At</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
                         foreach (Insights.InsightData insight in _data)
                         {
 
-                            <tr class="table-secondary">
-                                <td>
-                                    @{
-                                        foreach (string genre in insight.track.Artist._artistDetails.genres)
-                                        { <span class="badge badge-pill badge-dark" style="background-color: firebrick;">@genre</span> }
+                    <tr class="table-secondary">
+                        <th scope="row">
+                            @insight.track.Title <br />
+                            @{
+                                                                    foreach (string genre in insight.genres)
+                                                                    { <span class="badge badge-pill badge-dark" style="background-color: firebrick;">@genre</span> }
 
-                                    if (insight.track.Artist._artistDetails.genres.Length > 0)
-                                    { <br /> }
+                                                                if (insight.track.Artist._artistDetails.genres.Length > 0)
+                                                                { <br /> }
 
-                                    if (@insight.features.danceability > 0.8)
-                                    { <span class="badge badge-pill badge-dark" style="background-color: firebrick;">Dance</span> }
+                                                                if (@insight.features.danceability > 0.8)
+                                                                { <span class="badge badge-pill badge-dark" style="background-color: firebrick;">Dance</span> }
 
-                                    if (@insight.features.energy > 0.8)
-                                    { <span class="badge badge-pill badge-dark" style="background-color: cadetblue;">Intense</span> }
-                                    else if (@insight.features.energy < 0.2)
-                                    { <span class="badge badge-pill badge-dark">Calm</span> }
+                                                                if (@insight.features.energy > 0.8)
+                                                                { <span class="badge badge-pill badge-dark" style="background-color: cadetblue;">Intense</span> }
+                                                                else if (@insight.features.energy < 0.2)
+                                                                { <span class="badge badge-pill badge-dark">Calm</span> }
 
-                                    if (@insight.features.speechiness > 0.9)
-                                    { <span class="badge badge-pill badge-dark" style="background-color: forestgreen;">Talk Show</span> }
-                                    else if (@insight.features.speechiness > 0.66)
-                                    { <span class="badge badge-pill badge-dark" style="background-color: forestgreen;">Spoken</span> }
+                                                                if (@insight.features.speechiness > 0.9)
+                                                                { <span class="badge badge-pill badge-dark" style="background-color: forestgreen;">Talk Show</span> }
+                                                                else if (@insight.features.speechiness > 0.66)
+                                                                { <span class="badge badge-pill badge-dark" style="background-color: forestgreen;">Spoken</span> }
 
-                                    if (@insight.features.acousticness > 0.8)
-                                    { <span class="badge badge-pill badge-dark" style="background-color: deepskyblue;">Acoustic</span> }
+                                                                if (@insight.features.acousticness > 0.8)
+                                                                { <span class="badge badge-pill badge-dark" style="background-color: deepskyblue;">Acoustic</span> }
 
-                                    if (@insight.features.instrumentalness > 0.5)
-                                    { <span class="badge badge-pill badge-dark" style="background-color: hotpink;">Instrumental</span> }
+                                                                if (@insight.features.instrumentalness > 0.5)
+                                                                { <span class="badge badge-pill badge-dark" style="background-color: hotpink;">Instrumental</span> }
 
-                                    if (@insight.features.liveness > 0.8)
-                                    { <span class="badge badge-pill badge-dark" style="background-color: mediumpurple;">Recorded Live</span> }
+                                                                if (@insight.features.liveness > 0.8)
+                                                                { <span class="badge badge-pill badge-dark" style="background-color: mediumpurple;">Recorded Live</span> }
 
-                                    if (@insight.features.valence > 0.8)
-                                    { <span class="badge badge-pill badge-dark" style="background-color: goldenrod;">Excited</span> }
-                                    else if (@insight.features.valence < 0.2)
-                                    { <span class="badge badge-pill badge-dark">Glum</span> }
-                                    }
-                                </td>
-
-                                <th scope="row">@insight.track.Title</th>
-                                <td>@insight.artist._artistDetails.name</td>
-                                <td>@insight.count</td>
-                                <td>@insight.listen.ListenAt</td>
-                            </tr>
+                                                                if (@insight.features.valence > 0.8)
+                                                                { <span class="badge badge-pill badge-dark" style="background-color: goldenrod;">Excited</span> }
+                                                                else if (@insight.features.valence < 0.2)
+                                                                { <span class="badge badge-pill badge-dark">Glum</span> }
+                            }
+                        </th>
+                        <td>@insight.artist._artistDetails.name</td>
+                        <td>@insight.count</td>
+                        <td>@insight.listen.ListenAt</td>
+                    </tr>
 
                             float total = Math.Abs(insight.features.getTotal() / 100);
                         }
-                    }
-                </tbody>
-            </table>
-        </div>
-    }
+                }
+            </tbody>
+        </table>
+    </div>
+}
