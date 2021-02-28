@@ -4,8 +4,7 @@ using Model.Models;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Spotter_Azure.Models;
 
 namespace Spotter_Azure.Controllers
 {
@@ -24,6 +23,39 @@ namespace Spotter_Azure.Controllers
         [HttpPost("update")]
         public IActionResult UpdateUser([FromForm]IFormCollection formDetails)
         {
+            SpotterAzure_dbContext dbContext = new SpotterAzure_dbContext();
+
+            Spotify sp = authDetails.CheckAuth(Request, dbContext);
+
+            if (sp!=null)
+            {
+                Setting setting = dbContext.Settings.First(x => x.SpotId == sp.SpotId);
+
+                if (formDetails.ContainsKey("SkipOn")) setting.SkipOn = true;
+                else setting.SkipOn = false;
+
+                if (formDetails.ContainsKey("SkipIgnorePlaylist")) setting.SkipIgnorePlaylist = true;
+                else setting.SkipIgnorePlaylist = false;
+
+                if (formDetails.ContainsKey("SkipRemoveFromPlaylist")) setting.SkipRemoveFromPlaylist = true;
+                else setting.SkipRemoveFromPlaylist = false;
+
+                if (formDetails.ContainsKey("ShuffleOn")) setting.ShuffleOn = true;
+                else setting.ShuffleOn = false;
+
+                if (formDetails.ContainsKey("ShuffleAlbums")) setting.ShuffleAlbums = true;
+                else setting.ShuffleAlbums = false;
+
+                if (formDetails.ContainsKey("ShufflePlaylists")) setting.ShufflePlaylists = true;
+                else setting.ShufflePlaylists = false;
+
+                setting.SkipExpiryHours = int.Parse(formDetails["SkipExpiryHours"].First()) * 24;
+                setting.SkipTrigger = int.Parse(formDetails["SkipTrigger"].First());
+
+                dbContext.Update(setting);
+                dbContext.SaveChangesAsync();
+            }
+
             return RedirectPermanent("/settings");
         }
 

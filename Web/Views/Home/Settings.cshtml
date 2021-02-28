@@ -5,6 +5,7 @@
     ViewData["Desc"] = "Change your Spotter settings";
 
     Setting _setting = SpotterAzure_dbContext.dbContext.Settings.First(x => x.SpotId == Model.SpotId);
+    SpotterAzure_dbContext.dbContext.Entry(_setting).Reload();
 }
 
 <div class="card border-primary">
