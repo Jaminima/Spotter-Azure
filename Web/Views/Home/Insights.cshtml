@@ -102,7 +102,7 @@
                             @insight.track.Title <br />
                             @{
                                                                     foreach (string genre in insight.genres)
-                                                                    { <span class="badge badge-pill badge-dark" style="background-color: firebrick;">@genre</span> }
+                                                                    { <span class="badge badge-pill badge-dark" style="background-color: #@Insights.GetColor(genre)">@genre</span> }
 
                                                                 if (insight.track.Artist._artistDetails.genres.Length > 0)
                                                                 { <br /> }

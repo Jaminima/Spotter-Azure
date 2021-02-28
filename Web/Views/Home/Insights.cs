@@ -10,6 +10,32 @@ namespace Spotter_Azure.Views.Home
     {
         #region Methods
 
+        private static string[] genres = SpotterAzure_dbContext.dbContext.Artists.ToArray().SelectMany(x=>x._artistDetails.genres.SelectMany(y=>y.Split(' '))).Distinct().ToArray();
+
+        public static string GetColor(string genre)
+        {
+            int i = 0;
+            for (; i < genres.Length; i++) if (genres[i].Contains(genre)) break;
+
+            float p = (float)i / genres.Length;
+
+            int r = 0, g = 0, b=0;
+
+            if (p < 1 / 3.0f) r = (int) ( 255 * p * 2);
+            else if (p < 2 / 3.0f) g = (int)(255 * (p-0.33f) * 2);
+            else b = (int)(255 * (p-0.66f) * 2);
+
+            r += 85;
+            g += 85;
+            b += 85;
+
+            r %= 255;
+            g %= 255;
+            b %= 255;
+
+            return String.Format("{0:X2}{1:X2}{2:X2}",r,g,b);
+        }
+
         public static async Task<InsightData[]> GetInsightDataAsync(Spotify sp)
         {
             IQueryable<Listen> listens = SpotterAzure_dbContext.dbContext.Listens.Where(x => x.SpotId == sp.SpotId).OrderByDescending(x => x.ListenAt).Take(100);
