@@ -11,74 +11,79 @@
     <div class="card-body">
         <form action="api/update" method="post">
             <fieldset>
-                    <legend></legend>
-                <h3>Skipping</h3>
-                    <div class="form-group custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="SkipOn" name="SkipOn" checked="@(_setting.SkipOn)">
-                        <label class="custom-control-label" for="SkipOn">Enable Skipping</label>
-                    </div>
+                <legend>Skipping</legend>
+                <div class="form-group custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="_SkipOn" name="SkipOn" checked="@(_setting.SkipOn)">
+                    <label class="custom-control-label" for="_SkipOn">Enable Skipping</label>
+                </div>
 
-                    <div class="form-group custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="SkipIgnorePlaylist" name="SkipIgnorePlaylist" checked="@(_setting.SkipIgnorePlaylist)">
-                        <label class="custom-control-label" for="SkipIgnorePlaylist">Ignore Songs Played From Playlist</label>
-                    </div>
+                <div class="form-group custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="_SkipIgnorePlaylist" name="SkipIgnorePlaylist" checked="@(_setting.SkipIgnorePlaylist)">
+                    <label class="custom-control-label" for="_SkipIgnorePlaylist">Ignore Songs Played From Playlist</label>
+                </div>
 
-                    <div class="form-group custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="SkipRemoveFromPlaylist" name="SkipRemoveFromPlaylist" checked="@(_setting.SkipRemoveFromPlaylist)">
-                        <label class="custom-control-label" for="SkipRemoveFromPlaylist">Remove Skipped Songs From Playlists</label>
-                    </div>
+                <div class="form-group custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="_SkipRemoveFromPlaylist" name="SkipRemoveFromPlaylist" checked="@(_setting.SkipRemoveFromPlaylist)">
+                    <label class="custom-control-label" for="_SkipRemoveFromPlaylist">Remove Skipped Songs From Playlists</label>
+                </div>
 
-                    <div class="form-group">
-                        <label for="SkipTrigger">Remove After # of Skips (Currently: @_setting.SkipTrigger)</label>
-                        <select class="form-control" id="SkipTrigger" name="SkipTrigger">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                            <option>6</option>
-                            <option>7</option>
-                            <option>8</option>
-                            <option>9</option>
-                            <option>10</option>
-                        </select>
-                    </div>
+                <div class="form-group">
+                    <label for="_SkipTrigger">Remove After # of Skips (Currently: @_setting.SkipTrigger)</label>
+                    <select class="form-control" id="_SkipTrigger" name="SkipTrigger">
+                        @{
+                            for (int i = 1; i <= 20; i++)
+                            {
+                                if (i == _setting.SkipTrigger)
+                                {
+                                    <option selected>@i</option>
+                                }
+                                else
+                                {
+                                    <option>@i</option>
+                                }
+                            }
+                        }
+                    </select>
+                </div>
 
-                    <div class="form-group">
-                        <label for="SkipExpiryHours">Skip Expires After # of Days (Currently: @(_setting.SkipExpiryHours/24))</label>
-                        <select class="form-control" id="SkipExpiryHours" name="SkipExpiryHours">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                            <option>6</option>
-                            <option>7</option>
-                            <option>14</option>
-                            <option>30</option>
-                            <option>60</option>
-                            <option>120</option>
-                            <option>365</option>
-                        </select>
-                    </div>
-                    <h3>Better Shuffle</h3>
+                <div class="form-group">
+                    <label for="_SkipExpiryHours">Skip Expires After # of Days (Currently: @(_setting.SkipExpiryHours/24))</label>
+                    <select class="form-control" id="_SkipExpiryHours" name="SkipExpiryHours">
+                        @{
+                            for (int i = 1; i <= 365; i++)
+                            {
+                                if (i == _setting.SkipExpiryHours / 24)
+                                {
+                                    <option selected>@i</option>
+                                }
+                                else
+                                {
+                                    <option>@i</option>
+                                }
+                            }
+                        }
+                    </select>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Better Shuffle</legend>
 
-                    <div class="form-group custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="ShuffleOn" name="ShuffleOn" checked="@(_setting.ShuffleOn)">
-                        <label class="custom-control-label" for="ShuffleOn">Enable Better Shuffle</label>
-                    </div>
+                <div class="form-group custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="_ShuffleOn" name="ShuffleOn" checked="@(_setting.ShuffleOn)">
+                    <label class="custom-control-label" for="_ShuffleOn">Enable Better Shuffle</label>
+                </div>
 
-                    <div class="form-group custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="ShuffleAlbums" name="ShuffleAlbums" checked="@(_setting.ShuffleAlbums)">
-                        <label class="custom-control-label" for="ShuffleAlbums">Shuffle When Playing an Album</label>
-                    </div>
+                <div class="form-group custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="_ShuffleAlbums" name="ShuffleAlbums" checked="@(_setting.ShuffleAlbums)">
+                    <label class="custom-control-label" for="_ShuffleAlbums">Shuffle When Playing an Album</label>
+                </div>
 
-                    <div class="form-group custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="ShufflePlaylists" name="ShufflePlaylists" checked="@(_setting.ShufflePlaylists)">
-                        <label class="custom-control-label" for="ShufflePlaylists">Shuffle When Playing an Playlist</label>
-                    </div>
-                </fieldset>
-                <button type="submit" class="btn btn-success" style="float: right">Update</button>
+                <div class="form-group custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="_ShufflePlaylists" name="ShufflePlaylists" checked="@(_setting.ShufflePlaylists)">
+                    <label class="custom-control-label" for="_ShufflePlaylists">Shuffle When Playing an Playlist</label>
+                </div>
+            </fieldset>
+            <button type="submit" class="btn btn-success" style="float: right">Update</button>
         </form>
     </div>
 </div>
