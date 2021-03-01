@@ -43,7 +43,7 @@
                     </li>
                 </ul>
                 @{
-                    if (Model==null)
+                    if (Model == null)
                     {
                         <form class="form-inline my-2 my-lg-0">
                             <button class="btn btn-success" type="button" onclick="location.href='https://accounts.spotify.com/authorize?client_id=d676eafe2b1b4561b67699b65c95b32d&response_type=code&redirect_uri=https://spotter-azure20210220175723.azurewebsites.net/api/register&scope=user-read-playback-state%20playlist-modify-public%20playlist-modify-private%20user-read-currently-playing%20user-library-modify%20user-read-playback-position%20playlist-read-private%20user-library-read%20user-modify-playback-state';">Sign in</button>
@@ -74,8 +74,12 @@
         </div>
     </footer>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>
