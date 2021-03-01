@@ -36,7 +36,13 @@ namespace Model.Models
 
         public ArtistDetails _artistDetails
         {
-            get { return JObject.Parse(this.Details).ToObject<ArtistDetails>(); }
+            get {
+                if (this.Details == null)
+                {
+                    return null;
+                }
+                return JObject.Parse(this.Details).ToObject<ArtistDetails>(); 
+            }
         }
 
         #endregion Properties

@@ -10,7 +10,7 @@ namespace Spotter_Azure.Views.Home
     {
         #region Methods
 
-        private static string[] genres = new SpotterAzure_dbContext().Artists.ToArray().SelectMany(x=>x._artistDetails.genres.SelectMany(y=>y.Split(' '))).Distinct().ToArray();
+        private static string[] genres = new SpotterAzure_dbContext().Artists.Where(x=>x.Details!=null).ToArray().SelectMany(x=>x._artistDetails.genres.SelectMany(y=>y.Split(' ', StringSplitOptions.None))).Distinct().ToArray();
 
         public static string GetColor(string genre)
         {
@@ -94,7 +94,8 @@ namespace Spotter_Azure.Views.Home
                 this.features = f.Result;
                 this.artist = a.Result;
 
-                this.genres = this.artist._artistDetails.genres.SelectMany(x=>x.Split(' ')).Distinct().ToArray();
+                if (this.artist.Details!=null)
+                    this.genres = this.artist._artistDetails.genres.SelectMany(x=>x.Split(' ')).Distinct().ToArray();
             }
 
             #endregion Constructors
