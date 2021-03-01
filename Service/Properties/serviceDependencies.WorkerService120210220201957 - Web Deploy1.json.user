@@ -2,7 +2,7 @@
   "dependencies": {
     "secrets1": {
       "restored": true,
-      "restoreTime": "2021-03-01T13:25:53.361295Z"
+      "restoreTime": "2021-03-01T22:28:04.6688786Z"
     },
     "mssql1": {
       "restored": true,
@@ -10,11 +10,6 @@
     }
   },
   "parameters": {
-    "secrets1.resourceGroupName": {
-      "Name": "secrets1.resourceGroupName",
-      "Type": "resourceGroup",
-      "Value": "Default-Storage-UKSouth"
-    },
     "mssql1.subscriptionId": {
       "Name": "mssql1.subscriptionId",
       "Type": "subscription",
@@ -24,11 +19,6 @@
       "Name": "mssql1.resourceGroupName",
       "Type": "resourceGroup",
       "Value": "Spotter-Core"
-    },
-    "secrets1.subscriptionId": {
-      "Name": "secrets1.subscriptionId",
-      "Type": "subscription",
-      "Value": "302ce46b-dda9-440c-aec6-303059ad46ab"
     }
   }
 }
