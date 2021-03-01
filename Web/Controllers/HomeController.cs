@@ -25,25 +25,25 @@ namespace Spotter_Azure.Controllers
 
         #region Methods
 
-        public IActionResult Index()
+        public IActionResult Index([FromServices] SpotterAzure_dbContext dbContext)
         {
-            Spotify sp = authDetails.CheckAuth(Request, Model.Models.SpotterAzure_dbContext.dbContext);
+            Spotify sp = authDetails.CheckAuth(Request, dbContext);
             return View("Index", sp);
         }
 
         [HttpGet("Insights")]
-        public IActionResult Insights()
+        public IActionResult Insights([FromServices] SpotterAzure_dbContext dbContext)
         {
-            Spotify sp = authDetails.CheckAuth(Request, Model.Models.SpotterAzure_dbContext.dbContext);
+            Spotify sp = authDetails.CheckAuth(Request, dbContext);
 
             if (sp != null) return View("Insights", sp);
             else return Redirect("LoginError");
         }
 
         [HttpGet("Log")]
-        public IActionResult Log()
+        public IActionResult Log([FromServices] SpotterAzure_dbContext dbContext)
         {
-            Spotify sp = authDetails.CheckAuth(Request, Model.Models.SpotterAzure_dbContext.dbContext);
+            Spotify sp = authDetails.CheckAuth(Request, dbContext);
 
             return View("Log", sp);
         }
@@ -55,9 +55,9 @@ namespace Spotter_Azure.Controllers
         }
 
         [HttpGet("Settings")]
-        public IActionResult Settings()
+        public IActionResult Settings([FromServices] SpotterAzure_dbContext dbContext)
         {
-            Spotify sp = authDetails.CheckAuth(Request, Model.Models.SpotterAzure_dbContext.dbContext);
+            Spotify sp = authDetails.CheckAuth(Request, dbContext);
 
             if (sp != null) return View("Settings", sp);
             else return Redirect("LoginError");

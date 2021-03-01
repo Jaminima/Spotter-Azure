@@ -10,7 +10,7 @@ namespace Service.Actions
     {
         #region Methods
 
-        public static async Task<Skip> Skipped(Spotify user, FullTrack track, CurrentlyPlayingContext playing)
+        public static async Task<Skip> Skipped(Spotify user, FullTrack track, CurrentlyPlayingContext playing, SpotterAzure_dbContext dbContext)
         {
             if (user.Setting.SkipOn.Value&&
                 !(user.Setting.SkipIgnorePlaylist.Value && playing.Context != null && playing.Context.Type != "playlist"))
@@ -18,7 +18,7 @@ namespace Service.Actions
                 List<bool> Exists = await user.spotify.Library.CheckTracks(new LibraryCheckTracksRequest(new List<string>() { track.Id }));
                 if (Exists[0] || !user.Setting.SkipMustBeLiked.Value)
                 {
-                    int recent = user.RecentSkips(track.Id, user.Setting.SkipExpiryHours.Value);
+                    int recent = user.RecentSkips(track.Id, user.Setting.SkipExpiryHours.Value, dbContext);
 
                     if (recent >= user.Setting.SkipTrigger - 1)
                     {

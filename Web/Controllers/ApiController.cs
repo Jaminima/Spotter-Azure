@@ -22,7 +22,7 @@ namespace Spotter_Azure.Controllers
 
         // POST api/<ValuesController>
         [HttpGet("register")]
-        public async Task<IActionResult> Post([FromQuery] string code)
+        public async Task<IActionResult> Post([FromQuery] string code, [FromServices] SpotterAzure_dbContext dbContext)
         {
             if (code != null)
             {
@@ -33,37 +33,37 @@ namespace Spotter_Azure.Controllers
 
                     string authToken = Session.GetAuthToken();
 
-                    IQueryable<Spotify> spot = SpotterAzure_dbContext.dbContext.Spotifies.Where(x => x.SpotifyId == u.SpotifyId).Select(x => x);
+                    IQueryable<Spotify> spot = dbContext.Spotifies.Where(x => x.SpotifyId == u.SpotifyId).Select(x => x);
                     if (spot.Any())
                     {
                         Spotify f = spot.First();
                         f.AuthExpires = u.AuthExpires;
                         f.AuthToken = u.AuthToken;
                         f.RefreshToken = u.RefreshToken;
-                        SpotterAzure_dbContext.dbContext.Spotifies.Update(f);
+                        dbContext.Spotifies.Update(f);
                     }
                     else
                     {
-                        await SpotterAzure_dbContext.dbContext.Spotifies.AddAsync(u);
+                        await dbContext.Spotifies.AddAsync(u);
                     }
 
-                    await SpotterAzure_dbContext.dbContext.SaveChangesAsync();
+                    await dbContext.SaveChangesAsync();
 
-                    IQueryable<Session> sess = SpotterAzure_dbContext.dbContext.Sessions.Where(x => x.SpotId == spot.First().SpotId);
+                    IQueryable<Session> sess = dbContext.Sessions.Where(x => x.SpotId == spot.First().SpotId);
 
                     if (!sess.Any())
                     {
                         Session s = new Session(authToken, spot.First());
-                        await SpotterAzure_dbContext.dbContext.Sessions.AddAsync(s);
+                        await dbContext.Sessions.AddAsync(s);
                     }
                     else
                     {
                         Session s = sess.First();
                         s.SetAuthToken(authToken);
-                        SpotterAzure_dbContext.dbContext.Sessions.Update(s);
+                        dbContext.Sessions.Update(s);
                     }
 
-                    await SpotterAzure_dbContext.dbContext.SaveChangesAsync();
+                    await dbContext.SaveChangesAsync();
 
                     CookieOptions options = new CookieOptions();
                     options.Expires = DateTimeOffset.Now.AddDays(1);

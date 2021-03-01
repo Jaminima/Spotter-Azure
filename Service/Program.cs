@@ -12,6 +12,7 @@ namespace Service
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddHostedService<Worker>();
+                    services.AddDbContextFactory<Model.Models.SpotterAzure_dbContext>();
                 });
 
         public static void Main(string[] args)

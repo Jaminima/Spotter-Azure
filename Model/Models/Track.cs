@@ -117,7 +117,7 @@ namespace Model.Models
             IQueryable<Artist> artists = dbContext.Artists.Where(x => x.ArtistId == this.ArtistId);
             if (artists.Any())
             {
-                artists.First().GetArtist(sp);
+                artists.First().GetArtist(sp, dbContext);
 
                 return artists.First();
             }
@@ -128,7 +128,7 @@ namespace Model.Models
             }
         }
 
-        public async Task<Features> GetFeatures(Spotify sp)
+        public async Task<Features> GetFeatures(Spotify sp, SpotterAzure_dbContext dbContext)
         {
             if (DateTime.Now.AddDays(-7) > this.TrueAt.Value || this.Features == null)
             {
@@ -143,7 +143,7 @@ namespace Model.Models
                 }
                 finally
                 {
-                    SpotterAzure_dbContext.dbContext.Tracks.Update(this);
+                    dbContext.Tracks.Update(this);
                 }
             }
 

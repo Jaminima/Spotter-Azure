@@ -1,26 +1,31 @@
 ﻿@using Spotter_Azure.Views.Home
+@using Microsoft.EntityFrameworkCore
+
 @model Model.Models.Spotify
+@inject IDbContextFactory<SpotterAzure_dbContext> dbContexts
 @{
     ViewData["Title"] = "Insights";
     ViewData["Desc"] = "View details around your spotify listen history.";
 
+    SpotterAzure_dbContext dbContext = dbContexts.CreateDbContext();
+
     Spotify sp = Model;
-        Features totalFeatures = new Features();
+    Features totalFeatures = new Features();
 
-        Insights.InsightData[] data = await Insights.GetInsightDataAsync(sp);
+    Insights.InsightData[] data = await Insights.GetInsightDataAsync(sp, dbContext);
 
-        IEnumerable<Insights.InsightData> _data = data.Where(x => x.track.Features != null);
+    IEnumerable<Insights.InsightData> _data = data.Where(x => x.track.Features != null);
 
-        foreach (Insights.InsightData insight in _data) totalFeatures += insight.track._features;
+    foreach (Insights.InsightData insight in _data) totalFeatures += insight.track._features;
 
     <div class="card border-primary">
 
         @{
-                float tot = Math.Abs(totalFeatures.getTotal() / 100);
-                await SpotterAzure_dbContext.dbContext.SaveChangesAsync();
-                Features average = totalFeatures / _data.Count() * 100;
+            float tot = Math.Abs(totalFeatures.getTotal() / 100);
+            await dbContext.SaveChangesAsync();
+            Features average = totalFeatures / _data.Count() * 100;
 
-                Features totalDiv = totalFeatures / tot;
+            Features totalDiv = totalFeatures / tot;
             <div class="card-body">
                 <h4 class="card-title">Average Song Vibe</h4>
 
@@ -94,54 +99,54 @@
             </thead>
             <tbody>
                 @{
-                        foreach (Insights.InsightData insight in _data)
-                        {
+                    foreach (Insights.InsightData insight in _data)
+                    {
 
-                    <tr class="table-secondary">
-                        <th scope="row">
-                            @insight.track.Title <br />
-                            @{
-                                                                    foreach (string genre in insight.genres)
-                                                                    { <span class="badge badge-pill badge-dark" style="background-color: #@Insights.GetColor(genre)">@genre</span> }
+                        <tr class="table-secondary">
+                            <th scope="row">
+                                @insight.track.Title <br />
+                                @{
+                                    foreach (string genre in insight.genres)
+                                    { <span class="badge badge-pill badge-dark" style="background-color: #@Insights.GetColor(genre)">@genre</span> }
 
-                                                                if (insight.track.Artist._artistDetails.genres.Length > 0)
-                                                                { <br /> }
+                                if (insight.track.Artist._artistDetails.genres.Length > 0)
+                                { <br /> }
 
-                                                                if (@insight.features.danceability > 0.8)
-                                                                { <span class="badge badge-pill badge-dark" style="background-color: firebrick;">Dance</span> }
+                                if (@insight.features.danceability > 0.8)
+                                { <span class="badge badge-pill badge-dark" style="background-color: firebrick;">Dance</span> }
 
-                                                                if (@insight.features.energy > 0.8)
-                                                                { <span class="badge badge-pill badge-dark" style="background-color: cadetblue;">Intense</span> }
-                                                                else if (@insight.features.energy < 0.2)
-                                                                { <span class="badge badge-pill badge-dark">Calm</span> }
+                                if (@insight.features.energy > 0.8)
+                                { <span class="badge badge-pill badge-dark" style="background-color: cadetblue;">Intense</span> }
+                                else if (@insight.features.energy < 0.2)
+                                { <span class="badge badge-pill badge-dark">Calm</span> }
 
-                                                                if (@insight.features.speechiness > 0.9)
-                                                                { <span class="badge badge-pill badge-dark" style="background-color: forestgreen;">Talk Show</span> }
-                                                                else if (@insight.features.speechiness > 0.66)
-                                                                { <span class="badge badge-pill badge-dark" style="background-color: forestgreen;">Spoken</span> }
+                                if (@insight.features.speechiness > 0.9)
+                                { <span class="badge badge-pill badge-dark" style="background-color: forestgreen;">Talk Show</span> }
+                                else if (@insight.features.speechiness > 0.66)
+                                { <span class="badge badge-pill badge-dark" style="background-color: forestgreen;">Spoken</span> }
 
-                                                                if (@insight.features.acousticness > 0.8)
-                                                                { <span class="badge badge-pill badge-dark" style="background-color: deepskyblue;">Acoustic</span> }
+                                if (@insight.features.acousticness > 0.8)
+                                { <span class="badge badge-pill badge-dark" style="background-color: deepskyblue;">Acoustic</span> }
 
-                                                                if (@insight.features.instrumentalness > 0.5)
-                                                                { <span class="badge badge-pill badge-dark" style="background-color: hotpink;">Instrumental</span> }
+                                if (@insight.features.instrumentalness > 0.5)
+                                { <span class="badge badge-pill badge-dark" style="background-color: hotpink;">Instrumental</span> }
 
-                                                                if (@insight.features.liveness > 0.8)
-                                                                { <span class="badge badge-pill badge-dark" style="background-color: mediumpurple;">Recorded Live</span> }
+                                if (@insight.features.liveness > 0.8)
+                                { <span class="badge badge-pill badge-dark" style="background-color: mediumpurple;">Recorded Live</span> }
 
-                                                                if (@insight.features.valence > 0.8)
-                                                                { <span class="badge badge-pill badge-dark" style="background-color: goldenrod;">Excited</span> }
-                                                                else if (@insight.features.valence < 0.2)
-                                                                { <span class="badge badge-pill badge-dark">Glum</span> }
-                            }
-                        </th>
-                        <td>@insight.artist._artistDetails.name</td>
-                        <td>@insight.count</td>
-                        <td>@insight.listen.ListenAt</td>
-                    </tr>
+                                if (@insight.features.valence > 0.8)
+                                { <span class="badge badge-pill badge-dark" style="background-color: goldenrod;">Excited</span> }
+                                else if (@insight.features.valence < 0.2)
+                                { <span class="badge badge-pill badge-dark">Glum</span> }
+                                }
+                            </th>
+                            <td>@insight.artist._artistDetails.name</td>
+                            <td>@insight.count</td>
+                            <td>@insight.listen.ListenAt</td>
+                        </tr>
 
-                            float total = Math.Abs(insight.features.getTotal() / 100);
-                        }
+                        float total = Math.Abs(insight.features.getTotal() / 100);
+                    }
                 }
             </tbody>
         </table>

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Service
 {
@@ -11,6 +12,7 @@ namespace Service
         #region Fields
 
         private readonly ILogger<Worker> _logger;
+        private readonly IDbContextFactory<Model.Models.SpotterAzure_dbContext> dbContexts;
 
         #endregion Fields
 
@@ -23,9 +25,9 @@ namespace Service
 
             while (!stoppingToken.IsCancellationRequested)
             {
-                Actions.Watcher.CheckEvents();
+                Actions.Watcher.CheckEvents(dbContexts.CreateDbContext());
                 _logger.LogInformation("Worker ran at: {time}", DateTimeOffset.Now);
-                await Task.Delay(5000, stoppingToken);
+                await Task.Delay(500, stoppingToken);
             }
         }
 
@@ -33,8 +35,9 @@ namespace Service
 
         #region Constructors
 
-        public Worker(ILogger<Worker> logger)
+        public Worker(ILogger<Worker> logger, IDbContextFactory<Model.Models.SpotterAzure_dbContext> dbContexts)
         {
+            this.dbContexts = dbContexts;
             _logger = logger;
         }
 

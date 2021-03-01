@@ -41,7 +41,7 @@ namespace Model.Models
 
         #endregion Properties
 
-        public async Task<ArtistDetails> GetArtist(Spotify sp)
+        public async Task<ArtistDetails> GetArtist(Spotify sp, SpotterAzure_dbContext dbContext)
         {
             if (DateTime.Now.AddDays(-7) > this.TrueAt.Value || this.Details == null)
             {
@@ -49,7 +49,7 @@ namespace Model.Models
                 {
                     FullArtist features = await sp.spotify.Artists.Get(this.ArtistId);
                     this.Details = JObject.FromObject(features).ToString();
-                    SpotterAzure_dbContext.dbContext.Update(this);
+                    dbContext.Update(this);
                 }
                 catch
                 {

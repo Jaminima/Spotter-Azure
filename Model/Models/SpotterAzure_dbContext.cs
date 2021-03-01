@@ -8,16 +8,14 @@ namespace Model.Models
 {
     public partial class SpotterAzure_dbContext : DbContext
     {
-        public static SpotterAzure_dbContext dbContext = new SpotterAzure_dbContext();
-
         public SpotterAzure_dbContext()
         {
         }
 
-        public SpotterAzure_dbContext(DbContextOptions<SpotterAzure_dbContext> options)
-            : base(options)
-        {
-        }
+        //public SpotterAzure_dbContext(DbContextOptions<SpotterAzure_dbContext> options)
+        //    : base(options)
+        //{
+        //}
 
         public virtual DbSet<Artist> Artists { get; set; }
         public virtual DbSet<Listen> Listens { get; set; }

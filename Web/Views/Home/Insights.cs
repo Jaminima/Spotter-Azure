@@ -10,7 +10,7 @@ namespace Spotter_Azure.Views.Home
     {
         #region Methods
 
-        private static string[] genres = SpotterAzure_dbContext.dbContext.Artists.ToArray().SelectMany(x=>x._artistDetails.genres.SelectMany(y=>y.Split(' '))).Distinct().ToArray();
+        private static string[] genres = new SpotterAzure_dbContext().Artists.ToArray().SelectMany(x=>x._artistDetails.genres.SelectMany(y=>y.Split(' '))).Distinct().ToArray();
 
         public static string GetColor(string genre)
         {
@@ -36,9 +36,9 @@ namespace Spotter_Azure.Views.Home
             return String.Format("{0:X2}{1:X2}{2:X2}",r,g,b);
         }
 
-        public static async Task<InsightData[]> GetInsightDataAsync(Spotify sp)
+        public static async Task<InsightData[]> GetInsightDataAsync(Spotify sp, SpotterAzure_dbContext dbContext)
         {
-            IQueryable<Listen> listens = SpotterAzure_dbContext.dbContext.Listens.Where(x => x.SpotId == sp.SpotId).OrderByDescending(x => x.ListenAt).Take(100);
+            IQueryable<Listen> listens = dbContext.Listens.Where(x => x.SpotId == sp.SpotId).OrderByDescending(x => x.ListenAt).Take(100);
             Listen[] _listens = listens.ToArray();
             Track[] _tracks = listens.Select(x => x.Track).ToArray();
 
@@ -55,7 +55,7 @@ namespace Spotter_Azure.Views.Home
                     data[_tracks[i].TrkId].count++;
                 }
                 else
-                    data.Add(_tracks[i].TrkId, new InsightData(_listens[i], _tracks[i], sp));
+                    data.Add(_tracks[i].TrkId, new InsightData(_listens[i], _tracks[i], sp, dbContext));
             }
 
             return data.Values.ToArray();
@@ -80,13 +80,13 @@ namespace Spotter_Azure.Views.Home
 
             #region Constructors
 
-            public InsightData(Listen listen, Track track, Spotify sp)
+            public InsightData(Listen listen, Track track, Spotify sp, SpotterAzure_dbContext dbContext)
             {
                 this.listen = listen;
                 this.track = track;
 
-                Task<Features> f = this.track.GetFeatures(sp);
-                Task<Artist> a = this.track.GetArtist(sp, SpotterAzure_dbContext.dbContext);
+                Task<Features> f = this.track.GetFeatures(sp,dbContext);
+                Task<Artist> a = this.track.GetArtist(sp, dbContext);
 
                 if (!f.IsCompleted) { f.Start(); f.Wait(); }
                 if (!a.IsCompleted) { a.Start(); a.Wait(); }

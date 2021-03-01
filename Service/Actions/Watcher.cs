@@ -3,6 +3,7 @@ using SpotifyAPI.Web;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Service.Actions
 {
@@ -11,15 +12,14 @@ namespace Service.Actions
         #region Fields
 
         private const float IsntSkip = 0.9f;
-        private static SpotterAzure_dbContext dbContext = new SpotterAzure_dbContext();
+        private static SpotterAzure_dbContext dbContext;
 
         #endregion Fields
 
         #region Methods
 
-        private static async void CheckUserEvent(Spotify user)
+        private static async void CheckUserEvent(Spotify user, SpotterAzure_dbContext dbContext)
         {
-            SpotterAzure_dbContext dbContext = new SpotterAzure_dbContext();
             CurrentlyPlayingContext playing = await user.spotify.Player.GetCurrentPlayback();
 
             if (playing != null)
@@ -41,7 +41,7 @@ namespace Service.Actions
                         t.ArtistId = a.ArtistId;
 
                         t.Artist = a;
-                        await t.GetFeatures(user);
+                        await t.GetFeatures(user,dbContext);
 
                         if (!dbContext.Artists.Any(x => x.ArtistId == t.ArtistId))
                         {
@@ -56,7 +56,7 @@ namespace Service.Actions
                         {
                             t = dbContext.Tracks.Where(x => x.TrackId == track.Id).First();
 
-                            if (t.Features == null) await t.GetFeatures(user);
+                            if (t.Features == null) await t.GetFeatures(user,dbContext);
                             if (t.Artist == null) { t.ArtistId = a.ArtistId; await t.GetArtist(user, dbContext); }
 
                             dbContext.Tracks.Update(t);
@@ -66,7 +66,7 @@ namespace Service.Actions
                         {
                             if (OnSkip != null)
                             {
-                                Skip s = await OnSkip(user, user.lastTrack, playing);
+                                Skip s = await OnSkip(user, user.lastTrack, playing, dbContext);
                                 s.Track = t;
                                 await dbContext.Skips.AddAsync(s);
                             }
@@ -97,9 +97,9 @@ namespace Service.Actions
 
         public static EventHandler<CurrentlyPlayingContext> OnResume, OnPause;
 
-        public static Func<Spotify, FullTrack, CurrentlyPlayingContext, Task<Skip>> OnSkip;
+        public static Func<Spotify, FullTrack, CurrentlyPlayingContext, SpotterAzure_dbContext, Task<Skip>> OnSkip;
 
-        public static async void CheckEvents()
+        public static async void CheckEvents(SpotterAzure_dbContext dbContext)
         {
             foreach (Spotify s in dbContext.Spotifies.ToArray())
             {
@@ -108,10 +108,10 @@ namespace Service.Actions
                     s.SetupKicked();
 
                     Setting _sett = dbContext.Settings.First(x => x.SpotId == s.SpotId);
-                    SpotterAzure_dbContext.dbContext.Entry(_sett).Reload();
+                    dbContext.Entry(_sett).Reload();
                     s.Setting = _sett;
 
-                    CheckUserEvent(s);
+                    CheckUserEvent(s,dbContext);
                 }
             }
         }

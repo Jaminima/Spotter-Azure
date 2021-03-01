@@ -81,10 +81,10 @@ namespace Model.Models
             }
         }
 
-        public int RecentSkips(string trackid, int hours)
+        public int RecentSkips(string trackid, int hours, SpotterAzure_dbContext dbContext)
         {
             DateTime After = DateTime.Now.AddHours(-hours);
-            return SpotterAzure_dbContext.dbContext.Skips.Count(x => x.TrackId == trackid && x.SpotId == SpotId && x.SkipAt > After);
+            return dbContext.Skips.Count(x => x.TrackId == trackid && x.SpotId == SpotId && x.SkipAt > After);
         }
 
         public async void SetupKicked()
