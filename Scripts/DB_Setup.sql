@@ -13,8 +13,7 @@ CREATE TABLE "Spotify" (
     authToken Text,
     refreshToken Text,
 
-    authExpires DATETIME,
-    SkipThreshold int DEFAULT 3
+    authExpires DATETIME
 );
 
 CREATE TABLE "Artists"(
@@ -74,14 +73,15 @@ CREATE TABLE "Settings"(
     spot_id int not null unique,
     foreign key (spot_id) REFERENCES Spotify(spot_id),
 
-    skip_on BIT DEFAULT false,
+    skip_on BIT DEFAULT 0,
     skip_trigger int DEFAULT 3,
     skip_expiry_hours int DEFAULT 168,
-    skip_ignore_playlist BIT DEFAULT TRUE,
+    skip_ignore_playlist BIT DEFAULT 1,
+    skip_remove_from_playlist BIT DEFAULT 0,
 
-    shuffle_on BIT DEFAULT false,
-    shuffle_albums BIT DEFAULT false,
-    shuffle_playlists BIT DEFAULT false
+    shuffle_on BIT DEFAULT 0,
+    shuffle_albums BIT DEFAULT 0,
+    shuffle_playlists BIT DEFAULT 0
 );
 
 CREATE TABLE "Sessions"(
