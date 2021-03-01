@@ -12,7 +12,7 @@
     <div class="card-body">
         <form action="api/update" method="post">
             <fieldset>
-                <legend>Skipping</legend>
+                <legend>Remove Skipped Songs</legend>
                 <div class="form-group custom-control custom-switch">
                     <input type="checkbox" class="custom-control-input" id="_SkipOn" name="SkipOn" checked="@(_setting.SkipOn)">
                     <label class="custom-control-label" for="_SkipOn">Enable Skipping</label>
@@ -26,6 +26,11 @@
                 <div class="form-group custom-control custom-switch">
                     <input type="checkbox" class="custom-control-input" id="_SkipRemoveFromPlaylist" name="SkipRemoveFromPlaylist" checked="@(_setting.SkipRemoveFromPlaylist)">
                     <label class="custom-control-label" for="_SkipRemoveFromPlaylist">Remove Skipped Songs From Playlists</label>
+                </div>
+
+                <div class="form-group custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="_SkipMustBeLiked" name="SkipMustBeLiked" checked="@true" disabled>
+                    <label class="custom-control-label" for="_SkipMustBeLiked">Song Must Be Liked (WIP)</label>
                 </div>
 
                 <div class="form-group">

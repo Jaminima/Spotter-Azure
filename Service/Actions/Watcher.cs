@@ -66,7 +66,7 @@ namespace Service.Actions
                         {
                             if (OnSkip != null)
                             {
-                                Skip s = await OnSkip(user, user.lastTrack);
+                                Skip s = await OnSkip(user, user.lastTrack, playing);
                                 s.Track = t;
                                 await dbContext.Skips.AddAsync(s);
                             }
@@ -97,7 +97,7 @@ namespace Service.Actions
 
         public static EventHandler<CurrentlyPlayingContext> OnResume, OnPause;
 
-        public static Func<Spotify, FullTrack, Task<Skip>> OnSkip;
+        public static Func<Spotify, FullTrack, CurrentlyPlayingContext, Task<Skip>> OnSkip;
 
         public static async void CheckEvents()
         {

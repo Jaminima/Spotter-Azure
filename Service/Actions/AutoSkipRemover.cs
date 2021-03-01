@@ -10,33 +10,43 @@ namespace Service.Actions
     {
         #region Methods
 
-        public static async Task<Skip> Skipped(Spotify user, FullTrack track)
+        public static async Task<Skip> Skipped(Spotify user, FullTrack track, CurrentlyPlayingContext playing)
         {
-            if (user.Setting.SkipOn.Value)
+            if (user.Setting.SkipOn.Value&&
+                !(user.Setting.SkipIgnorePlaylist.Value && playing.Context != null && playing.Context.Type != "playlist"))
             {
-#warning Doesnt adapt to Ignore Songs Played From Playlist & Remove Skipped Songs From Playlists
-
-                int recent = user.RecentSkips(track.Id, user.Setting.SkipExpiryHours.Value);
-
-                if (recent >= user.Setting.SkipTrigger - 1)
+                List<bool> Exists = await user.spotify.Library.CheckTracks(new LibraryCheckTracksRequest(new List<string>() { track.Id }));
+                if (Exists[0])
                 {
-                    if (user.KickedTracks.Count(x => ((FullTrack)x.Track).Id == track.Id) == 0)
-                    {
-                        await user.spotify.Playlists.AddItems(user.KickedPlaylist.Id, new PlaylistAddItemsRequest(new List<string>() { track.Uri }));
+                    int recent = user.RecentSkips(track.Id, user.Setting.SkipExpiryHours.Value);
 
-                        Track t = new Track(track, user);
-                        user.KickedTracks.Add(new PlaylistTrack<IPlayableItem>());
-                        user.KickedTracks.Last().Track = track;
-                    }
-
-                    List<bool> Exists = await user.spotify.Library.CheckTracks(new LibraryCheckTracksRequest(new List<string>() { track.Id }));
-                    if (Exists[0])
+                    if (recent >= user.Setting.SkipTrigger - 1)
                     {
+                        if (user.KickedTracks.Count(x => ((FullTrack)x.Track).Id == track.Id) == 0)
+                        {
+                            await user.spotify.Playlists.AddItems(user.KickedPlaylist.Id, new PlaylistAddItemsRequest(new List<string>() { track.Uri }));
+
+                            Track t = new Track(track, user);
+                            user.KickedTracks.Add(new PlaylistTrack<IPlayableItem>());
+                            user.KickedTracks.Last().Track = track;
+                        }
+
                         await user.spotify.Library.RemoveTracks(new LibraryRemoveTracksRequest(new List<string>() { track.Id }));
+
+                        if (playing.Context.Type == "playlist" && user.Setting.SkipRemoveFromPlaylist.Value)
+                        {
+                            PlaylistRemoveItemsRequest removeReq = new PlaylistRemoveItemsRequest();
+
+                            PlaylistRemoveItemsRequest.Item removeSongReq = new PlaylistRemoveItemsRequest.Item();
+                            removeSongReq.Uri = track.Uri;
+                            removeReq.Tracks = new List<PlaylistRemoveItemsRequest.Item>() { removeSongReq };
+
+                            await user.spotify.Playlists.RemoveItems(playing.Context.Href.Split('/').Last(), removeReq);
+                        }
                     }
-                }
-                else
-                {
+                    else
+                    {
+                    }
                 }
             }
             return new Skip(track.Id, user);
