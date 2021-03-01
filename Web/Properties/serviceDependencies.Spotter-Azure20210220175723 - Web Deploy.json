@@ -1,10 +1,16 @@
 {
   "dependencies": {
+    "secrets1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.KeyVault/vaults/Spotter-Keys",
+      "type": "secrets.keyVault",
+      "connectionId": "VaultUri",
+      "secretStore": "AzureAppSettings"
+    },
     "mssql1": {
-      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/spotter-azuredbserver/databases/Spotter-Azure_db",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/spotter-azuredbserver/databases/Spotter-Azure_db",
       "type": "mssql.azure",
-      "connectionId": "SpotterDb",
-      "secretStore": null
+      "connectionId": "Spotter-Azure_db",
+      "secretStore": "AzureKeyVault"
     }
   }
 }
