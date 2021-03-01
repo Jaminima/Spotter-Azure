@@ -16,7 +16,7 @@ namespace Service.Actions
                 !(user.Setting.SkipIgnorePlaylist.Value && playing.Context != null && playing.Context.Type != "playlist"))
             {
                 List<bool> Exists = await user.spotify.Library.CheckTracks(new LibraryCheckTracksRequest(new List<string>() { track.Id }));
-                if (Exists[0])
+                if (Exists[0] || !user.Setting.SkipMustBeLiked.Value)
                 {
                     int recent = user.RecentSkips(track.Id, user.Setting.SkipExpiryHours.Value);
 
@@ -31,7 +31,7 @@ namespace Service.Actions
                             user.KickedTracks.Last().Track = track;
                         }
 
-                        await user.spotify.Library.RemoveTracks(new LibraryRemoveTracksRequest(new List<string>() { track.Id }));
+                        if (Exists[0]) await user.spotify.Library.RemoveTracks(new LibraryRemoveTracksRequest(new List<string>() { track.Id }));
 
                         if (playing.Context.Type == "playlist" && user.Setting.SkipRemoveFromPlaylist.Value)
                         {

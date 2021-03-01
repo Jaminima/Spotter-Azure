@@ -78,6 +78,7 @@ CREATE TABLE "Settings"(
     skip_expiry_hours int DEFAULT 168,
     skip_ignore_playlist BIT DEFAULT 1,
     skip_remove_from_playlist BIT DEFAULT 0,
+    skip_must_be_liked BIT DEFAULT 1,
 
     shuffle_on BIT DEFAULT 0,
     shuffle_albums BIT DEFAULT 0,

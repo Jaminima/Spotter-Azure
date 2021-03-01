@@ -99,6 +99,9 @@ namespace Spotter_Azure.Controllers
                 if (formDetails.ContainsKey("SkipRemoveFromPlaylist")) setting.SkipRemoveFromPlaylist = true;
                 else setting.SkipRemoveFromPlaylist = false;
 
+                if (formDetails.ContainsKey("SkipMustBeLiked")) setting.SkipMustBeLiked = true;
+                else setting.SkipMustBeLiked = false;
+
                 if (formDetails.ContainsKey("ShuffleOn")) setting.ShuffleOn = true;
                 else setting.ShuffleOn = false;
 
