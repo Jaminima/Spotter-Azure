@@ -6,5 +6,4 @@ Release/
 bin/
 packages/
 .idea/
-Models/SpotifyAuthKeys.cs
-SpotifyAuthKeys.cs
+*/AuthKeys.cs
