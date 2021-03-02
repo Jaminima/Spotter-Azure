@@ -25,9 +25,11 @@ namespace Service
 
             while (!stoppingToken.IsCancellationRequested)
             {
-                Actions.Watcher.CheckEvents(dbContexts.CreateDbContext());
+                Model.Models.SpotterAzure_dbContext dbContext = dbContexts.CreateDbContext();
+                Actions.Watcher.CheckEvents(dbContext);
+
                 _logger.LogInformation("Worker ran at: {time}", DateTimeOffset.Now);
-                await Task.Delay(500, stoppingToken);
+                await Task.Delay(1000, stoppingToken);
             }
         }
 

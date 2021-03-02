@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace Service.Actions
 {
@@ -13,6 +14,8 @@ namespace Service.Actions
 
         private const float IsntSkip = 0.9f;
         private static SpotterAzure_dbContext dbContext;
+
+        private static Dictionary<int, CurrentlyPlayingContext> lastTracks = new Dictionary<int, CurrentlyPlayingContext>();
 
         #endregion Fields
 
@@ -24,14 +27,20 @@ namespace Service.Actions
 
             if (playing != null)
             {
-                if (user.lastTrack == null)
+                if (!lastTracks.ContainsKey(user.SpotId))
                 {
+                    lastTracks.Add(user.SpotId, playing);
                     user.last = playing;
-                    user.lastTrack = (FullTrack)playing.Item;
+                    user.lastTrack = (FullTrack)user.last.Item;
                 }
                 else if (playing.Item != null)
                 {
                     FullTrack track = (FullTrack)playing.Item;
+
+                    user.last = lastTracks[user.SpotId];
+                    user.lastTrack = (FullTrack)user.last.Item;
+
+                    lastTracks[user.SpotId] = playing;
 
                     //Check if skipped
                     if (track.Id != user.lastTrack.Id)
@@ -67,25 +76,26 @@ namespace Service.Actions
                             if (OnSkip != null)
                             {
                                 Skip s = await OnSkip(user, user.lastTrack, playing, dbContext);
-                                s.Track = t;
-                                await dbContext.Skips.AddAsync(s);
+                                if (s != null)
+                                {
+                                    s.Track = t;
+                                    await dbContext.Skips.AddAsync(s);
+                                }
                             }
                         }
                         dbContext.Listens.Add(new Listen(track, user));
                         if (OnNextSong != null) OnNextSong(user, playing);
                     }
 
-                    user.lastTrack = track;
-                }
 
-                //Check if play state changed
-                if (playing.IsPlaying != user.last.IsPlaying)
-                {
-                    if (playing.IsPlaying) if (OnResume != null) OnResume(user, playing);
-                        else if (OnPause != null) OnPause(user, playing);
+                    //Check if play state changed
+                    if (playing.IsPlaying != user.last.IsPlaying)
+                    {
+                        if (playing.IsPlaying) 
+                            if (OnResume != null) OnResume(user, playing);
+                            else if (OnPause != null) OnPause(user, playing);
+                    }
                 }
-
-                user.last = playing;
             }
 
             await dbContext.SaveChangesAsync();
