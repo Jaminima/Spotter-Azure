@@ -13,6 +13,7 @@ namespace Model.Models.DBModels
         public int? SkipTrigger { get; set; }
         public int? SkipExpiryHours { get; set; }
         public bool? SkipIgnorePlaylist { get; set; }
+        public string SkipIgnorePostfix { get; set; }
         public bool? SkipRemoveFromPlaylist { get; set; }
         public bool? SkipMustBeLiked { get; set; }
         public bool? ShuffleOn { get; set; }

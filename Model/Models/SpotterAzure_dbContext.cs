@@ -131,12 +131,12 @@ namespace Model.Models
             modelBuilder.Entity<Setting>(entity =>
             {
                 entity.HasKey(e => e.SettId)
-                    .HasName("PK__Settings__600313CE7A436103");
+                    .HasName("PK__Settings__600313CE89A7F38F");
 
-                entity.HasIndex(e => e.SpotId, "UQ__Settings__330AF0F7CA03ABAC")
+                entity.HasIndex(e => e.SpotId, "UQ__Settings__330AF0F755635D75")
                     .IsUnique();
 
-                entity.HasIndex(e => e.SettId, "UQ__Settings__600313CF8A6A11D1")
+                entity.HasIndex(e => e.SettId, "UQ__Settings__600313CF883EB9A7")
                     .IsUnique();
 
                 entity.Property(e => e.SettId).HasColumnName("sett_id");
@@ -161,6 +161,12 @@ namespace Model.Models
                     .HasColumnName("skip_ignore_playlist")
                     .HasDefaultValueSql("((1))");
 
+                entity.Property(e => e.SkipIgnorePostfix)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("skip_ignore_postfix")
+                    .HasDefaultValueSql("('-')");
+
                 entity.Property(e => e.SkipMustBeLiked)
                     .HasColumnName("skip_must_be_liked")
                     .HasDefaultValueSql("((1))");
@@ -183,7 +189,7 @@ namespace Model.Models
                     .WithOne(p => p.Setting)
                     .HasForeignKey<Setting>(d => d.SpotId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Settings__spot_i__3CBF0154");
+                    .HasConstraintName("FK__Settings__spot_i__4EDDB18F");
             });
 
             modelBuilder.Entity<Skip>(entity =>

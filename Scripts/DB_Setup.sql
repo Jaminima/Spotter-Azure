@@ -1,6 +1,7 @@
 DROP TABLE "Skip";
 DROP TABLE "Listen";
 DROP TABLE "Tracks";
+DROP TABLE "Settings";
 DROP TABLE "Artists";
 DROP TABLE "Sessions";
 DROP TABLE "Spotify";
@@ -77,6 +78,7 @@ CREATE TABLE "Settings"(
     skip_trigger int DEFAULT 3,
     skip_expiry_hours int DEFAULT 168,
     skip_ignore_playlist BIT DEFAULT 1,
+    skip_ignore_postfix VARCHAR(10) DEFAULT '-',
     skip_remove_from_playlist BIT DEFAULT 0,
     skip_must_be_liked BIT DEFAULT 1,
 

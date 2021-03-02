@@ -27,6 +27,11 @@
                     <label class="custom-control-label" for="_SkipIgnorePlaylist">Ignore Songs Played From Playlist</label>
                 </div>
 
+                <div class="form-group">
+                    <label for="_SkipIgnorePostfix">Ignore Playlists Ending With</label>
+                    <textarea class="form-control" id="_SkipIgnorePostfix" name="SkipIgnorePostfix" rows="1" spellcheck="false">@_setting.SkipIgnorePostfix</textarea>
+                </div>
+
                 <div class="form-group custom-control custom-switch">
                     <input type="checkbox" class="custom-control-input" id="_SkipRemoveFromPlaylist" name="SkipRemoveFromPlaylist" checked="@(_setting.SkipRemoveFromPlaylist)">
                     <label class="custom-control-label" for="_SkipRemoveFromPlaylist">Remove Skipped Songs From Playlists</label>

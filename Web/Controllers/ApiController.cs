@@ -102,6 +102,9 @@ namespace Spotter_Azure.Controllers
                 if (formDetails.ContainsKey("SkipMustBeLiked")) setting.SkipMustBeLiked = true;
                 else setting.SkipMustBeLiked = false;
 
+                if (formDetails.ContainsKey("SkipIgnorePostfix")) setting.SkipIgnorePostfix = formDetails["SkipIgnorePostfix"];
+                else setting.SkipIgnorePostfix = "-";
+
                 if (formDetails.ContainsKey("ShuffleOn")) setting.ShuffleOn = true;
                 else setting.ShuffleOn = false;
 
